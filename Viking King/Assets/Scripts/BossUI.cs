@@ -19,18 +19,24 @@ public class BossUI : MonoBehaviour
     {
         if (bossScript != null)
         {
-            float rate = (float)bossScript.hp_current / bossScript.hp_max;
+            if (bossScript.currentHP < 0)
+            {
+                fillRT.gameObject.SetActive(false);
+            }
+            float rate = bossScript.currentHP / bossScript.maxHP;
             SetHPbar(rate);
         }
     }
 
     public void SetHPbar(float rate)
     {
-        if (bossScript.hp_current <= 0)
+        if (bossScript.currentHP <= 0)
         {
-            bossScript.hp_current = 0;
+            bossScript.currentHP = 0;
+            fillRT.gameObject.SetActive(false); // 체력 0이면 아예 안 보이게
+            return;
         }
-        else 
-            fillRT.localScale = new Vector2(rate, 1f);
+
+        fillRT.localScale = new Vector3(rate, 1f, 1f);
     }
 }
