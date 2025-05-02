@@ -482,7 +482,7 @@ GameObject:
   - component: {fileID: 971634404}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1023,6 +1023,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 100083008674955030, guid: 8ca2384f6a40a4240ab2f57124ea4f3c, type: 3}
+      propertyPath: m_Size.x
+      value: 0.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 100083008674955030, guid: 8ca2384f6a40a4240ab2f57124ea4f3c, type: 3}
+      propertyPath: m_Size.y
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 100083008674955030, guid: 8ca2384f6a40a4240ab2f57124ea4f3c, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 0f452332f0db3064190532947fdebc3d, type: 3}
@@ -1071,12 +1079,28 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6619172375377466980, guid: 8ca2384f6a40a4240ab2f57124ea4f3c, type: 3}
+      propertyPath: m_Size.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6619172375377466980, guid: 8ca2384f6a40a4240ab2f57124ea4f3c, type: 3}
+      propertyPath: m_Size.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6619172375377466980, guid: 8ca2384f6a40a4240ab2f57124ea4f3c, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 6151a5705bb51c94ea7fa4de9e2d82db, type: 3}
     - target: {fileID: 6619172375377466980, guid: 8ca2384f6a40a4240ab2f57124ea4f3c, type: 3}
       propertyPath: m_SortingOrder
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932653887802956321, guid: 8ca2384f6a40a4240ab2f57124ea4f3c, type: 3}
+      propertyPath: m_Size.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932653887802956321, guid: 8ca2384f6a40a4240ab2f57124ea4f3c, type: 3}
+      propertyPath: m_Size.y
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 8932653887802956321, guid: 8ca2384f6a40a4240ab2f57124ea4f3c, type: 3}
       propertyPath: m_Sprite

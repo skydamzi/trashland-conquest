@@ -57,12 +57,18 @@ public class Player : Unit
             StartCoroutine(StretchNeckAnim());
         }
 
+
         Movement();
 
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
         {
             player_rb.velocity = Vector2.zero;
-            player_rb.AddForce(Vector2.up * 20, ForceMode2D.Impulse);
+
+            if (jumpCount == 0)
+                player_rb.AddForce(Vector2.up * 20f, ForceMode2D.Impulse);
+            else if (jumpCount == 1)
+                player_rb.AddForce(Vector2.up * 15f, ForceMode2D.Impulse);
+
             jumpCount++;
         }
     }
@@ -117,11 +123,6 @@ public class Player : Unit
             foreach (var col in playerCols)
                 Physics2D.IgnoreCollision(bulletCol, col);
         }
-        else
-        {
-            Debug.LogError("bulletPrefab에 Rigidbody2D 없음!");
-        }
-
         Destroy(bullet, 1f);
     }
 

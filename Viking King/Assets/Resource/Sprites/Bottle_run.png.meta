@@ -111,8 +111,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f9ecf29874bf584e821ab50ac7f53ab
-      internalID: -1121931383
+      spriteID: 28a86d6a9eb326746b7153f8c5c80290
+      internalID: 1058587057
       vertices: []
       indices: 
       edges: []
@@ -132,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 161ec7d545cf344428ab4d8bc179387c
-      internalID: 256750631
+      spriteID: af64bc03b3a4ef542a81130faf551297
+      internalID: 802154897
       vertices: []
       indices: 
       edges: []
@@ -153,8 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9fc533d63fa78de46895d7a096ae448d
-      internalID: -1088451567
+      spriteID: 7e976ac8d06754045b270fdec90617b6
+      internalID: -1704413293
       vertices: []
       indices: 
       edges: []
@@ -174,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bef367c03042b9c44b445de667c70db4
-      internalID: 854084702
+      spriteID: 2f06f0374f1b8724386c73854853d3b6
+      internalID: 926947045
       vertices: []
       indices: 
       edges: []
@@ -195,8 +195,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c9b5785719a55774a9eaa18b74e9fe47
-      internalID: 245935776
+      spriteID: d9dce8ace47bfd049a23697f9e5a78e2
+      internalID: -1189545581
       vertices: []
       indices: 
       edges: []
@@ -216,8 +216,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d297aa9d1f9ad1a40849208eb83ca144
-      internalID: 1655856883
+      spriteID: 98a951cb9217f64428a73631bc16f773
+      internalID: -1262678115
       vertices: []
       indices: 
       edges: []
@@ -233,12 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_0": -1121931383
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_1": 256750631
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_2": -1088451567
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_3": 854084702
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_4": 245935776
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_5": 1655856883
+      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_0": 1058587057
+      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_1": 802154897
+      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_2": -1704413293
+      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_3": 926947045
+      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_4": -1189545581
+      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_5": -1262678115
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
