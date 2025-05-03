@@ -11,7 +11,6 @@ public class Player : Unit
 
     [Header("Prefabs & Spawn")]
     public GameObject bulletPrefab;
-    public GameObject weaponPrefab;
     public Transform weaponSpawnPoint;
 
     [Header("Swing Settings")]
@@ -30,6 +29,7 @@ public class Player : Unit
     public Collider2D neckCollider;
     private bool isStretching = false;
     public bool isNeckAttacking = false;
+    private Vector3 fixedNeckTarget;
 
     [Header("Fire Control")]
     private float fireRate = 0.2f;
@@ -38,12 +38,38 @@ public class Player : Unit
     [Header("Neck Stretch FX")]
     private float stretchTimer = 0f;
 
-    private Animator animator;
+    [Header("Glove")]
+    public Transform gloveTransform;
+    public Vector3 gloveOriginalScale;
 
+    [Header("isInvincible")]
+    private bool isInvincible = false;
+    public float invincibleDuration = 0.5f;
+    private SpriteRenderer spriteRenderer;
+
+    private Animator animator;
+    public AudioClip shootSound;
+    public AudioClip jump1stSound;
+    public AudioClip jump2ndSound;
+    public AudioClip glove_readySound;
+    public AudioClip glove_punchSound;
+
+    private Dictionary<string, float> weaponDamageMultipliers = new Dictionary<string, float>()
+{
+    { "Bullet", 0.5f },
+    { "BoxingGlove", 1.5f },
+};
     private void Start()
     {
         initialDirection = transform.right;
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (gloveTransform != null)
+        {
+            gloveOriginalScale = gloveTransform.localScale;
+            gloveTransform.localScale = Vector3.zero;
+            gloveTransform.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -59,15 +85,17 @@ public class Player : Unit
         }
 
         wasGroundedLastFrame = isGrounded;
-        if (Input.GetMouseButton(0) && fireTimer >= fireRate)
+        if (Input.GetMouseButton(0) && fireTimer >= fireRate && !isStretching)
         {
             Fire();
+            SoundManager.Instance.PlaySFX(shootSound, 1f);
             stretchTimer = 0f;
             fireTimer = 0f;
         }
 
-        if (Input.GetMouseButtonDown(1) && !isStretching)
+        if (Input.GetMouseButtonDown(1) && !isStretching && isGrounded && jumpCount == 0)
         {
+            animator.SetTrigger("attack");
             StartCoroutine(StretchNeckAnim());
         }
 
@@ -79,18 +107,40 @@ public class Player : Unit
             player_rb.velocity = Vector2.zero;
 
             if (jumpCount == 0)
+            {
                 player_rb.AddForce(Vector2.up * 20f, ForceMode2D.Impulse);
+                SoundManager.Instance.PlaySFX(jump1stSound, 1f);
+            }
             else if (jumpCount == 1)
+            {
                 player_rb.AddForce(Vector2.up * 15f, ForceMode2D.Impulse);
+                SoundManager.Instance.PlaySFX(jump2ndSound, 1f);
+            }
 
             jumpCount++;
             animator.SetInteger("jumpCount", jumpCount);
             animator.SetBool("isJumping", true);
         }
     }
+    private void LateUpdate()
+    {
+        if (gloveTransform.gameObject.activeSelf)
+        {
+            SpriteRenderer neckSR = neckTransform.GetComponent<SpriteRenderer>();
+            float spriteHeight = neckSR.sprite.rect.height;
+            float unitPerPixel = neckSR.sprite.pixelsPerUnit;
+            float worldLength = (spriteHeight / unitPerPixel) * neckTransform.localScale.y;
+
+            Vector3 neckTip = neckTransform.position + neckTransform.up * worldLength;
+            gloveTransform.position = neckTip;
+            gloveTransform.rotation = neckTransform.rotation;
+        }
+    }
+
+
     void LookAt()
     {
-        if (!isLookAt || neckTransform == null) return;
+        if (!isLookAt || neckTransform == null || isStretching) return; // 공격 중엔 방향 고정
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
@@ -101,6 +151,14 @@ public class Player : Unit
 
     void Movement()
     {
+        if (isStretching)
+        {
+            // 강제로 정지
+            player_rb.velocity = new Vector2(0f, player_rb.velocity.y);
+            animator.SetBool("isRunning", false);
+            return;
+        }
+
         float moveX = 0f;
 
         if (Input.GetKey(KeyCode.A))
@@ -144,7 +202,7 @@ public class Player : Unit
     {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
-        Vector2 direction = (mouseWorldPos - transform.position).normalized;
+        Vector2 direction = (mouseWorldPos - weaponSpawnPoint.position).normalized;
 
         GameObject bullet = Instantiate(bulletPrefab, weaponSpawnPoint.position, Quaternion.identity);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
@@ -156,9 +214,16 @@ public class Player : Unit
             Collider2D[] playerCols = GetComponentsInChildren<Collider2D>();
             Collider2D bulletCol = bullet.GetComponent<Collider2D>();
 
-            foreach (var col in playerCols)
-                Physics2D.IgnoreCollision(bulletCol, col);
+            if (bulletCol != null)
+            {
+                foreach (var col in playerCols)
+                {
+                    if (col != null)
+                        Physics2D.IgnoreCollision(bulletCol, col);
+                }
+            }
         }
+
         Destroy(bullet, 1f);
         StartCoroutine(QuickStretch());
     }
@@ -179,6 +244,17 @@ public class Player : Unit
                 }
             }
         }
+        if (collision.gameObject.name.Contains("Boss"))
+        {
+            if (isInvincible) return;
+            Boss boss = collision.gameObject.GetComponentInParent<Boss>();
+            if (boss != null)
+            {
+                TakeDamage(boss.TotalAttack());
+                SoundManager.Instance.PlaySFX(glove_punchSound);
+                StartCoroutine(TriggerInvincibility());
+            }
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -193,24 +269,94 @@ public class Player : Unit
         isNeckAttacking = true;
         neckCollider.enabled = true;
 
-        Vector3 originalScale = Vector3.one;
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPos.z = 0f;
+        fixedNeckTarget = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        fixedNeckTarget.z = 0;
 
-        float distance = Vector2.Distance(neckTransform.position, mouseWorldPos);
+        // 코루틴 병렬 실행
+        Coroutine rotationFix = StartCoroutine(RestoreRotation());
+        Coroutine neckStretch = StartCoroutine(NeckStretchAnimSequence());
+
+        // 둘 다 끝날 때까지 대기
+        yield return rotationFix;
+        yield return neckStretch;
+
+        neckCollider.enabled = false;
+        isNeckAttacking = false;
+        isStretching = false;
+    }
+
+    IEnumerator RestoreRotation()
+    {
+        Quaternion targetRotation = Quaternion.Euler(0, 0, 0);
+        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 30f);
+            yield return null;
+        }
+        transform.rotation = targetRotation;
+    }
+
+    /*IEnumerator NeckStretchAnimSequence()
+    {
+        Vector3 originalScale = Vector3.one;
+
+        float distance = Vector2.Distance(neckTransform.position, fixedNeckTarget);
         float spriteHeight = neckTransform.GetComponent<SpriteRenderer>().sprite.rect.height;
         float unitPerPixel = neckTransform.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
         float scaleY = distance / (spriteHeight / unitPerPixel);
         Vector3 targetScale = new Vector3(1f, scaleY, 1f);
 
-        yield return ScaleOverTime(neckTransform, originalScale, targetScale, 0.3f);
-        yield return ScaleOverTime(neckTransform, targetScale, originalScale, 0.3f);
+        float stretchTime = 0.3f;
+        float returnTime = 0.3f;
+
+        animator.SetTrigger("Attack");
+        yield return ScaleOverTime(neckTransform, originalScale, targetScale, stretchTime);
+
+        animator.SetTrigger("Attack_reverse");
+        yield return ScaleOverTime(neckTransform, targetScale, originalScale, returnTime);
 
         neckTransform.localScale = originalScale;
-        neckCollider.enabled = false;
-        isNeckAttacking = false;
-        isStretching = false;
+    }*/
+    IEnumerator NeckStretchAnimSequence()
+    {
+        Vector3 originalScale = Vector3.one;
+        Vector3 direction = (fixedNeckTarget - neckTransform.position).normalized;
+        neckTransform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+
+        float stretchTime = 0.2f;
+        float returnTime = 0.3f;
+        float gloveHoldTime = 0.1f;
+
+        Vector3 targetNeckScale = new Vector3(1f, 10f, 1f);
+
+        gloveTransform.localScale = Vector3.zero;
+        gloveTransform.gameObject.SetActive(true);
+
+        animator.SetTrigger("attack");
+        SoundManager.Instance.PlaySFX(glove_readySound);
+        yield return StartCoroutine(AnimateGlovePop(Vector3.zero, gloveOriginalScale, stretchTime));
+        yield return new WaitForSeconds(gloveHoldTime);
+        SoundManager.Instance.PlaySFX(glove_punchSound);
+        yield return StartCoroutine(AnimateGlovePop(gloveOriginalScale, gloveOriginalScale * 3f, 0.1f));
+        yield return StartCoroutine(ScaleOverTime(neckTransform, originalScale, targetNeckScale, 0.1f));
+        
+        animator.SetTrigger("attackReverse");
+
+        Coroutine neckShrink = StartCoroutine(ScaleOverTime(neckTransform, targetNeckScale, originalScale, returnTime));
+        yield return new WaitForSeconds(returnTime / 2f);
+        yield return StartCoroutine(AnimateGlovePop(gloveOriginalScale * 3f, Vector3.zero, returnTime / 2f));
+        gloveTransform.gameObject.SetActive(false);
+        yield return neckShrink;
     }
+
+
+
+    public void StartNeckStretch()
+    {
+        if (!isStretching)
+            StartCoroutine(StretchNeckAnim());
+    }
+
 
     IEnumerator ScaleOverTime(Transform tr, Vector3 from, Vector3 to, float duration)
     {
@@ -220,21 +366,30 @@ public class Player : Unit
             timer += Time.deltaTime;
             tr.localScale = Vector3.Lerp(from, to, timer / duration);
             yield return null;
+        }  
+    }
+    IEnumerator AnimateGlovePop(Vector3 from, Vector3 to, float duration)
+    {
+        float timer = 0f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / duration;
+            gloveTransform.localScale = Vector3.Lerp(from, to, t);
+            yield return null;
         }
     }
 
+
     IEnumerator QuickStretch()
     {
-        if (isStretching) yield break; // 이미 늘어지는 중이면 스킵
-
-        isStretching = true;
+        if (isStretching) yield break;
 
         Vector3 originalScale = Vector3.one;
-        Vector3 stretchScale = new Vector3(1f, 1.5f, 1f); // 짧게 팡! 하는 느낌
+        Vector3 stretchScale = new Vector3(1f, 1.5f, 1f);
 
         float duration = 0.05f;
 
-        // 늘어남
         float t = 0f;
         while (t < duration)
         {
@@ -243,7 +398,6 @@ public class Player : Unit
             yield return null;
         }
 
-        // 복귀
         t = 0f;
         while (t < duration)
         {
@@ -253,10 +407,39 @@ public class Player : Unit
         }
 
         neckTransform.localScale = originalScale;
-        isStretching = false;
     }
 
+    IEnumerator TriggerInvincibility()
+    {
+        isInvincible = true;
 
+        float blinkInterval = 0.1f;
+        float elapsed = 0f;
+
+        while (elapsed < invincibleDuration)
+        {
+            SetAlpha(0.3f);
+            yield return new WaitForSeconds(blinkInterval / 2f);
+
+            SetAlpha(1f);
+            yield return new WaitForSeconds(blinkInterval / 2f);
+
+            elapsed += blinkInterval;
+        }
+
+        SetAlpha(1f);
+        isInvincible = false;
+    }
+    void SetAlpha(float alpha)
+    {
+        SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var renderer in renderers)
+        {
+            Color color = renderer.color;
+            color.a = alpha;
+            renderer.color = color;
+        }
+    }
     public void TakeDamage(float rawDamage)
     {
         float reducedDamage = Mathf.Max(rawDamage - armor, 1f);

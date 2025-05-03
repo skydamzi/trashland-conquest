@@ -14,20 +14,20 @@ public class Boss : Unit
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name.Contains("Neck")) // 또는 태그 사용
+        if (other.gameObject.name.Contains("BoxingGlove")) // 또는 태그 사용
         {
             Player player = other.GetComponentInParent<Player>();
             if (player != null && player.isNeckAttacking)
             {
                 TakeDamage(player.TotalAttack());
-                Debug.Log("보스: 주둥이 맞고 데미지 받음");
+                Debug.Log("보스: 글러브 맞고 데미지 받음");
             }
             else
             {
                 Debug.Log("보스: 닿긴 했지만 공격 상태 아님");
             }
         }
-        if (other.CompareTag("Bullet")) // 무기 태그 붙였는지 확인
+        if (other.CompareTag("Bullet"))
         {
             float damage = playerDamage.GetComponent<Player>().TotalAttack();
             TakeDamage(damage); // 맞으면 10 깎기

@@ -8,6 +8,7 @@ TagManager:
   - Floor
   - Bullet
   - Neck
+  - BoxingGlove
   layers:
   - Default
   - TransparentFX
