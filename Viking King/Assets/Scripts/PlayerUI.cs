@@ -8,6 +8,7 @@ public class PlayerUI : MonoBehaviour
     public GameObject who;             // 체력 주인
     public RectTransform fillRT;       // 체력바 fill 오브젝트
     public Text attack_powerText;
+    public Text armorText;
     public Text levelText;
 
     private Player playerScript;
@@ -26,6 +27,7 @@ public class PlayerUI : MonoBehaviour
             SetHPbar(rate);
 
             attack_powerText.text = $"공격력: {playerScript.baseAttackPower} + {playerScript.bonusAttackPower}";
+            armorText.text = $"방어력: {playerScript.armor}";
             levelText.text = $"레벨: {playerScript.unitLV}";
         }
     }

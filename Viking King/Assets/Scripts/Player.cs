@@ -22,6 +22,8 @@ public class Player : Unit
     [Header("Jump & Physics")]
     public Rigidbody2D player_rb;
     private int jumpCount = 0;
+    private bool isGrounded = false;
+    private bool wasGroundedLastFrame = false;
 
     [Header("Neck Attack")]
     public Transform neckTransform;
@@ -32,6 +34,9 @@ public class Player : Unit
     [Header("Fire Control")]
     private float fireRate = 0.2f;
     private float fireTimer = 0f;
+
+    [Header("Neck Stretch FX")]
+    private float stretchTimer = 0f;
 
     private Animator animator;
 
@@ -45,10 +50,19 @@ public class Player : Unit
     {
         LookAt();
         fireTimer += Time.deltaTime;
+        stretchTimer += Time.deltaTime;
+        animator.SetFloat("verticalVelocity", player_rb.velocity.y);
+        animator.SetBool("isJumping", !isGrounded);
+        if (!isGrounded && wasGroundedLastFrame && jumpCount == 0)
+        {
+            jumpCount = 1;
+        }
 
+        wasGroundedLastFrame = isGrounded;
         if (Input.GetMouseButton(0) && fireTimer >= fireRate)
         {
             Fire();
+            stretchTimer = 0f;
             fireTimer = 0f;
         }
 
@@ -70,16 +84,18 @@ public class Player : Unit
                 player_rb.AddForce(Vector2.up * 15f, ForceMode2D.Impulse);
 
             jumpCount++;
+            animator.SetInteger("jumpCount", jumpCount);
         }
     }
-
     void LookAt()
     {
         if (!isLookAt || neckTransform == null) return;
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
-        neckTransform.up = (mouseWorldPos - neckTransform.position).normalized;
+        Vector3 direction = (mouseWorldPos - neckTransform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
+        neckTransform.rotation = Quaternion.Lerp(neckTransform.rotation, targetRotation, Time.deltaTime * 20f);
     }
 
     void Movement()
@@ -102,6 +118,23 @@ public class Player : Unit
         Vector2 velocity = player_rb.velocity;
         velocity.x = moveX * 6f;
         player_rb.velocity = velocity;
+
+        float tiltAngle = 10f;
+        float targetZ;
+
+        if (!isGrounded)
+            targetZ = 0f;
+        else
+        {
+            if (moveX > 0)
+                targetZ = -tiltAngle;
+            else if (moveX < 0)
+                targetZ = tiltAngle;
+            else
+                targetZ = 0f;
+        }
+
+        transform.rotation = Quaternion.Euler(0, 0, targetZ);
     }
 
     void Fire()
@@ -124,6 +157,7 @@ public class Player : Unit
                 Physics2D.IgnoreCollision(bulletCol, col);
         }
         Destroy(bullet, 1f);
+        StartCoroutine(QuickStretch());
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -134,11 +168,19 @@ public class Player : Unit
             {
                 if (contact.normal.y > 0.5f)
                 {
+                    isGrounded = true;
                     jumpCount = 0;
+                    animator.SetInteger("jumpCount", 0);
                     break;
                 }
             }
         }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Floor"))
+            isGrounded = false;
     }
 
     IEnumerator StretchNeckAnim()
@@ -177,9 +219,43 @@ public class Player : Unit
         }
     }
 
+    IEnumerator QuickStretch()
+    {
+        if (isStretching) yield break; // 이미 늘어지는 중이면 스킵
+
+        isStretching = true;
+
+        Vector3 originalScale = Vector3.one;
+        Vector3 stretchScale = new Vector3(1f, 1.5f, 1f); // 짧게 팡! 하는 느낌
+
+        float duration = 0.05f;
+
+        // 늘어남
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            neckTransform.localScale = Vector3.Lerp(originalScale, stretchScale, t / duration);
+            yield return null;
+        }
+
+        // 복귀
+        t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            neckTransform.localScale = Vector3.Lerp(stretchScale, originalScale, t / duration);
+            yield return null;
+        }
+
+        neckTransform.localScale = originalScale;
+        isStretching = false;
+    }
+
+
     public void TakeDamage(float rawDamage)
     {
-        float reducedDamage = Mathf.Max(rawDamage - armorPower, 1f);
+        float reducedDamage = Mathf.Max(rawDamage - armor, 1f);
 
         if (currentShield > 0)
         {

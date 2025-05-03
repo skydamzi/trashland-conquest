@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bf62b57429711404e87f978a2dede22b
+guid: 5b1746860b314374f90dd6ff06230c0f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,127 +97,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_0"
+      name: Bottle_run_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 40
         height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.55}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 28a86d6a9eb326746b7153f8c5c80290
-      internalID: 1058587057
+      spriteID: f2ca0cefd834b9f4da238e736f0aa918
+      internalID: 59229833
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_1"
+      name: Bottle_run_1
       rect:
         serializedVersion: 2
         x: 40
         y: 0
         width: 40
         height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.55}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af64bc03b3a4ef542a81130faf551297
-      internalID: 802154897
+      spriteID: 45e245842fa218a4f8f0fdba6f7faa79
+      internalID: -828180853
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_2"
+      name: Bottle_run_2
       rect:
         serializedVersion: 2
         x: 80
         y: 0
         width: 40
         height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.55}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e976ac8d06754045b270fdec90617b6
-      internalID: -1704413293
+      spriteID: 373c9de73605c054599bdedbf4b653db
+      internalID: -150717262
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_3"
+      name: Bottle_run_3
       rect:
         serializedVersion: 2
         x: 120
         y: 0
         width: 40
         height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.55}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f06f0374f1b8724386c73854853d3b6
-      internalID: 926947045
+      spriteID: c744b42a6a0705c44aa21b41137313ed
+      internalID: -66984001
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_4"
+      name: Bottle_run_4
       rect:
         serializedVersion: 2
         x: 160
         y: 0
         width: 40
         height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.55}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9dce8ace47bfd049a23697f9e5a78e2
-      internalID: -1189545581
+      spriteID: 0a4dbc769d265d94894cb815249fb568
+      internalID: -577554341
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_5"
+      name: Bottle_run_5
       rect:
         serializedVersion: 2
         x: 200
         y: 0
         width: 40
         height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.55}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 98a951cb9217f64428a73631bc16f773
-      internalID: -1262678115
+      spriteID: b76668929bf69ef49961f62cc9d77233
+      internalID: -2082191625
       vertices: []
       indices: 
       edges: []
@@ -233,12 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_0": 1058587057
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_1": 802154897
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_2": -1704413293
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_3": 926947045
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_4": -1189545581
-      "\uBCD1 \uB2EC\uB9AC\uAE30 \uAC1C\uC120_2_5": -1262678115
+      Bottle_run_0: 59229833
+      Bottle_run_1: -828180853
+      Bottle_run_2: -150717262
+      Bottle_run_3: -66984001
+      Bottle_run_4: -577554341
+      Bottle_run_5: -2082191625
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
