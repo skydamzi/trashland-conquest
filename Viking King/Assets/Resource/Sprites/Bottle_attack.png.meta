@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 64
@@ -102,7 +102,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 40
+        width: 39
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -123,7 +123,7 @@ TextureImporter:
         serializedVersion: 2
         x: 40
         y: 0
-        width: 40
+        width: 39
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -144,7 +144,7 @@ TextureImporter:
         serializedVersion: 2
         x: 80
         y: 0
-        width: 40
+        width: 39
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -165,7 +165,7 @@ TextureImporter:
         serializedVersion: 2
         x: 120
         y: 0
-        width: 40
+        width: 39
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -186,7 +186,7 @@ TextureImporter:
         serializedVersion: 2
         x: 160
         y: 0
-        width: 40
+        width: 39
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
