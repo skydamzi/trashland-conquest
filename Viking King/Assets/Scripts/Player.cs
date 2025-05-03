@@ -51,8 +51,8 @@ public class Player : Unit
         LookAt();
         fireTimer += Time.deltaTime;
         stretchTimer += Time.deltaTime;
-        animator.SetFloat("verticalVelocity", player_rb.velocity.y);
         animator.SetBool("isJumping", !isGrounded);
+        animator.SetFloat("verticalVelocity", player_rb.velocity.y);
         if (!isGrounded && wasGroundedLastFrame && jumpCount == 0)
         {
             jumpCount = 1;
@@ -85,6 +85,7 @@ public class Player : Unit
 
             jumpCount++;
             animator.SetInteger("jumpCount", jumpCount);
+            animator.SetBool("isJumping", true);
         }
     }
     void LookAt()
@@ -171,6 +172,7 @@ public class Player : Unit
                     isGrounded = true;
                     jumpCount = 0;
                     animator.SetInteger("jumpCount", 0);
+                    animator.SetBool("isJumping", false);
                     break;
                 }
             }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5b1746860b314374f90dd6ff06230c0f
+guid: fb70b005e955b55439fe8b24d3e923db
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,127 +97,138 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bottle_run_0
+      name: Tile_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 40
-        height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.53}
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
-      tessellationDetail: 0
+      physicsShape:
+      - - {x: -14, y: 32}
+        - {x: -17, y: 31}
+        - {x: -19, y: 28}
+        - {x: -22, y: 28}
+        - {x: -25, y: 26}
+        - {x: -26, y: 22}
+        - {x: -30, y: 17}
+        - {x: -30, y: 15}
+        - {x: -32, y: 12}
+        - {x: -32, y: -13}
+        - {x: -30, y: -18}
+        - {x: -27, y: -20}
+        - {x: -27, y: -21}
+        - {x: -21, y: -27}
+        - {x: -20, y: -27}
+        - {x: -18, y: -30}
+        - {x: -13, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 32}
+      tessellationDetail: 1
       bones: []
-      spriteID: f2ca0cefd834b9f4da238e736f0aa918
-      internalID: 59229833
+      spriteID: b3e973df6860ad847ae73717fe6f4623
+      internalID: 755779189
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bottle_run_1
+      name: Tile_1
       rect:
         serializedVersion: 2
-        x: 40
-        y: 0
-        width: 40
-        height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.53}
+        x: 64
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
-      tessellationDetail: 0
+      physicsShape:
+      - - {x: 5, y: 32}
+        - {x: 5, y: 31}
+        - {x: 4, y: 32}
+        - {x: -24, y: 32}
+        - {x: -25, y: 31}
+        - {x: -26, y: 32}
+        - {x: -32, y: 32}
+        - {x: -32, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 32}
+      tessellationDetail: 1
       bones: []
-      spriteID: 45e245842fa218a4f8f0fdba6f7faa79
-      internalID: -828180853
+      spriteID: 2369ae16d8f61b94386712e34d2cb3d0
+      internalID: 1340306092
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bottle_run_2
+      name: Tile_2
       rect:
         serializedVersion: 2
-        x: 80
-        y: 0
-        width: 40
-        height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.53}
+        x: 128
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
-      tessellationDetail: 0
+      physicsShape:
+      - - {x: -32, y: 32}
+        - {x: -32, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 32}
+      tessellationDetail: 1
       bones: []
-      spriteID: 373c9de73605c054599bdedbf4b653db
-      internalID: -150717262
+      spriteID: b8f51623ea362114dba3832893d8c806
+      internalID: 1453098089
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bottle_run_3
+      name: Tile_3
       rect:
         serializedVersion: 2
-        x: 120
-        y: 0
-        width: 40
-        height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.53}
+        x: 192
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
-      tessellationDetail: 0
+      physicsShape:
+      - - {x: 20, y: -27}
+        - {x: 21, y: -27}
+        - {x: 27, y: -21}
+        - {x: 27, y: -20}
+        - {x: 30, y: -18}
+        - {x: 32, y: -13}
+        - {x: 32, y: 12}
+        - {x: 31, y: 14}
+        - {x: 30, y: 17}
+        - {x: 28, y: 19}
+        - {x: 26, y: 23}
+        - {x: 20, y: 29}
+        - {x: 13, y: 32}
+        - {x: -23, y: 32}
+        - {x: -24, y: 31}
+        - {x: -26, y: 32}
+        - {x: -32, y: 32}
+        - {x: -32, y: -32}
+        - {x: 13, y: -32}
+        - {x: 18, y: -30}
+      tessellationDetail: 1
       bones: []
-      spriteID: c744b42a6a0705c44aa21b41137313ed
-      internalID: -66984001
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bottle_run_4
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 0
-        width: 40
-        height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.53}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0a4dbc769d265d94894cb815249fb568
-      internalID: -577554341
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bottle_run_5
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 0
-        width: 40
-        height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.53}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b76668929bf69ef49961f62cc9d77233
-      internalID: -2082191625
+      spriteID: f8b59d38c76520f458888191745643ef
+      internalID: -49081991
       vertices: []
       indices: 
       edges: []
@@ -233,12 +244,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Bottle_run_0: 59229833
-      Bottle_run_1: -828180853
-      Bottle_run_2: -150717262
-      Bottle_run_3: -66984001
-      Bottle_run_4: -577554341
-      Bottle_run_5: -2082191625
+      Tile_0: 755779189
+      Tile_1: 1340306092
+      Tile_2: 1453098089
+      Tile_3: -49081991
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
