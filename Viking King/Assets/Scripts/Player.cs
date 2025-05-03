@@ -135,7 +135,9 @@ public class Player : Unit
                 targetZ = 0f;
         }
 
-        transform.rotation = Quaternion.Euler(0, 0, targetZ);
+        Quaternion currentRotation = transform.rotation;
+        Quaternion targetRotation = Quaternion.Euler(0, 0, targetZ);
+        transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * 30f);
     }
 
     void Fire()
