@@ -41,11 +41,15 @@ public class Player : Unit
     [Header("Glove")]
     public Transform gloveTransform;
     public Vector3 gloveOriginalScale;
+    public bool isPunchFrame = false;
 
     [Header("isInvincible")]
     private bool isInvincible = false;
-    public float invincibleDuration = 0.5f;
+    public float invincibleDuration = 1f;
     private SpriteRenderer spriteRenderer;
+
+    [Header("TraitSynergy")]
+    public TraitSynergy traitSynergy;
 
     private Animator animator;
     public AudioClip shootSound;
@@ -70,6 +74,30 @@ public class Player : Unit
             gloveTransform.localScale = Vector3.zero;
             gloveTransform.gameObject.SetActive(false);
         }
+        if (PlayerStatus.Instance != null)
+        {
+            unitName = PlayerStatus.Instance.unitName;
+            unitLV = PlayerStatus.Instance.unitLV;
+
+            baseAttackPower = PlayerStatus.Instance.baseAttackPower;
+            bonusAttackPower = PlayerStatus.Instance.bonusAttackPower;
+            armor = PlayerStatus.Instance.armor;
+
+            currentHP = PlayerStatus.Instance.currentHP;
+            maxHP = PlayerStatus.Instance.maxHP;
+            currentShield = PlayerStatus.Instance.currentShield;
+            maxShield = PlayerStatus.Instance.maxShield;
+            currentEXP = PlayerStatus.Instance.currentEXP;
+            maxEXP = PlayerStatus.Instance.maxEXP;
+        }
+        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Milk, Random.Range(0, 6));
+        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Slush, Random.Range(0, 6));
+        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Alcohol, Random.Range(0, 6));
+        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Soda, Random.Range(0, 6));
+        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.EnergyDrink, Random.Range(0, 6));
+        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Coffee, Random.Range(0, 6));
+        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Pesticide, Random.Range(0, 6));
+        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.PurifiedWater, Random.Range(0, 6));
     }
 
     private void Update()
@@ -108,12 +136,12 @@ public class Player : Unit
 
             if (jumpCount == 0)
             {
-                player_rb.AddForce(Vector2.up * 20f, ForceMode2D.Impulse);
+                player_rb.AddForce(Vector2.up * 18f, ForceMode2D.Impulse);
                 SoundManager.Instance.PlaySFX(jump1stSound, 1f);
             }
             else if (jumpCount == 1)
             {
-                player_rb.AddForce(Vector2.up * 15f, ForceMode2D.Impulse);
+                player_rb.AddForce(Vector2.up * 12f, ForceMode2D.Impulse);
                 SoundManager.Instance.PlaySFX(jump2ndSound, 1f);
             }
 
@@ -121,6 +149,8 @@ public class Player : Unit
             animator.SetInteger("jumpCount", jumpCount);
             animator.SetBool("isJumping", true);
         }
+        if (!isInvincible)
+            SetAlpha(1f);
     }
     private void LateUpdate()
     {
@@ -336,10 +366,15 @@ public class Player : Unit
         SoundManager.Instance.PlaySFX(glove_readySound);
         yield return StartCoroutine(AnimateGlovePop(Vector3.zero, gloveOriginalScale, stretchTime));
         yield return new WaitForSeconds(gloveHoldTime);
-        SoundManager.Instance.PlaySFX(glove_punchSound);
+        //SoundManager.Instance.PlaySFX(glove_punchSound);
+
+        isPunchFrame = true;
         yield return StartCoroutine(AnimateGlovePop(gloveOriginalScale, gloveOriginalScale * 3f, 0.1f));
         yield return StartCoroutine(ScaleOverTime(neckTransform, originalScale, targetNeckScale, 0.1f));
-        
+        isPunchFrame = false;
+        Boss boss = FindObjectOfType<Boss>();
+        if (boss != null)
+            boss.ResetHitFlag();
         animator.SetTrigger("attackReverse");
 
         Coroutine neckShrink = StartCoroutine(ScaleOverTime(neckTransform, targetNeckScale, originalScale, returnTime));
@@ -440,6 +475,10 @@ public class Player : Unit
             renderer.color = color;
         }
     }
+    public void OnSuccessfulPunch()
+    {
+        SoundManager.Instance.PlaySFX(glove_punchSound);
+    }
     public void TakeDamage(float rawDamage)
     {
         float reducedDamage = Mathf.Max(rawDamage - armor, 1f);
@@ -452,5 +491,10 @@ public class Player : Unit
         }
 
         currentHP = Mathf.Max(currentHP - reducedDamage, 0);
+        if (PlayerStatus.Instance != null)
+        {
+            PlayerStatus.Instance.currentHP = currentHP;
+            PlayerStatus.Instance.currentShield = currentShield;
+        }
     }
 }

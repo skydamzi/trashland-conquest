@@ -184,6 +184,52 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6240583114979988411, guid: 8ca2384f6a40a4240ab2f57124ea4f3c, type: 3}
   m_PrefabInstance: {fileID: 140163709}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &495857250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 495857252}
+  - component: {fileID: 495857251}
+  m_Layer: 0
+  m_Name: Stage1_BattleBGM
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &495857251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495857250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74fd0772fe8cfcc479fd216b979f8d43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BGM: {fileID: 8300000, guid: 356563e20deb72f4a98337714a80d558, type: 3}
+  bgmVolume: 0.1
+--- !u!4 &495857252
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495857250}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.4816065, y: 0.12304593, z: -0.020714223}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &662080239
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2715,3 +2761,4 @@ SceneRoots:
   - {fileID: 819023985}
   - {fileID: 2067589411}
   - {fileID: 898563454}
+  - {fileID: 495857252}

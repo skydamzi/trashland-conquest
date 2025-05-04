@@ -22,12 +22,10 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlayBGM(AudioClip clip, float volume = 0.075f)
+    public void PlayBGM(AudioClip newClip, float volume = 1f)
     {
-        if (bgmSource.clip == clip) return;
-
-        bgmSource.Stop();
-        bgmSource.clip = clip;
+        if (bgmSource.clip == newClip) return; // 이미 같은 곡이면 무시
+        bgmSource.clip = newClip;
         bgmSource.volume = volume;
         bgmSource.loop = true;
         bgmSource.Play();

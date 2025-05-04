@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class BGMPlayer : MonoBehaviour
 {
-    public AudioClip titleMusic;
+    public AudioClip BGM;
+    [Range(0f, 1f)]
+    public float bgmVolume = 0.5f;
 
     void Start()
     {
-        SoundManager.Instance.PlayBGM(titleMusic);
+        SoundManager.Instance.PlayBGM(BGM, bgmVolume);
     }
 }

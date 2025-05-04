@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 612134755616851079}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.7, z: 0}
+  m_LocalPosition: {x: 0, y: 0.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 8848838246803540542}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -298,19 +298,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a52d12072ce7d0f4aa09fe30c5f442c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: "\uBCD1\uC2E0"
-  unitLV: 1
-  baseAttackPower: 30
-  bonusAttackPower: 5
+  unitName: 
+  unitLV: 0
+  baseAttackPower: 0
+  bonusAttackPower: 0
   armor: 0
-  currentShield: 50
-  maxShield: 50
-  currentHP: 100
-  maxHP: 100
+  currentShield: 0
+  maxShield: 0
+  currentHP: 0
+  maxHP: 0
   isLookAt: 1
   spriteDefaultAngle: 90
   bulletPrefab: {fileID: 6492353934552966595, guid: 8691ceac4b8699d4f9172a2f0de43e6e, type: 3}
-  weaponPrefab: {fileID: 5533502953569353486, guid: 91f1c972f69f6794a905e8336f85ca2e, type: 3}
   weaponSpawnPoint: {fileID: 7918870118771554939}
   swingAngle: 90
   swingSpeed: 10
@@ -321,6 +320,8 @@ MonoBehaviour:
   isNeckAttacking: 0
   gloveTransform: {fileID: 9106991703588079926}
   gloveOriginalScale: {x: 1, y: 1, z: 1}
+  isPunchFrame: 0
+  invincibleDuration: 0.5
   shootSound: {fileID: 8300000, guid: 42e84e506ad36284eab81b32bfbf501a, type: 3}
   jump1stSound: {fileID: 8300000, guid: 1b9453630796ca049a867a3d9d344f00, type: 3}
   jump2ndSound: {fileID: 8300000, guid: 5c14c15463853ee40aeac198e97b1a4e, type: 3}
@@ -341,7 +342,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 7
+  m_GravityScale: 6
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

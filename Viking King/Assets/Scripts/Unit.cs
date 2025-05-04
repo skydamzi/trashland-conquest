@@ -15,9 +15,53 @@ abstract public class Unit : MonoBehaviour
     public float maxShield;         // 최대 쉴드
     public float currentHP;
     public float maxHP;
-
+    public int currentEXP = 0;
+    public int maxEXP = 100;
     public float TotalAttack()
     {
         return baseAttackPower + bonusAttackPower;
+    }
+
+    public virtual void GainEXP(int amount)
+    {
+        // PlayerStatus 갱신
+        PlayerStatus.Instance.currentEXP += amount;
+
+        // Unit 변수에도 반영
+        currentEXP = PlayerStatus.Instance.currentEXP;
+        maxEXP = PlayerStatus.Instance.maxEXP;
+
+        while (PlayerStatus.Instance.currentEXP >= PlayerStatus.Instance.maxEXP)
+        {
+            PlayerStatus.Instance.currentEXP -= PlayerStatus.Instance.maxEXP;
+
+            // 동기화
+            currentEXP = PlayerStatus.Instance.currentEXP;
+            maxEXP = PlayerStatus.Instance.maxEXP;
+
+            LevelUp();
+        }
+    }
+
+    protected virtual void LevelUp()
+    {
+        // PlayerStatus 내부 값 갱신
+        PlayerStatus.Instance.unitLV++;
+        PlayerStatus.Instance.maxEXP += 20;
+        PlayerStatus.Instance.maxHP += 10;
+
+        // 체력은 회복하되, maxHP를 넘지 않도록 처리
+        PlayerStatus.Instance.currentHP = Mathf.Min(
+            PlayerStatus.Instance.currentHP + PlayerStatus.Instance.unitLV * 10,
+            PlayerStatus.Instance.maxHP
+        );
+
+        // Unit 쪽 변수도 동기화
+        unitLV = PlayerStatus.Instance.unitLV;
+        maxEXP = PlayerStatus.Instance.maxEXP;
+        maxHP = PlayerStatus.Instance.maxHP;
+        currentHP = PlayerStatus.Instance.currentHP;
+
+        Debug.Log($"{PlayerStatus.Instance.unitName} 레벨업! 현재 레벨: {unitLV}");
     }
 }
