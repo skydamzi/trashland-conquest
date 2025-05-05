@@ -1735,7 +1735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 282af6f34c8a0a74ea9afc5c8bb2823e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: "\uC2E0\uBCD1\uC871"
+  unitName: "\uC2E0\uBCD1\uC774"
   unitLV: 1
   baseAttackPower: 60
   bonusAttackPower: 10

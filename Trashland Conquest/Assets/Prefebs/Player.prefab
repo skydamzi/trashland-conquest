@@ -307,6 +307,8 @@ MonoBehaviour:
   maxShield: 0
   currentHP: 0
   maxHP: 0
+  currentEXP: 0
+  maxEXP: 0
   isLookAt: 1
   spriteDefaultAngle: 90
   bulletPrefab: {fileID: 6492353934552966595, guid: 8691ceac4b8699d4f9172a2f0de43e6e, type: 3}
@@ -322,6 +324,7 @@ MonoBehaviour:
   gloveOriginalScale: {x: 1, y: 1, z: 1}
   isPunchFrame: 0
   invincibleDuration: 0.5
+  traitSynergy: {fileID: 0}
   shootSound: {fileID: 8300000, guid: 42e84e506ad36284eab81b32bfbf501a, type: 3}
   jump1stSound: {fileID: 8300000, guid: 1b9453630796ca049a867a3d9d344f00, type: 3}
   jump2ndSound: {fileID: 8300000, guid: 5c14c15463853ee40aeac198e97b1a4e, type: 3}
