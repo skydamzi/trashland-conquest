@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -99,5 +98,30 @@ public class TraitSynergy : MonoBehaviour
     public bool HasSynergy(TraitType traitA, TraitType traitB)
     {
         return HasTrait(traitA) && HasTrait(traitB);
+    }
+
+    private bool randomTraitsGiven = false;
+
+    public void AssignRandomTraitsOnce()
+    {
+        if (randomTraitsGiven) return;
+
+        AddTrait(TraitType.Milk, Random.Range(0, 6));
+        AddTrait(TraitType.Slush, Random.Range(0, 6));
+        AddTrait(TraitType.Alcohol, Random.Range(0, 6));
+        AddTrait(TraitType.Soda, Random.Range(0, 6));
+        AddTrait(TraitType.EnergyDrink, Random.Range(0, 6));
+        AddTrait(TraitType.Coffee, Random.Range(0, 6));
+        AddTrait(TraitType.Pesticide, Random.Range(0, 6));
+        AddTrait(TraitType.PurifiedWater, Random.Range(0, 6));
+
+        randomTraitsGiven = true;
+        Debug.Log("[TraitSynergy] 랜덤 속성 초기화 완료");
+    }
+
+    public void ResetTraits()
+    {
+        activeTraits.Clear();
+        randomTraitsGiven = false;
     }
 }

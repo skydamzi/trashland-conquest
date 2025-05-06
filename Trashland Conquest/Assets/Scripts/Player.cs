@@ -30,6 +30,7 @@ public class Player : Unit
     private bool isStretching = false;
     public bool isNeckAttacking = false;
     private Vector3 fixedNeckTarget;
+    public HashSet<GameObject> hitEnemiesThisAttack = new HashSet<GameObject>();
 
     [Header("Fire Control")]
     private float fireRate = 0.2f;
@@ -90,14 +91,7 @@ public class Player : Unit
             currentEXP = PlayerStatus.Instance.currentEXP;
             maxEXP = PlayerStatus.Instance.maxEXP;
         }
-        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Milk, Random.Range(0, 6));
-        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Slush, Random.Range(0, 6));
-        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Alcohol, Random.Range(0, 6));
-        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Soda, Random.Range(0, 6));
-        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.EnergyDrink, Random.Range(0, 6));
-        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Coffee, Random.Range(0, 6));
-        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.Pesticide, Random.Range(0, 6));
-        TraitSynergy.Instance.AddTrait(TraitSynergy.TraitType.PurifiedWater, Random.Range(0, 6));
+        TraitSynergy.Instance.AssignRandomTraitsOnce();
     }
 
     private void Update()
@@ -121,7 +115,7 @@ public class Player : Unit
             fireTimer = 0f;
         }
 
-        if (Input.GetMouseButtonDown(1) && !isStretching && isGrounded && jumpCount == 0)
+        if (Input.GetMouseButtonDown(1) && !isStretching)
         {
             animator.SetTrigger("attack");
             StartCoroutine(StretchNeckAnim());
@@ -274,13 +268,13 @@ public class Player : Unit
                 }
             }
         }
-        if (collision.gameObject.name.Contains("Boss"))
+        if (collision.gameObject.CompareTag("Boss"))
         {
             if (isInvincible) return;
             Boss boss = collision.gameObject.GetComponentInParent<Boss>();
             if (boss != null)
             {
-                TakeDamage(boss.TotalAttack());
+                TakeDamage(boss.GetBaseDamage());
                 SoundManager.Instance.PlaySFX(glove_punchSound);
                 StartCoroutine(TriggerInvincibility());
             }
@@ -296,7 +290,7 @@ public class Player : Unit
     IEnumerator StretchNeckAnim()
     {
         isStretching = true;
-        isNeckAttacking = true;
+        // isNeckAttacking = true;
         neckCollider.enabled = true;
 
         fixedNeckTarget = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -311,7 +305,7 @@ public class Player : Unit
         yield return neckStretch;
 
         neckCollider.enabled = false;
-        isNeckAttacking = false;
+        // isNeckAttacking = false;
         isStretching = false;
     }
 
@@ -353,33 +347,34 @@ public class Player : Unit
         Vector3 direction = (fixedNeckTarget - neckTransform.position).normalized;
         neckTransform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
 
-        float stretchTime = 0.2f;
-        float returnTime = 0.3f;
-        float gloveHoldTime = 0.1f;
+        float stretchTime = 0.1f;
+        float returnTime = 0.2f;
+        float gloveHoldTime = 0.05f;
 
-        Vector3 targetNeckScale = new Vector3(1f, 10f, 1f);
+        Vector3 targetNeckScale = new Vector3(1f, 5f, 1f);
 
         gloveTransform.localScale = Vector3.zero;
         gloveTransform.gameObject.SetActive(true);
 
         animator.SetTrigger("attack");
+        isNeckAttacking = true;
+        hitEnemiesThisAttack.Clear();
         SoundManager.Instance.PlaySFX(glove_readySound);
         yield return StartCoroutine(AnimateGlovePop(Vector3.zero, gloveOriginalScale, stretchTime));
         yield return new WaitForSeconds(gloveHoldTime);
         //SoundManager.Instance.PlaySFX(glove_punchSound);
 
-        isPunchFrame = true;
+        
         yield return StartCoroutine(AnimateGlovePop(gloveOriginalScale, gloveOriginalScale * 3f, 0.1f));
         yield return StartCoroutine(ScaleOverTime(neckTransform, originalScale, targetNeckScale, 0.1f));
-        isPunchFrame = false;
         Boss boss = FindObjectOfType<Boss>();
-        if (boss != null)
-            boss.ResetHitFlag();
+        yield return new WaitForSeconds(0.15f);
+        
         animator.SetTrigger("attackReverse");
-
         Coroutine neckShrink = StartCoroutine(ScaleOverTime(neckTransform, targetNeckScale, originalScale, returnTime));
         yield return new WaitForSeconds(returnTime / 2f);
         yield return StartCoroutine(AnimateGlovePop(gloveOriginalScale * 3f, Vector3.zero, returnTime / 2f));
+        isNeckAttacking = false;
         gloveTransform.gameObject.SetActive(false);
         yield return neckShrink;
     }

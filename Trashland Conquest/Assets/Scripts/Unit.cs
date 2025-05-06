@@ -17,9 +17,13 @@ abstract public class Unit : MonoBehaviour
     public float maxHP;
     public int currentEXP = 0;
     public int maxEXP = 100;
-    public float TotalAttack()
+    public float GetBaseDamage()
     {
         return baseAttackPower + bonusAttackPower;
+    }
+    public float GetMeleeDamage()
+    {
+        return GetBaseDamage() * 3f;
     }
 
     public virtual void GainEXP(int amount)

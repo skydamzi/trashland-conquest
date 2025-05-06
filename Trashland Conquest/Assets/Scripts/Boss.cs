@@ -1,51 +1,44 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Boss : Unit
 {
-    public GameObject playerObject;
+   // public GameObject playerObject;
     private Player player;
     public Text damageText;
-    private bool hasBeenHit = false;
     public AudioClip glove_punchSound;
 
     void Start()
     {
-        if (playerObject != null)
-            player = playerObject.GetComponent<Player>();
+        //    if (playerObject != null)
+        //       player = playerObject.GetComponent<Player>();
+        player = FindObjectOfType<Player>();
         currentHP = maxHP;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name.Contains("BoxingGlove"))
+        if (other.CompareTag("BoxingGlove"))
         {
-            if (player != null && player.isNeckAttacking && !hasBeenHit && player.isPunchFrame)
+            if (player != null && player.isNeckAttacking && !player.hitEnemiesThisAttack.Contains(gameObject))
             {
-                hasBeenHit = true;
+                player.hitEnemiesThisAttack.Add(gameObject);
                 SoundManager.Instance.PlaySFX(glove_punchSound);
-                TakeDamage(player.TotalAttack());
-                Debug.Log("º¸½º: ±Û·¯ºê ¸Â°í µ¥¹ÌÁö ¹ŞÀ½");
+                TakeDamage(player.GetMeleeDamage());
+                Debug.Log("ë³´ìŠ¤: ê¸€ëŸ¬ë¸Œ ë§ê³  ë°ë¯¸ì§€ ë°›ìŒ");
             }
             else
-                Debug.Log("º¸½º: ´ê±ä ÇßÁö¸¸ °ø°İ »óÅÂ ¾Æ´Ô");
+                Debug.Log("ë³´ìŠ¤: ë‹¿ê¸´ í–ˆì§€ë§Œ ê³µê²© ìƒíƒœ ì•„ë‹˜");
         }
 
         else if (other.CompareTag("Bullet"))
         {
-            if (player != null)
-                TakeDamage(player.TotalAttack());
-            else
-                Debug.LogWarning("ÃÑ¾Ë Ãæµ¹: Player ÂüÁ¶ ¾øÀ½");
+            TakeDamage(player.GetBaseDamage());
 
             Destroy(other.gameObject);
         }
-    }
-    public void ResetHitFlag()
-    {
-        hasBeenHit = false;
     }
     public void TakeDamage(float damage)
     {

@@ -529,6 +529,85 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &677933343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 677933344}
+  - component: {fileID: 677933346}
+  - component: {fileID: 677933345}
+  m_Layer: 5
+  m_Name: Text (Legacy) (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &677933344
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677933343}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1533939452}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 420, y: -360}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &677933345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677933343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: d0541114b5b0aa249948ce8364a3cfc4, type: 3}
+    m_FontSize: 30
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 300
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: "\xA9 2025 Trashland Conquest. All rights reserved."
+--- !u!222 &677933346
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677933343}
+  m_CullTransparentMesh: 1
 --- !u!1 &718643848
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,6 +1720,7 @@ RectTransform:
   m_Children:
   - {fileID: 835425837}
   - {fileID: 2078557904}
+  - {fileID: 677933344}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1661,6 +1741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titlePanel: {fileID: 1533939448}
+  mouseDown: {fileID: 8300000, guid: cb2be4d708286064e9cd2f0d25de210e, type: 3}
 --- !u!1 &1580944882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,7 +1771,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4288853d6a776c74d92b6c7d7dbec266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titlePanel: {fileID: 0}
+  titlePanel: {fileID: 1862896553}
+  mouseDown: {fileID: 8300000, guid: cb2be4d708286064e9cd2f0d25de210e, type: 3}
 --- !u!4 &1580944884
 Transform:
   m_ObjectHideFlags: 0
@@ -1737,8 +1819,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: "\uC2E0\uBCD1\uC774"
   unitLV: 1
-  baseAttackPower: 60
-  bonusAttackPower: 10
+  baseAttackPower: 10
+  bonusAttackPower: 3
   armor: 0
   currentHP: 100
   maxHP: 100
@@ -2273,6 +2355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titlePanel: {fileID: 1915414986}
+  mouseDown: {fileID: 8300000, guid: cb2be4d708286064e9cd2f0d25de210e, type: 3}
 --- !u!224 &1915414991
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2561,7 +2644,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 420, y: 0}
+  m_AnchoredPosition: {x: 420, y: 60}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &2078557905
@@ -2586,20 +2669,21 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: d0541114b5b0aa249948ce8364a3cfc4, type: 3}
-    m_FontSize: 60
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 60
+    m_MaxSize: 300
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uAE30\uD68D: \uC190\uBC94\uC11D\n\n\uAC1C\uBC1C: \uC190\uBC94\uC11D,
-    Sam Altman\n\n\uADF8\uB798\uD53D: \uC190\uBC94\uC11D\n\n\uC0AC\uC6B4\uB4DC: \uC190\uBC94\uC11D,
-    Larry Page\n\n\uD14C\uC2A4\uD2B8: \uC190\uBC94\uC11D\n\n\uC7A0\uC218: \uB098\uC900\uC0C1"
+  m_Text: "\uB514\uB809\uD305: \uC190\uBC94\uC11D\n\n\uAE30\uD68D: \uC190\uBC94\uC11D\n\n\uD504\uB85C\uADF8\uB798\uBC0D:
+    \uC190\uBC94\uC11D\n\n\uADF8\uB798\uD53D: \uC190\uBC94\uC11D\n\n\uC0AC\uC6B4\uB4DC:
+    \uC190\uBC94\uC11D\n\n\uD14C\uC2A4\uD2B8: \uC190\uBC94\uC11D\n\n\uC7A0\uC218:
+    \uB098\uC900\uC0C1"
 --- !u!222 &2078557906
 CanvasRenderer:
   m_ObjectHideFlags: 0

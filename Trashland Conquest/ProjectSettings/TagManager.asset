@@ -9,6 +9,7 @@ TagManager:
   - Bullet
   - Neck
   - BoxingGlove
+  - Boss
   layers:
   - Default
   - TransparentFX
