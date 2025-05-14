@@ -8,7 +8,8 @@ public class Boss : Unit
    // public GameObject playerObject;
     private Player player;
     public Text damageText;
-    public AudioClip glove_punchSound;
+    public AudioClip glove_punchSound; 
+    public DPSMeter dpsMeter;
 
     void Start()
     {
@@ -40,18 +41,21 @@ public class Boss : Unit
             Destroy(other.gameObject);
         }
     }
+
+
     public void TakeDamage(float damage)
     {
         damageText.text = damage.ToString();
         currentHP -= damage;
-        
         Debug.Log("Boss HP: " + currentHP);
 
+        if (dpsMeter != null)
+            dpsMeter.ReportDamage(damage);
         if (currentHP <= 0)
-        {
             Die();
-        }
+
     }
+
 
     void Die()
     {

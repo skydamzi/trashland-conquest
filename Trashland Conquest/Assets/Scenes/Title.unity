@@ -1578,6 +1578,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1401411645}
   m_CullTransparentMesh: 1
+--- !u!1 &1451333126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1451333127}
+  - component: {fileID: 1451333128}
+  m_Layer: 0
+  m_Name: InventoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1451333127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451333126}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 50.61589, y: 13.149369, z: -0.26863736}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1451333128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451333126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19fcf61e065c474cb4598824974c3a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
+  capacity: 20
 --- !u!1 &1512315945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1753,7 +1799,7 @@ GameObject:
   - component: {fileID: 1580944884}
   - component: {fileID: 1580944883}
   m_Layer: 0
-  m_Name: TiitlePanelManger
+  m_Name: TiitlePanelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1819,13 +1865,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: "\uC2E0\uBCD1\uC774"
   unitLV: 1
-  baseAttackPower: 10
-  bonusAttackPower: 3
+  baseAttackPower: 50
+  bonusAttackPower: 20
   armor: 0
+  bonusArmor: 0
+  attackSpeed: 1
   currentHP: 100
   maxHP: 100
   currentShield: 50
   maxShield: 50
+  criticalChance: 10
+  moveSpeed: 5
   currentEXP: 0
   maxEXP: 100
 --- !u!4 &1643724542
@@ -2610,6 +2660,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2029112876}
   m_CullTransparentMesh: 1
+--- !u!1 &2033519910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2033519911}
+  - component: {fileID: 2033519912}
+  m_Layer: 0
+  m_Name: EquipmentManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2033519911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033519910}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 50.61589, y: 13.149369, z: -0.26863736}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2033519912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033519910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d75022195d4a36499b8f90c42418a05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxEquipCount: 5
+  equippedItems: []
 --- !u!1 &2078557903
 GameObject:
   m_ObjectHideFlags: 0
@@ -2682,7 +2778,8 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "\uB514\uB809\uD305: \uC190\uBC94\uC11D\n\n\uAE30\uD68D: \uC190\uBC94\uC11D\n\n\uD504\uB85C\uADF8\uB798\uBC0D:
     \uC190\uBC94\uC11D\n\n\uADF8\uB798\uD53D: \uC190\uBC94\uC11D\n\n\uC0AC\uC6B4\uB4DC:
-    \uC190\uBC94\uC11D\n\n\uD14C\uC2A4\uD2B8: \uC190\uBC94\uC11D\n\n\uC7A0\uC218:
+    \uC190\uBC94\uC11D\n\n\uD14C\uC2A4\uD2B8: \uC190\uBC94\uC11D, \uBC29\uC9C4\uC218\n\n\uC7A0\uC218:
+    \uB098\uC900\uC0C1\n\n\uC545\uD50C\uB7EC: \uBC29\uC9C4\uC218, \uC774\uC131\uC6D0,
     \uB098\uC900\uC0C1"
 --- !u!222 &2078557906
 CanvasRenderer:
@@ -2707,3 +2804,5 @@ SceneRoots:
   - {fileID: 718643849}
   - {fileID: 1512315947}
   - {fileID: 1580944884}
+  - {fileID: 1451333127}
+  - {fileID: 2033519911}

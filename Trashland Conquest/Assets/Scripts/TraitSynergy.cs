@@ -76,7 +76,20 @@ public class TraitSynergy : MonoBehaviour
 
         Debug.Log($"[TraitSynergy] 속성 추가됨: {trait}, 현재 스택: {GetStack(trait)}");
     }
+    public void RemoveTrait(TraitType trait, int amount = 1)
+    {
+        TraitStack found = activeTraits.Find(t => t.trait == trait);
+        if (found != null)
+        {
+            found.stack -= amount;
+            if (found.stack <= 0)
+            {
+                activeTraits.Remove(found);
+            }
+        }
 
+        Debug.Log($"[TraitSynergy] 속성 제거됨: {trait}, 현재 스택: {GetStack(trait)}");
+    }
     // 특정 속성의 현재 스택 수를 확인
     public int GetStack(TraitType trait)
     {

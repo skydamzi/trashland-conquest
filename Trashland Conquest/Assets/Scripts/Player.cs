@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,12 +59,7 @@ public class Player : Unit
     public AudioClip glove_readySound;
     public AudioClip glove_punchSound;
 
-    private Dictionary<string, float> weaponDamageMultipliers = new Dictionary<string, float>()
-{
-    { "Bullet", 0.5f },
-    { "BoxingGlove", 1.5f },
-};
-    private void Start()
+    void Start()
     {
         initialDirection = transform.right;
         animator = GetComponent<Animator>();
@@ -75,28 +70,31 @@ public class Player : Unit
             gloveTransform.localScale = Vector3.zero;
             gloveTransform.gameObject.SetActive(false);
         }
-        if (PlayerStatus.Instance != null)
+        if (PlayerStatus.instance != null)
         {
-            unitName = PlayerStatus.Instance.unitName;
-            unitLV = PlayerStatus.Instance.unitLV;
+            unitName = PlayerStatus.instance.unitName;
+            unitLV = PlayerStatus.instance.unitLV;
 
-            baseAttackPower = PlayerStatus.Instance.baseAttackPower;
-            bonusAttackPower = PlayerStatus.Instance.bonusAttackPower;
-            armor = PlayerStatus.Instance.armor;
+            baseAttackPower = PlayerStatus.instance.baseAttackPower;
+            bonusAttackPower = PlayerStatus.instance.bonusAttackPower;
+            armor = PlayerStatus.instance.armor;
 
-            currentHP = PlayerStatus.Instance.currentHP;
-            maxHP = PlayerStatus.Instance.maxHP;
-            currentShield = PlayerStatus.Instance.currentShield;
-            maxShield = PlayerStatus.Instance.maxShield;
-            currentEXP = PlayerStatus.Instance.currentEXP;
-            maxEXP = PlayerStatus.Instance.maxEXP;
+            currentHP = PlayerStatus.instance.currentHP;
+            maxHP = PlayerStatus.instance.maxHP;
+            currentShield = PlayerStatus.instance.currentShield;
+            maxShield = PlayerStatus.instance.maxShield;
+            currentEXP = PlayerStatus.instance.currentEXP;
+            maxEXP = PlayerStatus.instance.maxEXP;
+
+            moveSpeed = PlayerStatus.instance.moveSpeed;
+            criticalChance = PlayerStatus.instance.criticalChance;
         }
-        TraitSynergy.Instance.AssignRandomTraitsOnce();
     }
-
-    private void Update()
+    void Update()
     {
         LookAt();
+        Movement();
+        Jump();
         fireTimer += Time.deltaTime;
         stretchTimer += Time.deltaTime;
         animator.SetBool("isJumping", !isGrounded);
@@ -121,28 +119,6 @@ public class Player : Unit
             StartCoroutine(StretchNeckAnim());
         }
 
-
-        Movement();
-
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
-        {
-            player_rb.velocity = Vector2.zero;
-
-            if (jumpCount == 0)
-            {
-                player_rb.AddForce(Vector2.up * 18f, ForceMode2D.Impulse);
-                SoundManager.Instance.PlaySFX(jump1stSound, 1f);
-            }
-            else if (jumpCount == 1)
-            {
-                player_rb.AddForce(Vector2.up * 12f, ForceMode2D.Impulse);
-                SoundManager.Instance.PlaySFX(jump2ndSound, 1f);
-            }
-
-            jumpCount++;
-            animator.SetInteger("jumpCount", jumpCount);
-            animator.SetBool("isJumping", true);
-        }
         if (!isInvincible)
             SetAlpha(1f);
     }
@@ -161,10 +137,32 @@ public class Player : Unit
         }
     }
 
+    void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.W) && jumpCount < 2)
+        {
+            player_rb.velocity = Vector2.zero;
+
+            if (jumpCount == 0)
+            {
+                player_rb.AddForce(Vector2.up * 18f, ForceMode2D.Impulse);
+                SoundManager.Instance.PlaySFX(jump1stSound, 1f);
+            }
+            else if (jumpCount == 1)
+            {
+                player_rb.AddForce(Vector2.up * 12f, ForceMode2D.Impulse);
+                SoundManager.Instance.PlaySFX(jump2ndSound, 1f);
+            }
+
+            jumpCount++;
+            animator.SetInteger("jumpCount", jumpCount);
+            animator.SetBool("isJumping", true);
+        }
+    }
 
     void LookAt()
     {
-        if (!isLookAt || neckTransform == null || isStretching) return; // 공격 중엔 방향 고정
+        if (!isLookAt || neckTransform == null || isStretching) return; // ���� �߿� ���� ����
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
@@ -177,7 +175,7 @@ public class Player : Unit
     {
         if (isStretching)
         {
-            // 강제로 정지
+            // ������ ����
             player_rb.velocity = new Vector2(0f, player_rb.velocity.y);
             animator.SetBool("isRunning", false);
             return;
@@ -199,7 +197,7 @@ public class Player : Unit
         animator.SetBool("isRunning", moveX != 0);
 
         Vector2 velocity = player_rb.velocity;
-        velocity.x = moveX * 6f;
+        velocity.x = moveX * moveSpeed; // �÷��̾� �̵��ӵ��� ���� �ٲ�
         player_rb.velocity = velocity;
 
         float tiltAngle = 10f;
@@ -222,7 +220,7 @@ public class Player : Unit
         transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * 30f);
     }
 
-    void Fire()
+    void Fire() // ��
     {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
@@ -272,9 +270,16 @@ public class Player : Unit
         {
             if (isInvincible) return;
             Boss boss = collision.gameObject.GetComponentInParent<Boss>();
+            Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
             if (boss != null)
             {
                 TakeDamage(boss.GetBaseDamage());
+                SoundManager.Instance.PlaySFX(glove_punchSound);
+                StartCoroutine(TriggerInvincibility());
+            }
+            else if (enemy != null)
+            {
+                TakeDamage(enemy.GetBaseDamage());
                 SoundManager.Instance.PlaySFX(glove_punchSound);
                 StartCoroutine(TriggerInvincibility());
             }
@@ -292,17 +297,18 @@ public class Player : Unit
         isStretching = true;
         // isNeckAttacking = true;
         neckCollider.enabled = true;
-
+        
         fixedNeckTarget = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         fixedNeckTarget.z = 0;
 
-        // 코루틴 병렬 실행
+        // �ڷ�ƾ ���� ����
         Coroutine rotationFix = StartCoroutine(RestoreRotation());
         Coroutine neckStretch = StartCoroutine(NeckStretchAnimSequence());
 
-        // 둘 다 끝날 때까지 대기
+        // �� �� ���� ������ ���
         yield return rotationFix;
         yield return neckStretch;
+        
 
         neckCollider.enabled = false;
         // isNeckAttacking = false;
@@ -351,7 +357,7 @@ public class Player : Unit
         float returnTime = 0.2f;
         float gloveHoldTime = 0.05f;
 
-        Vector3 targetNeckScale = new Vector3(1f, 5f, 1f);
+        Vector3 targetNeckScale = new Vector3(1f, 3.5f, 1f);
 
         gloveTransform.localScale = Vector3.zero;
         gloveTransform.gameObject.SetActive(true);
@@ -367,7 +373,6 @@ public class Player : Unit
         
         yield return StartCoroutine(AnimateGlovePop(gloveOriginalScale, gloveOriginalScale * 3f, 0.1f));
         yield return StartCoroutine(ScaleOverTime(neckTransform, originalScale, targetNeckScale, 0.1f));
-        Boss boss = FindObjectOfType<Boss>();
         yield return new WaitForSeconds(0.15f);
         
         animator.SetTrigger("attackReverse");
@@ -375,6 +380,7 @@ public class Player : Unit
         yield return new WaitForSeconds(returnTime / 2f);
         yield return StartCoroutine(AnimateGlovePop(gloveOriginalScale * 3f, Vector3.zero, returnTime / 2f));
         isNeckAttacking = false;
+
         gloveTransform.gameObject.SetActive(false);
         yield return neckShrink;
     }
@@ -486,10 +492,10 @@ public class Player : Unit
         }
 
         currentHP = Mathf.Max(currentHP - reducedDamage, 0);
-        if (PlayerStatus.Instance != null)
+        if (PlayerStatus.instance != null)
         {
-            PlayerStatus.Instance.currentHP = currentHP;
-            PlayerStatus.Instance.currentShield = currentShield;
+            PlayerStatus.instance.currentHP = currentHP;
+            PlayerStatus.instance.currentShield = currentShield;
         }
     }
 }

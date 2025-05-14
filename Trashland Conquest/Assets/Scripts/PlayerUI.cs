@@ -26,35 +26,31 @@ public class PlayerUI : MonoBehaviour
     public Text pesticideText;
     public Text purifiedWaterText;
 
-    private Player playerScript;
+    private PlayerStatus playerStatus;
     private TraitSynergy traitSynergy;
     private float prevHP = -1f;
 
     void Start()
     {
-        if (who != null)
-        {
-            playerScript = who.GetComponent<Player>();
-        }
-
+        playerStatus = PlayerStatus.instance;
         traitSynergy = TraitSynergy.Instance;
 
     }
     void Update()
     {
-        if (playerScript != null)
+        if (playerStatus != null)
         {
-            playerScript.currentHP = Mathf.Max(playerScript.currentHP, 0);
-            playerScript.currentShield = Mathf.Max(playerScript.currentShield, 0);
+            playerStatus.currentHP = Mathf.Max(playerStatus.currentHP, 0);
+            playerStatus.currentShield = Mathf.Max(playerStatus.currentShield, 0);
 
-            float rateHP = playerScript.currentHP / playerScript.maxHP;
-            float rateShield = playerScript.currentShield / playerScript.maxShield;
-            if (playerScript.currentHP < prevHP)
+            float rateHP = playerStatus.currentHP / playerStatus.maxHP;
+            float rateShield = playerStatus .currentShield / playerStatus.maxShield;
+            if (playerStatus.currentHP < prevHP)
             {
                 StartCoroutine(ShakeUI(fillRT, 0.1f, 3f));
                 StartCoroutine(ShakeUI(this.GetComponent<RectTransform>(), 0.1f, 5f));
             }
-            if (playerScript.currentShield > 0f)
+            if (playerStatus.currentShield > 0f)
             {
                 shieldRT.gameObject.SetActive(true);
                 SetShieldbar(rateShield);
@@ -62,7 +58,7 @@ public class PlayerUI : MonoBehaviour
             else
                 shieldRT.gameObject.SetActive(false);
 
-            prevHP = playerScript.currentHP;
+            prevHP = playerStatus.currentHP;
             if (rateHP <= 0f)
             {
                 fillRT.gameObject.SetActive(false);
@@ -72,17 +68,17 @@ public class PlayerUI : MonoBehaviour
                 fillRT.gameObject.SetActive(true);
                 SetHPbar(rateHP);
             }
-            hpText.text = $"{playerScript.currentHP} / {playerScript.maxHP}";
+            hpText.text = $"{playerStatus.currentHP} / {playerStatus.maxHP}";
 
-            float expRate = (float)playerScript.currentEXP / playerScript.maxEXP;
+            float expRate = (float)playerStatus.currentEXP / playerStatus.maxEXP;
             expRT.localScale = new Vector3(expRate, 1f, 1f);
-            expText.text = $"{playerScript.currentEXP} / {playerScript.maxEXP}";
+            expText.text = $"{playerStatus.currentEXP} / {playerStatus.maxEXP}";
 
             // 속성 시너지 표시 UI
-            nameText.text = $"이름: {playerScript.unitName}";
-            levelText.text = $"레벨: {playerScript.unitLV}";
-            attack_powerText.text = $"공격력: {playerScript.baseAttackPower} (+ {playerScript.bonusAttackPower})";
-            armorText.text = $"방어력: {playerScript.armor}";
+            nameText.text = $"이름: {playerStatus.unitName}";
+            levelText.text = $"레벨: {playerStatus.unitLV}";
+            attack_powerText.text = $"공격력: {playerStatus.baseAttackPower} (+ {playerStatus.bonusAttackPower})";
+            armorText.text = $"방어력: {playerStatus.armor}";
             milkText.text = $"우유: {traitSynergy.GetStack(TraitSynergy.TraitType.Milk)}";
             slushText.text = $"슬러시: {traitSynergy.GetStack(TraitSynergy.TraitType.Slush)}";
             alcoholText.text = $"술: {traitSynergy.GetStack(TraitSynergy.TraitType.Alcohol)}";

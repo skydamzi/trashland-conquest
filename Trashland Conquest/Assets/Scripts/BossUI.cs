@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class BossUI : MonoBehaviour
 {
-    public GameObject who;             // Ã¼·Â ÁÖÀÎ
-    public RectTransform fillRT;       // Ã¼·Â¹Ù fill ¿ÀºêÁ§Æ®
+    public GameObject who;             // Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public RectTransform fillRT;       // Ã¼ï¿½Â¹ï¿½ fill ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    public RectTransform orangeFillRT;
+
     private float prevHP = -1f;
     private Boss bossScript;
+    private float delayedRate = 1f;
+    private float lastHitTime = -10f;
+    public float delayBuffer = 1f;
+    public float delayDuration = 300f;
 
     void Start()
     {
         if (who != null)
-            bossScript = who.GetComponent<Boss>(); // Boss ½ºÅ©¸³Æ® ¿¬°á
+            bossScript = who.GetComponent<Boss>(); // Boss ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
     }
 
-    void Update()
+    /*void Update()
     {
         if (bossScript == null)
         {
@@ -45,8 +51,54 @@ public class BossUI : MonoBehaviour
                 SetHPbar(rate);
             }
         }
+    }*/
+
+    void Update()
+    {
+        if (bossScript == null)
+        {
+            if (fillRT != null) fillRT.gameObject.SetActive(false);
+            if (orangeFillRT != null) orangeFillRT.gameObject.SetActive(false);
+            return;
+        }
+
+        bossScript.currentHP = Mathf.Max(bossScript.currentHP, 0f);
+        float rate = bossScript.currentHP / bossScript.maxHP;
+
+        // ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½Â¹ï¿½ ï¿½Ý¿ï¿½
+        SetHPbar(rate);
+
+        // ï¿½Ç°ÝµÇ¾ï¿½ï¿½ï¿½ï¿½ï¿½ lastHitTime ï¿½ï¿½ï¿½ï¿½
+        if (rate < prevHP)
+        {
+            lastHitTime = Time.time;
+            StartCoroutine(ShakeUI(fillRT, 0.1f, 3f));
+            StartCoroutine(ShakeUI(this.GetComponent<RectTransform>(), 0.1f, 5f));
+        }
+
+        // ï¿½ï¿½È²ï¿½ï¿½ ï¿½Ü»ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (Time.time - lastHitTime > delayBuffer)
+        {
+            if (delayedRate > rate)
+            {
+                delayedRate -= Time.deltaTime / delayDuration;
+                delayedRate = Mathf.Max(delayedRate, rate);
+            }
+        }
+
+        SetOrangeBar(delayedRate);
+
+        fillRT.gameObject.SetActive(rate > 0f);
+        orangeFillRT.gameObject.SetActive(rate > 0f);
+
+        prevHP = rate;
     }
 
+    public void SetOrangeBar(float rate)
+    {
+        if (orangeFillRT != null)
+            orangeFillRT.localScale = new Vector3(rate, 1f, 1f);
+    }
     public void SetHPbar(float rate)
     {
         fillRT.localScale = new Vector3(rate, 1f, 1f);
