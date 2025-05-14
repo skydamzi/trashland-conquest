@@ -1190,6 +1190,8 @@ MonoBehaviour:
   maxShield: 0
   currentHP: 5000
   maxHP: 5000
+  criticalChance: 0
+  moveSpeed: 0
   currentEXP: 50
   maxEXP: 100
   damageText: {fileID: 669626321}

@@ -24,7 +24,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBGM(AudioClip newClip, float volume = 1f)
     {
-        if (bgmSource.clip == newClip) return; // 이미 같은 곡이면 무시
+        if (bgmSource.clip == newClip) return; // Prevent reloading the same clip
         bgmSource.clip = newClip;
         bgmSource.volume = volume;
         bgmSource.loop = true;

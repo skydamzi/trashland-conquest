@@ -5,28 +5,28 @@ using UnityEngine;
 public class Enemy : Unit
 {
     [Header("Movement Settings")]
-    public float detectionRange = 7f;
-    public float attackRange = 1.5f;
-    public Transform[] waypoints;
-    private int currentWaypointIndex = 0;
+    public float detectionRange = 7f;            // 플레이어 탐지 범위
+    public float attackRange = 1.5f;             // 공격 가능 범위
+    public Transform[] waypoints;                // 순찰 경로 지점들
+    private int currentWaypointIndex = 0;        // 현재 순찰 지점 인덱스
 
     [Header("Attack Settings")]
-    public float attackCooldown = 2f;
+    public float attackCooldown = 2f;            // 공격 쿨타임
     private float attackTimer;
 
-    private Transform playerTR;
-    public Player player;
-    public AudioClip glove_punchSound;
+    private Transform playerTR;                  // 플레이어 Transform
+    public Player player;                        // 플레이어 스크립트 참조
+    public AudioClip glove_punchSound;           // 공격 사운드
 
-    private bool isGrounded = false;
-    private bool isChasingPlayer = false;
+    private bool isGrounded = false;             // 땅에 닿아 있는지 여부
+    private bool isChasingPlayer = false;        // 플레이어 추적 여부
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
 
     [Header("Layer Settings")]
-    public string groundTag = "Floor";
+    public string groundTag = "Floor";           // 바닥으로 인식할 태그명
 
     void Start()
     {
@@ -39,7 +39,7 @@ public class Enemy : Unit
 
         if (waypoints.Length == 0)
         {
-            Debug.LogWarning("���� ������ �������� �ʾ���!");
+            Debug.LogWarning("순찰 지점이 설정되어 있지 않습니다!");
         }
     }
 
@@ -51,26 +51,26 @@ public class Enemy : Unit
         if (distanceToPlayer <= detectionRange && isGrounded)
         {
             isChasingPlayer = true;
-            spriteRenderer.color = Color.red;  // �÷��̾� ���� �� ������
+            spriteRenderer.color = Color.red; // 플레이어를 발견하면 빨간색으로 변경
         }
         else
         {
             isChasingPlayer = false;
-            spriteRenderer.color = originalColor;  // ���� �������� ����
+            spriteRenderer.color = originalColor; // 원래 색상으로 복귀
         }
     }
 
     void FixedUpdate()
     {
-        if (!isGrounded) return; // ���� �پ����� ������ �̵����� ����
+        if (!isGrounded) return; // 땅에 없으면 이동 X
 
         if (isChasingPlayer)
         {
-            MoveTowardsPlayer();
+            MoveTowardsPlayer(); // 플레이어 추적
         }
         else
         {
-            Patrol();
+            Patrol(); // 순찰 행동
         }
     }
 
@@ -83,7 +83,7 @@ public class Enemy : Unit
 
         if (distanceToWaypoint < 0.2f)
         {
-            // ���� �������� �̵�
+            // 다음 순찰 지점으로 이동
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
         }
 
@@ -101,7 +101,7 @@ public class Enemy : Unit
     {
         if (collision.collider.CompareTag(groundTag))
         {
-            isGrounded = true;
+            isGrounded = true; // 바닥에 닿아 있음
         }
     }
 
@@ -109,7 +109,7 @@ public class Enemy : Unit
     {
         if (collision.collider.CompareTag(groundTag))
         {
-            isGrounded = false;
+            isGrounded = false; // 바닥에서 떨어짐
         }
     }
 
@@ -117,8 +117,8 @@ public class Enemy : Unit
     {
         if (other.CompareTag("Bullet"))
         {
-            TakeDamage(player.GetBaseDamage());
-            Destroy(other.gameObject);
+            TakeDamage(player.GetBaseDamage()); // 총알 맞으면 데미지 입음
+            Destroy(other.gameObject);          // 총알 제거
         }
     }
 
@@ -130,6 +130,6 @@ public class Enemy : Unit
 
     void Die()
     {
-        Destroy(gameObject);
+        Destroy(gameObject); // 적 제거
     }
 }

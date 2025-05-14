@@ -29,21 +29,21 @@ public enum Rarity
 [CreateAssetMenu(fileName = "New Item", menuName = "Item/Create New Item")]
 public class Item : ScriptableObject
 {
-    [Header("±âº» Á¤º¸")]
+    [Header("ì •ë³´")]
     public string itemName;
     public Sprite icon;
     public ItemType itemType;
 
-    [Header("Èñ±Íµµ ¼³Á¤")]
-    public Rarity rarity = Rarity.Common;  // ±âº»°ª: Common
+    [Header("í¬ê·€ë„")]
+    public Rarity rarity = Rarity.Common;  // ï¿½âº»ï¿½ï¿½: Common
 
-    [Header("È¿°ú ¼³Á¤")]
+    [Header("ê¸°ë³¸ íš¨ê³¼")]
     public List<Effect> effects = new List<Effect>();
 
-    [Header("Æ¯¼º ½Ã³ÊÁö ¼³Á¤")]
+    [Header("íŠ¹ì„± íš¨ê³¼")]
     public List<TraitEffect> traitEffects = new List<TraitEffect>();
 
-    [Header("¾ÆÀÌÅÛ ¼³¸í")]
+    [Header("ì„¤ëª…")]
     [TextArea]
     public string description;
 }

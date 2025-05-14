@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    public GameObject who;             // Ã¼·Â ÁÖÀÎ
-    public RectTransform fillRT;       // Ã¼·Â¹Ù fill ¿ÀºêÁ§Æ®
+    public GameObject who;
+    public RectTransform fillRT;
     public RectTransform shieldRT;
     public Text hpText;
-    public RectTransform expRT;  // °æÇèÄ¡ ¹Ù
+    public RectTransform expRT;
     public Text expText;
 
     public Text attack_powerText;
@@ -74,19 +74,19 @@ public class PlayerUI : MonoBehaviour
             expRT.localScale = new Vector3(expRate, 1f, 1f);
             expText.text = $"{playerStatus.currentEXP} / {playerStatus.maxEXP}";
 
-            // ¼Ó¼º ½Ã³ÊÁö Ç¥½Ã UI
-            nameText.text = $"ÀÌ¸§: {playerStatus.unitName}";
-            levelText.text = $"·¹º§: {playerStatus.unitLV}";
-            attack_powerText.text = $"°ø°İ·Â: {playerStatus.baseAttackPower} (+ {playerStatus.bonusAttackPower})";
-            armorText.text = $"¹æ¾î·Â: {playerStatus.armor}";
-            milkText.text = $"¿ìÀ¯: {traitSynergy.GetStack(TraitSynergy.TraitType.Milk)}";
-            slushText.text = $"½½·¯½Ã: {traitSynergy.GetStack(TraitSynergy.TraitType.Slush)}";
-            alcoholText.text = $"¼ú: {traitSynergy.GetStack(TraitSynergy.TraitType.Alcohol)}";
-            sodaText.text = $"Åº»ê: {traitSynergy.GetStack(TraitSynergy.TraitType.Soda)}";
-            energyDrinkText.text = $"ÀÌ¿Â: {traitSynergy.GetStack(TraitSynergy.TraitType.EnergyDrink)}";
-            coffeeText.text = $"Ä¿ÇÇ: {traitSynergy.GetStack(TraitSynergy.TraitType.Coffee)}";
-            pesticideText.text = $"³ó¾à: {traitSynergy.GetStack(TraitSynergy.TraitType.Pesticide)}";
-            purifiedWaterText.text = $"Á¤Á¦¼ö: {traitSynergy.GetStack(TraitSynergy.TraitType.PurifiedWater)}";
+            // í”Œë ˆì´ì–´ ì •ë³´ UI
+            nameText.text = $"ì´ë¦„: {playerStatus.unitName}";
+            levelText.text = $"ë ˆë²¨: {playerStatus.unitLV}";
+            attack_powerText.text = $"ê³µê²©ë ¥: {playerStatus.baseAttackPower} (+ {playerStatus.bonusAttackPower})";
+            armorText.text = $"ë°©ì–´ë ¥: {playerStatus.armor}";
+            milkText.text = $"ìš°ìœ : {traitSynergy.GetStack(TraitSynergy.TraitType.Milk)}";
+            slushText.text = $"ìŠ¬ëŸ¬ì‹œ: {traitSynergy.GetStack(TraitSynergy.TraitType.Slush)}";
+            alcoholText.text = $"ì•Œì½”ì˜¬: {traitSynergy.GetStack(TraitSynergy.TraitType.Alcohol)}";
+            sodaText.text = $"íƒ„ì‚°: {traitSynergy.GetStack(TraitSynergy.TraitType.Soda)}";
+            energyDrinkText.text = $"ì´ì˜¨: {traitSynergy.GetStack(TraitSynergy.TraitType.EnergyDrink)}";
+            coffeeText.text = $"ì»¤í”¼: {traitSynergy.GetStack(TraitSynergy.TraitType.Coffee)}";
+            pesticideText.text = $"ë†ì•½: {traitSynergy.GetStack(TraitSynergy.TraitType.Pesticide)}";
+            purifiedWaterText.text = $"ì •ì œìˆ˜: {traitSynergy.GetStack(TraitSynergy.TraitType.PurifiedWater)}";
         }
     }
     public void SetHPbar(float rate)

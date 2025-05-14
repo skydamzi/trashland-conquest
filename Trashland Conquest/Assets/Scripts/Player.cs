@@ -70,31 +70,13 @@ public class Player : Unit
             gloveTransform.localScale = Vector3.zero;
             gloveTransform.gameObject.SetActive(false);
         }
-        if (PlayerStatus.instance != null)
-        {
-            unitName = PlayerStatus.instance.unitName;
-            unitLV = PlayerStatus.instance.unitLV;
-
-            baseAttackPower = PlayerStatus.instance.baseAttackPower;
-            bonusAttackPower = PlayerStatus.instance.bonusAttackPower;
-            armor = PlayerStatus.instance.armor;
-
-            currentHP = PlayerStatus.instance.currentHP;
-            maxHP = PlayerStatus.instance.maxHP;
-            currentShield = PlayerStatus.instance.currentShield;
-            maxShield = PlayerStatus.instance.maxShield;
-            currentEXP = PlayerStatus.instance.currentEXP;
-            maxEXP = PlayerStatus.instance.maxEXP;
-
-            moveSpeed = PlayerStatus.instance.moveSpeed;
-            criticalChance = PlayerStatus.instance.criticalChance;
-        }
     }
     void Update()
     {
         LookAt();
         Movement();
         Jump();
+        PlayerStatusUpdate();
         fireTimer += Time.deltaTime;
         stretchTimer += Time.deltaTime;
         animator.SetBool("isJumping", !isGrounded);
@@ -121,6 +103,29 @@ public class Player : Unit
 
         if (!isInvincible)
             SetAlpha(1f);
+    }
+
+    void PlayerStatusUpdate()
+    {
+        if (PlayerStatus.instance != null)
+        {
+            unitName = PlayerStatus.instance.unitName;
+            unitLV = PlayerStatus.instance.unitLV;
+
+            baseAttackPower = PlayerStatus.instance.baseAttackPower;
+            bonusAttackPower = PlayerStatus.instance.bonusAttackPower;
+            armor = PlayerStatus.instance.armor;
+
+            currentHP = PlayerStatus.instance.currentHP;
+            maxHP = PlayerStatus.instance.maxHP;
+            currentShield = PlayerStatus.instance.currentShield;
+            maxShield = PlayerStatus.instance.maxShield;
+            currentEXP = PlayerStatus.instance.currentEXP;
+            maxEXP = PlayerStatus.instance.maxEXP;
+
+            moveSpeed = PlayerStatus.instance.moveSpeed;
+            criticalChance = PlayerStatus.instance.criticalChance;
+        }
     }
     private void LateUpdate()
     {
@@ -175,7 +180,7 @@ public class Player : Unit
     {
         if (isStretching)
         {
-            // ������ ����
+            // 펀치 애니메이션이 끝날 때까지 이동을 막음
             player_rb.velocity = new Vector2(0f, player_rb.velocity.y);
             animator.SetBool("isRunning", false);
             return;
@@ -197,7 +202,7 @@ public class Player : Unit
         animator.SetBool("isRunning", moveX != 0);
 
         Vector2 velocity = player_rb.velocity;
-        velocity.x = moveX * moveSpeed; // �÷��̾� �̵��ӵ��� ���� �ٲ�
+        velocity.x = moveX * moveSpeed; // 속도 조절
         player_rb.velocity = velocity;
 
         float tiltAngle = 10f;
@@ -220,7 +225,7 @@ public class Player : Unit
         transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * 30f);
     }
 
-    void Fire() // ��
+    void Fire() // 총알 발사
     {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
@@ -301,11 +306,9 @@ public class Player : Unit
         fixedNeckTarget = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         fixedNeckTarget.z = 0;
 
-        // �ڷ�ƾ ���� ����
         Coroutine rotationFix = StartCoroutine(RestoreRotation());
         Coroutine neckStretch = StartCoroutine(NeckStretchAnimSequence());
 
-        // �� �� ���� ������ ���
         yield return rotationFix;
         yield return neckStretch;
         

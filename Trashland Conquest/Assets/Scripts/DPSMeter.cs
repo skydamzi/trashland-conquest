@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class DPSMeter : MonoBehaviour
 {
-    public Text dpsText;      // UI 텍스트
-    public Boss boss;         // 대상 보스
+    public Text dpsText;
+    public Boss boss;
 
     private float totalDamage = 0f;
     private float startTime = -1f;
     private float lastHitTime = -1f;
     private float lastDPS = 0f;
 
-    private const float idleThreshold = 1f; // 1초 이상 공격 없으면 리셋
+    private const float idleThreshold = 1f;
 
     void Update()
     {
@@ -23,7 +23,6 @@ public class DPSMeter : MonoBehaviour
             return;
         }
 
-        // DPS 표시 유지
         if (Time.time - lastHitTime > idleThreshold && startTime > 0f)
         {
             dpsText.text = "Damage per Second: 0.0";

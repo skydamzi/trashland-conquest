@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class TraitSynergy : MonoBehaviour
 {
-    // ½Ì±ÛÅæ ÀÎ½ºÅÏ½º (´Ù¸¥ °÷¿¡¼­ TraitSynergy.Instance·Î Á¢±Ù °¡´É)
     public static TraitSynergy Instance;
 
     void Awake()
     {
-        // Áßº¹ ÀÎ½ºÅÏ½º ¹æÁö
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // ¾ÀÀÌ ¹Ù²î¾îµµ À¯Áö
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -21,10 +19,9 @@ public class TraitSynergy : MonoBehaviour
         }
     }
 
-    // ¼Ó¼º Á¾·ù Á¤ÀÇ (TraitTypeÀÌ¶ó´Â ÀÌ¸§ÀÇ ¿­°ÅÇü enum)
     public enum TraitType
     {
-        None,           // ±âº»°ª (¾Æ¹« ¼Ó¼ºµµ ¾øÀ½)
+        None,
         Milk,
         Slush,
         Alcohol,
@@ -35,7 +32,6 @@ public class TraitSynergy : MonoBehaviour
         PurifiedWater
     }
 
-    // ¼Ó¼º°ú ÇØ´ç ½ºÅÃ ¼ö¸¦ ÀúÀåÇÏ´Â Å¬·¡½º
     [System.Serializable]
     public class TraitStack
     {
@@ -49,13 +45,13 @@ public class TraitSynergy : MonoBehaviour
         }
     }
 
-    // ÇöÀç º¸À¯ ÁßÀÎ ¼Ó¼º ¸ñ·Ï
+    // í˜„ì¬ í™œì„±í™”ëœ ì†ì„±ë“¤ì˜ ëª©ë¡
     public List<TraitStack> activeTraits = new List<TraitStack>();
 
-    // ¼Ó¼º ´ç ÃÖ´ë ½ºÅÃ ¼ö
+    // ì†ì„± ìµœëŒ€ ìŠ¤íƒ ìˆ˜
     private const int MaxStack = 5;
 
-    // ¼Ó¼º Ãß°¡ ÇÔ¼ö (Áßº¹ÀÌ¸é ½ºÅÃ Áõ°¡, ¾øÀ¸¸é »õ·Î Ãß°¡)
+    // ì†ì„± ì¶”ê°€ í•¨ìˆ˜ (ì¤‘ë³µì´ë©´ ìŠ¤íƒ ì¦ê°€, ìµœëŒ€ê°’ ì œí•œ)
     public void AddTrait(TraitType trait, int amount = 1)
     {
         if (trait == TraitType.None) return;
@@ -64,18 +60,20 @@ public class TraitSynergy : MonoBehaviour
 
         if (found != null)
         {
-            // ±âÁ¸¿¡ ÀÖ´Ù¸é ½ºÅÃ¸¸ Áõ°¡
+            // ì´ë¯¸ ìˆë‹¤ë©´ ìŠ¤íƒë§Œ ì¦ê°€
             found.stack = Mathf.Min(found.stack + amount, MaxStack);
         }
         else
         {
-            // ¾øÀ¸¸é »õ·Î Ãß°¡
+            // ì—†ìœ¼ë©´ ìƒˆë¡œ ì¶”ê°€
             int stackToAdd = Mathf.Min(amount, MaxStack);
             activeTraits.Add(new TraitStack(trait, stackToAdd));
         }
 
-        Debug.Log($"[TraitSynergy] ¼Ó¼º Ãß°¡µÊ: {trait}, ÇöÀç ½ºÅÃ: {GetStack(trait)}");
+        Debug.Log($"[TraitSynergy] ì†ì„± ì¶”ê°€ë¨: {trait}, í˜„ì¬ ìŠ¤íƒ: {GetStack(trait)}");
     }
+
+    // ì†ì„± ì œê±° í•¨ìˆ˜ (ìŠ¤íƒì´ 0 ì´í•˜ë©´ ëª©ë¡ì—ì„œ ì‚­ì œ)
     public void RemoveTrait(TraitType trait, int amount = 1)
     {
         TraitStack found = activeTraits.Find(t => t.trait == trait);
@@ -88,9 +86,10 @@ public class TraitSynergy : MonoBehaviour
             }
         }
 
-        Debug.Log($"[TraitSynergy] ¼Ó¼º Á¦°ÅµÊ: {trait}, ÇöÀç ½ºÅÃ: {GetStack(trait)}");
+        Debug.Log($"[TraitSynergy] ì†ì„± ì œê±°ë¨: {trait}, í˜„ì¬ ìŠ¤íƒ: {GetStack(trait)}");
     }
-    // Æ¯Á¤ ¼Ó¼ºÀÇ ÇöÀç ½ºÅÃ ¼ö¸¦ È®ÀÎ
+
+    // íŠ¹ì • ì†ì„±ì˜ í˜„ì¬ ìŠ¤íƒ ìˆ˜ ë°˜í™˜
     public int GetStack(TraitType trait)
     {
         foreach (TraitStack t in activeTraits)
@@ -98,23 +97,25 @@ public class TraitSynergy : MonoBehaviour
             if (t.trait == trait)
                 return t.stack;
         }
-        return 0; // ¾øÀ¸¸é 0
+        return 0; // ì—†ìœ¼ë©´ 0
     }
 
-    // Æ¯Á¤ ¼Ó¼ºÀ» °¡Áö°í ÀÖ´ÂÁö È®ÀÎ
+    // íŠ¹ì • ì†ì„±ì´ ì¡´ì¬í•˜ëŠ”ì§€ ì—¬ë¶€ ë°˜í™˜
     public bool HasTrait(TraitType trait)
     {
         return GetStack(trait) > 0;
     }
 
-    // µÎ ¼Ó¼ºÀ» ¸ğµÎ °¡Áö°í ÀÖ´ÂÁö (½Ã³ÊÁö Á¶°Ç)
+    // ë‘ ì†ì„±ì´ ë™ì‹œì— ìˆëŠ”ì§€ í™•ì¸ (ì‹œë„ˆì§€ ì¡°ê±´)
     public bool HasSynergy(TraitType traitA, TraitType traitB)
     {
         return HasTrait(traitA) && HasTrait(traitB);
     }
 
+    // ëœë¤ ì†ì„± ë¶€ì—¬ ì—¬ë¶€ í”Œë˜ê·¸
     private bool randomTraitsGiven = false;
 
+    // í•œ ë²ˆë§Œ ëœë¤ ì†ì„± ë¶€ì—¬
     public void AssignRandomTraitsOnce()
     {
         if (randomTraitsGiven) return;
@@ -129,9 +130,10 @@ public class TraitSynergy : MonoBehaviour
         AddTrait(TraitType.PurifiedWater, Random.Range(0, 6));
 
         randomTraitsGiven = true;
-        Debug.Log("[TraitSynergy] ·£´ı ¼Ó¼º ÃÊ±âÈ­ ¿Ï·á");
+        Debug.Log("[TraitSynergy] ëœë¤ ì†ì„± ì´ˆê¸°í™” ì™„ë£Œ");
     }
 
+    // ì „ì²´ ì†ì„± ì´ˆê¸°í™” (ê²Œì„ ë¦¬ì…‹ ë“±)
     public void ResetTraits()
     {
         activeTraits.Clear();

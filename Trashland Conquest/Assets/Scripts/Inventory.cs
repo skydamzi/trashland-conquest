@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public static Inventory instance;  // ½Ì±ÛÅæ
+    public static Inventory instance;  // ï¿½Ì±ï¿½ï¿½ï¿½
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class Inventory : MonoBehaviour
     {
         if (items.Count >= capacity)
         {
-            Debug.Log("ÀÎº¥Åä¸®°¡ °¡µæ Ã¡½À´Ï´Ù.");
+            Debug.Log("ì¸ë²¤í† ë¦¬ê°€ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤.");
             return false;
         }
 

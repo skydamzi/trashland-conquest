@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
-    public string sceneName; // ÀÎ½ºÆåÅÍ¿¡¼­ ÀÔ·ÂÇÒ ¾À ÀÌ¸§
+    public string sceneName; // ì´ë™í•  ì”¬ì˜ ì´ë¦„
 
     public void Load()
     {
@@ -15,7 +15,7 @@ public class ChangeScene : MonoBehaviour
         }
         else
         {
-            Debug.LogError("¾À ÀÌ¸§ÀÌ ºñ¾îÀÖÀ½!");
+            Debug.LogError("ë³€ê²½í•  ì”¬ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ.");
         }
     }
 }

@@ -12,7 +12,7 @@ public class FollowCamera : MonoBehaviour
     void Start()
     {
         if (target != null)
-            initialY = transform.position.y; // 기준 Y 고정
+            initialY = transform.position.y;
     }
 
     void LateUpdate()
@@ -22,13 +22,12 @@ public class FollowCamera : MonoBehaviour
             Vector3 camPos = transform.position;
             camPos.x = target.transform.position.x;
 
-            // y축이 카메라 기준보다 클 때만 따라감
             if (target.transform.position.y > initialY)
                 camPos.y = target.transform.position.y;
             else
                 camPos.y = initialY;
 
-            camPos.z = offset.z; // 보통 -10 유지
+            camPos.z = offset.z;
             transform.position = camPos;
         }
     }

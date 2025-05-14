@@ -19,15 +19,15 @@ public class Equipment : MonoBehaviour
         }
     }
 
-    [Header("ÀåÂø ½½·Ô (ÀÎ½ºÆåÅÍ¿¡¼­ ¼öÁ¤ ½Ã ÀÚµ¿ Àû¿ë)")]
+    [Header("ì¥ì°© ìŠ¬ë¡¯ (ì¸ìŠ¤í™í„°ì—ì„œ ìˆ˜ì • ì‹œ ìë™ ì ìš©)")]
     public int maxEquipCount = 5;
-    public List<Item> equippedItems = new List<Item>();  // ÀÎ½ºÆåÅÍ ³ëÃâ¿ë
+    public List<Item> equippedItems = new List<Item>();  // ì¸ìŠ¤í™í„° ë…¸ì¶œìš©
 
-    private HashSet<Item> _equippedSet = new HashSet<Item>();  // ³»ºÎ ÃßÀû¿ë
+    private HashSet<Item> _equippedSet = new HashSet<Item>();  // ë‚´ë¶€ ì¶”ì ìš©
 
     void Update()
     {
-        // 1. »õ·Î µé¾î¿Â ¾ÆÀÌÅÛ °¨Áö ¡æ ÀåÂø
+        // 1. ìƒˆë¡œ ë“¤ì–´ì˜¨ ì•„ì´í…œ ê°ì§€ â†’ ì¥ì°©
         foreach (var item in equippedItems)
         {
             if (item == null) continue;
@@ -36,17 +36,17 @@ public class Equipment : MonoBehaviour
             {
                 if (_equippedSet.Count >= maxEquipCount)
                 {
-                    Debug.LogWarning($"Àåºñ ½½·Ô ÃÊ°ú: {item.itemName} ÀåÂø ¹«½ÃµÊ");
+                    Debug.LogWarning($"ì¥ë¹„ ìŠ¬ë¡¯ ì´ˆê³¼: {item.itemName} ì¥ì°© ë¬´ì‹œë¨");
                     continue;
                 }
 
                 Equip(item);
                 _equippedSet.Add(item);
-                Debug.Log($"[Equipment] {item.itemName} ÀåÂøµÊ (ÀÎ½ºÆåÅÍ °¨Áö)");
+                Debug.Log($"[Equipment] {item.itemName} ì¥ì°©ë¨ (ì¸ìŠ¤í™í„° ê°ì§€)");
             }
         }
 
-        // 2. Á¦°ÅµÈ ¾ÆÀÌÅÛ °¨Áö ¡æ ÇØÁ¦
+        // 2. ì œê±°ëœ ì•„ì´í…œ ê°ì§€ â†’ í•´ì œ
         var toRemove = new List<Item>();
         foreach (var item in _equippedSet)
         {
@@ -54,7 +54,7 @@ public class Equipment : MonoBehaviour
             {
                 Unequip(item);
                 toRemove.Add(item);
-                Debug.Log($"[Equipment] {item.itemName} ÇØÁ¦µÊ (ÀÎ½ºÆåÅÍ °¨Áö)");
+                Debug.Log($"[Equipment] {item.itemName} í•´ì œë¨ (ì¸ìŠ¤í™í„° ê°ì§€)");
             }
         }
         foreach (var item in toRemove)
@@ -63,12 +63,12 @@ public class Equipment : MonoBehaviour
         }
     }
 
-    // ³»ºÎ¿ë ½ÇÁ¦ ÀåÂø Ã³¸®
+    // ë‚´ë¶€ìš© ì‹¤ì œ ì¥ì°© ì²˜ë¦¬
     public void Equip(Item item)
     {
         if (item.itemType != ItemType.Equip)
         {
-            Debug.LogWarning("ÀÌ ¾ÆÀÌÅÛÀº ÀåºñÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("ì´ ì•„ì´í…œì€ ì¥ë¹„í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -76,7 +76,7 @@ public class Equipment : MonoBehaviour
         ApplyTraitEffects(item.traitEffects);
     }
 
-    // ³»ºÎ¿ë ½ÇÁ¦ ÇØÁ¦ Ã³¸®
+    // ë‚´ë¶€ìš© ì‹¤ì œ í•´ì œ ì²˜ë¦¬
     public void Unequip(Item item)
     {
         RemoveEffects(item.effects);
@@ -123,6 +123,6 @@ public class Equipment : MonoBehaviour
         }
         _equippedSet.Clear();
         equippedItems.Clear();
-        Debug.Log("¸ğµç Àåºñ ÇØÁ¦ ¿Ï·á");
+        Debug.Log("ëª¨ë“  ì¥ë¹„ í•´ì œ ì™„ë£Œ");
     }
 }

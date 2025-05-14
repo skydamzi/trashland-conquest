@@ -6,30 +6,24 @@ public class PlayerStatus : MonoBehaviour
 {
     public static PlayerStatus instance;
 
-    // ±âº» Á¤º¸
-    public string unitName = "½Åº´Á·";
+    public string unitName = "ì‹ ë³‘ì´";
     public int unitLV = 1;
 
-    // ÀüÅõ ½ºÅÈ
     public float baseAttackPower = 30f;
     public float bonusAttackPower = 5f;
     public float armor = 0f;
     public float bonusArmor = 0f;
     public float attackSpeed = 1f;
 
-    // Ã¼·Â/½¯µå
     public float currentHP = 100f;
     public float maxHP = 100f;
     public float currentShield = 50f;
     public float maxShield = 50f;
 
-    // Å©¸®Æ¼ÄÃ
     public float criticalChance = 10f;
 
-    // ÀÌ¼Ó
     public float moveSpeed = 3f;
 
-    //°æÇèÄ¡
     public int currentEXP = 0;
     public int maxEXP = 100;
     void Awake()

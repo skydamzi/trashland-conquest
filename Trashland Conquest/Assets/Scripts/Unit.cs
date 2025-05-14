@@ -4,71 +4,77 @@ using UnityEngine;
 
 abstract public class Unit : MonoBehaviour
 {
-    
     public string unitName;
     public int unitLV;
 
-    // °ø°İ/¹æ¾î °ü·Ã
-    public float baseAttackPower;   // ±âº» °ø°İ·Â
-    public float bonusAttackPower;  // Ãß°¡ °ø°İ·Â (¹öÇÁ µî)
-    public float armor;             // ¹æ¾î·Â
-    public float currentShield;     // ÇöÀç ½¯µå
-    public float maxShield;         // ÃÖ´ë ½¯µå
-    public float currentHP;
-    public float maxHP;
-    public float criticalChance;
-    public float moveSpeed;
-    public int currentEXP = 0;
-    public int maxEXP = 100;
+    // ì „íˆ¬/ìŠ¤íƒ¯ ê´€ë ¨ ë³€ìˆ˜ë“¤
+    public float baseAttackPower;   // ê¸°ë³¸ ê³µê²©ë ¥
+    public float bonusAttackPower;  // ì¶”ê°€ ê³µê²©ë ¥ (ì¥ë¹„ ë“±)
+    public float armor;             // ë°©ì–´ë ¥
+    public float currentShield;     // í˜„ì¬ ì‹¤ë“œ
+    public float maxShield;         // ìµœëŒ€ ì‹¤ë“œ
+    public float currentHP;         // í˜„ì¬ ì²´ë ¥
+    public float maxHP;             // ìµœëŒ€ ì²´ë ¥
+    public float criticalChance;    // í¬ë¦¬í‹°ì»¬ í™•ë¥ 
+    public float moveSpeed;         // ì´ë™ ì†ë„
+    public int currentEXP = 0;      // í˜„ì¬ ê²½í—˜ì¹˜
+    public int maxEXP = 100;        // ìµœëŒ€ ê²½í—˜ì¹˜
+
+    // ê¸°ë³¸ ë°ë¯¸ì§€ ê³„ì‚°
     public float GetBaseDamage()
     {
         return baseAttackPower + bonusAttackPower;
     }
+
+    // ê·¼ì ‘ ê³µê²© ë°ë¯¸ì§€ (ê¸°ë³¸ ë°ë¯¸ì§€ì˜ 5ë°°ë¡œ ê³„ì‚°)
     public float GetMeleeDamage()
     {
         return GetBaseDamage() * 5f;
     }
 
+    // ê²½í—˜ì¹˜ íšë“ í•¨ìˆ˜
     public virtual void GainEXP(int amount)
     {
-        // PlayerStatus °»½Å
+        // PlayerStatusì—ì„œ ê²½í—˜ì¹˜ ì¦ê°€
         PlayerStatus.instance.currentEXP += amount;
 
-        // Unit º¯¼ö¿¡µµ ¹İ¿µ
+        // Unit í´ë˜ìŠ¤ ë‚´ë¶€ì—ë„ ë°˜ì˜
         currentEXP = PlayerStatus.instance.currentEXP;
         maxEXP = PlayerStatus.instance.maxEXP;
 
+        // ë ˆë²¨ì—… ë°˜ë³µ ì²´í¬
         while (PlayerStatus.instance.currentEXP >= PlayerStatus.instance.maxEXP)
         {
             PlayerStatus.instance.currentEXP -= PlayerStatus.instance.maxEXP;
 
-            // µ¿±âÈ­
+            // ë‚´ë¶€ ìƒíƒœ ê°±ì‹ 
             currentEXP = PlayerStatus.instance.currentEXP;
             maxEXP = PlayerStatus.instance.maxEXP;
 
-            LevelUp();
+            LevelUp(); // ë ˆë²¨ì—… ì²˜ë¦¬
         }
     }
 
+    // ë ˆë²¨ì—… ì²˜ë¦¬ í•¨ìˆ˜
     protected virtual void LevelUp()
     {
-        // PlayerStatus ³»ºÎ °ª °»½Å
+        // PlayerStatus ê¸°ì¤€ìœ¼ë¡œ ë ˆë²¨ì—… ì²˜ë¦¬
         PlayerStatus.instance.unitLV++;
         PlayerStatus.instance.maxEXP += 20;
         PlayerStatus.instance.maxHP += 10;
 
-        // Ã¼·ÂÀº È¸º¹ÇÏµÇ, maxHP¸¦ ³ÑÁö ¾Êµµ·Ï Ã³¸®
+        // ì²´ë ¥ íšŒë³µ ì²˜ë¦¬ (ë ˆë²¨ * 10ë§Œí¼ íšŒë³µ, ë‹¨ ìµœëŒ€ ì²´ë ¥ ì´ˆê³¼ ê¸ˆì§€)
         PlayerStatus.instance.currentHP = Mathf.Min(
             PlayerStatus.instance.currentHP + PlayerStatus.instance.unitLV * 10,
             PlayerStatus.instance.maxHP
         );
 
-        // Unit ÂÊ º¯¼öµµ µ¿±âÈ­
+        // Unit í´ë˜ìŠ¤ ë‚´ë¶€ ìƒíƒœë„ ë™ê¸°í™”
         unitLV = PlayerStatus.instance.unitLV;
         maxEXP = PlayerStatus.instance.maxEXP;
         maxHP = PlayerStatus.instance.maxHP;
         currentHP = PlayerStatus.instance.currentHP;
 
-        Debug.Log($"{PlayerStatus.instance.unitName} ·¹º§¾÷! ÇöÀç ·¹º§: {unitLV}");
+        Debug.Log($"{PlayerStatus.instance.unitName} ë ˆë²¨ì—…! í˜„ì¬ ë ˆë²¨: {unitLV}");
     }
 }
