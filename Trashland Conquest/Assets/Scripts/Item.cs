@@ -46,6 +46,9 @@ public class Item : ScriptableObject
     [Header("설명")]
     [TextArea]
     public string description;
+
+    // 드롭될 실제 프리팹
+    public GameObject dropPrefab;
 }
 
 [System.Serializable]

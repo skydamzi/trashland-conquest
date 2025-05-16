@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour
+public class Sound : MonoBehaviour
 {
-    public static SoundManager Instance;
+    public static Sound Instance;
 
     public AudioSource bgmSource;
     public AudioSource sfxSource;

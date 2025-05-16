@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\uCEE4\uD53C\uC6B0\uC720"
   m_EditorClassIdentifier: 
   itemName: "\uCEE4\uD53C\uC6B0\uC720"
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 0f452332f0db3064190532947fdebc3d, type: 3}
   itemType: 1
   rarity: 0
   effects:
@@ -28,3 +28,4 @@ MonoBehaviour:
     stackAmount: 1
   description: "\uCEE4\uD53C\uC6B0\uC720\uC774\uB2E4.\n\uCEE4\uD53C +1, \uC6B0\uC720
     +1"
+  dropPrefab: {fileID: 0}

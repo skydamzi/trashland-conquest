@@ -10,6 +10,6 @@ public class BGMPlayer : MonoBehaviour
 
     void Start()
     {
-        SoundManager.Instance.PlayBGM(BGM, bgmVolume);
+        Sound.Instance.PlayBGM(BGM, bgmVolume);
     }
 }

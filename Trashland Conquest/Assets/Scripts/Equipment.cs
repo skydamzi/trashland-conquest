@@ -24,6 +24,9 @@ public class Equipment : MonoBehaviour
     public List<Item> equippedItems = new List<Item>();  // 인스펙터 노출용
 
     private HashSet<Item> _equippedSet = new HashSet<Item>();  // 내부 추적용
+    public delegate void OnEquipmentChanged();
+    public OnEquipmentChanged onEquipmentChangedCallback;
+
 
     void Update()
     {
@@ -74,6 +77,7 @@ public class Equipment : MonoBehaviour
 
         ApplyEffects(item.effects);
         ApplyTraitEffects(item.traitEffects);
+        onEquipmentChangedCallback?.Invoke();
     }
 
     // 내부용 실제 해제 처리
@@ -81,6 +85,7 @@ public class Equipment : MonoBehaviour
     {
         RemoveEffects(item.effects);
         RemoveTraitEffects(item.traitEffects);
+        onEquipmentChangedCallback?.Invoke();
     }
 
     private void ApplyEffects(List<Effect> effects)

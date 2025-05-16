@@ -205,8 +205,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1915414990}
-        m_TargetAssemblyTypeName: TitlePanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1915414992}
+        m_TargetAssemblyTypeName: TitlePanel, Assembly-CSharp
         m_MethodName: HidePanel
         m_Mode: 1
         m_Arguments:
@@ -1373,8 +1373,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1915414990}
-        m_TargetAssemblyTypeName: TitlePanelManager, Assembly-CSharp
+      - m_Target: {fileID: 1915414992}
+        m_TargetAssemblyTypeName: TitlePanel, Assembly-CSharp
         m_MethodName: ShowPanel
         m_Mode: 1
         m_Arguments:
@@ -1783,57 +1783,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1533939448}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4288853d6a776c74d92b6c7d7dbec266, type: 3}
+  m_Script: {fileID: 11500000, guid: 79c8d00589518554dbfecad170ce3cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   titlePanel: {fileID: 1533939448}
   mouseDown: {fileID: 8300000, guid: cb2be4d708286064e9cd2f0d25de210e, type: 3}
---- !u!1 &1580944882
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1580944884}
-  - component: {fileID: 1580944883}
-  m_Layer: 0
-  m_Name: TiitlePanelManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1580944883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1580944882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4288853d6a776c74d92b6c7d7dbec266, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titlePanel: {fileID: 1862896553}
-  mouseDown: {fileID: 8300000, guid: cb2be4d708286064e9cd2f0d25de210e, type: 3}
---- !u!4 &1580944884
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1580944882}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 739.1627, y: 440.6054, z: -5.2152624}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1643724540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1977,7 +1931,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1533939453}
-        m_TargetAssemblyTypeName: TitlePanelManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: TitlePanel, Assembly-CSharp
         m_MethodName: HidePanel
         m_Mode: 1
         m_Arguments:
@@ -2110,7 +2064,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1533939453}
-        m_TargetAssemblyTypeName: TitlePanelManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: TitlePanel, Assembly-CSharp
         m_MethodName: ShowPanel
         m_Mode: 1
         m_Arguments:
@@ -2318,7 +2272,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1915414991}
-  - component: {fileID: 1915414990}
+  - component: {fileID: 1915414992}
   - component: {fileID: 1915414989}
   - component: {fileID: 1915414988}
   - component: {fileID: 1915414987}
@@ -2392,20 +2346,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
---- !u!114 &1915414990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1915414986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4288853d6a776c74d92b6c7d7dbec266, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titlePanel: {fileID: 1915414986}
-  mouseDown: {fileID: 8300000, guid: cb2be4d708286064e9cd2f0d25de210e, type: 3}
 --- !u!224 &1915414991
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2427,6 +2367,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1915414992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915414986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79c8d00589518554dbfecad170ce3cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  titlePanel: {fileID: 1915414986}
+  mouseDown: {fileID: 8300000, guid: cb2be4d708286064e9cd2f0d25de210e, type: 3}
 --- !u!1 &1946510417
 GameObject:
   m_ObjectHideFlags: 0
@@ -2803,6 +2757,5 @@ SceneRoots:
   - {fileID: 232477288}
   - {fileID: 718643849}
   - {fileID: 1512315947}
-  - {fileID: 1580944884}
   - {fileID: 1451333127}
   - {fileID: 2033519911}

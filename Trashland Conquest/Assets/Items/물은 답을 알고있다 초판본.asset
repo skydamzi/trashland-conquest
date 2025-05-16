@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\uBB3C\uC740 \uB2F5\uC744 \uC54C\uACE0\uC788\uB2E4 \uCD08\uD310\uBCF8"
   m_EditorClassIdentifier: 
   itemName: "\uBB3C\uC740 \uB2F5\uC744 \uC54C\uACE0\uC788\uB2E4 \uCD08\uD310\uBCF8"
-  icon: {fileID: 0}
+  icon: {fileID: -321232337, guid: 11754b9415b38494789ac9514fc212fd, type: 3}
   itemType: 1
   rarity: 0
   effects:
@@ -26,3 +26,4 @@ MonoBehaviour:
     stackAmount: 2
   description: "\uC804\uC124\uC801\uC778 \uC721\uAC01\uC218\uC758 \uBE44\uBC00\uC774
     \uB2F4\uACA8\uC788\uB294 \uCC45\uC774\uB2E4.\n\uC815\uC81C\uC218 +2"
+  dropPrefab: {fileID: 0}

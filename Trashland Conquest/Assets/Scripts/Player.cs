@@ -90,7 +90,7 @@ public class Player : Unit
         if (Input.GetMouseButton(0) && fireTimer >= fireRate && !isStretching)
         {
             Fire();
-            SoundManager.Instance.PlaySFX(shootSound, 1f);
+            Sound.Instance.PlaySFX(shootSound, 1f);
             stretchTimer = 0f;
             fireTimer = 0f;
         }
@@ -151,12 +151,12 @@ public class Player : Unit
             if (jumpCount == 0)
             {
                 player_rb.AddForce(Vector2.up * 18f, ForceMode2D.Impulse);
-                SoundManager.Instance.PlaySFX(jump1stSound, 1f);
+                Sound.Instance.PlaySFX(jump1stSound, 1f);
             }
             else if (jumpCount == 1)
             {
                 player_rb.AddForce(Vector2.up * 12f, ForceMode2D.Impulse);
-                SoundManager.Instance.PlaySFX(jump2ndSound, 1f);
+                Sound.Instance.PlaySFX(jump2ndSound, 1f);
             }
 
             jumpCount++;
@@ -279,13 +279,13 @@ public class Player : Unit
             if (boss != null)
             {
                 TakeDamage(boss.GetBaseDamage());
-                SoundManager.Instance.PlaySFX(glove_punchSound);
+                Sound.Instance.PlaySFX(glove_punchSound);
                 StartCoroutine(TriggerInvincibility());
             }
             else if (enemy != null)
             {
                 TakeDamage(enemy.GetBaseDamage());
-                SoundManager.Instance.PlaySFX(glove_punchSound);
+                Sound.Instance.PlaySFX(glove_punchSound);
                 StartCoroutine(TriggerInvincibility());
             }
         }
@@ -368,7 +368,7 @@ public class Player : Unit
         animator.SetTrigger("attack");
         isNeckAttacking = true;
         hitEnemiesThisAttack.Clear();
-        SoundManager.Instance.PlaySFX(glove_readySound);
+        Sound.Instance.PlaySFX(glove_readySound);
         yield return StartCoroutine(AnimateGlovePop(Vector3.zero, gloveOriginalScale, stretchTime));
         yield return new WaitForSeconds(gloveHoldTime);
         //SoundManager.Instance.PlaySFX(glove_punchSound);
@@ -481,7 +481,7 @@ public class Player : Unit
     }
     public void OnSuccessfulPunch()
     {
-        SoundManager.Instance.PlaySFX(glove_punchSound);
+        Sound.Instance.PlaySFX(glove_punchSound);
     }
     public void TakeDamage(float rawDamage)
     {

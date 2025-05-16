@@ -26,7 +26,7 @@ public class Boss : Unit
             if (player != null && player.isNeckAttacking && !player.hitEnemiesThisAttack.Contains(gameObject))
             {
                 player.hitEnemiesThisAttack.Add(gameObject);
-                SoundManager.Instance.PlaySFX(glove_punchSound);
+                Sound.Instance.PlaySFX(glove_punchSound);
                 TakeDamage(player.GetMeleeDamage());
                 Debug.Log("보스: 글러브 맞고 데미지 받음");
             }
