@@ -9,7 +9,7 @@ public class ToxicWasteBoss : Boss
     public Transform bombArcPoint;           // 던지는 기준점 (보스 머리 위쪽)
 
     public float poopInterval = 0.05f;        // 똥 떨어지는 간격
-    public float arcHeight = 8f;             // 똥 곡사 높이
+    public float arcHeight = 15f;             // 똥 곡사 높이
     public float dropRangeX = 0.5f;          // 좌우 범위 (보스 기준)
     public float dropOffsetY = 0f;           // 드롭 위치 y 오프셋
     private SpriteRenderer spriteRenderer;

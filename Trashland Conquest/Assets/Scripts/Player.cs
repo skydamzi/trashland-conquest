@@ -36,7 +36,7 @@ public class Player : Unit
     private float fireRate = 0.2f;
     private float fireTimer = 0f;
     bool isReloading = false;
-    float reloadTime = 2f;
+    float reloadTime = 1f;
     public int maxAmmo = 15;
     private int currentAmmo;
 
@@ -63,9 +63,11 @@ public class Player : Unit
     public AudioClip glove_readySound;
     public AudioClip glove_punchSound;
 
+    public PlayerUI playerUI;
     void Start()
     {
         initialDirection = transform.right;
+        playerUI = FindObjectOfType<PlayerUI>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (gloveTransform != null)
@@ -92,8 +94,15 @@ public class Player : Unit
         }
 
         wasGroundedLastFrame = isGrounded;
+        if (Input.GetMouseButtonDown(1) && !isStretching)
+        {
+            animator.SetTrigger("attack");
+            StartCoroutine(StretchNeckAnim());
+        }
+        
         if (currentAmmo <= 0 && !isReloading)
             StartCoroutine(Reload());
+        
         if (Input.GetMouseButton(0) && fireTimer >= fireRate && !isStretching)
         {
             if (isReloading)
@@ -107,11 +116,7 @@ public class Player : Unit
             }
         }
 
-        if (Input.GetMouseButtonDown(1) && !isStretching)
-        {
-            animator.SetTrigger("attack");
-            StartCoroutine(StretchNeckAnim());
-        }
+        
 
         if (!isInvincible)
             SetAlpha(1f);
@@ -179,7 +184,7 @@ public class Player : Unit
 
     void LookAt()
     {
-        if (!isLookAt || neckTransform == null || isStretching) return; // ���� �߿� ���� ����
+        if (!isLookAt || neckTransform == null || isStretching) return;
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
@@ -245,6 +250,8 @@ public class Player : Unit
 
         GameObject bullet = Instantiate(bulletPrefab, weaponSpawnPoint.position, Quaternion.identity);
         currentAmmo--;
+        Debug.Log($"[Fire] 탄: {currentAmmo}/{maxAmmo}");
+        playerUI.UpdateBulletGauge(currentAmmo, maxAmmo);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
         if (bulletRb != null)
@@ -271,7 +278,8 @@ public class Player : Unit
     {
         isReloading = true;
         Debug.Log("재장전 중...");
-        yield return new WaitForSeconds(reloadTime);
+        float interval = reloadTime / (maxAmmo - currentAmmo); // 딱 맞춰 분할
+        yield return StartCoroutine(playerUI.ReloadBulletGauge(currentAmmo, maxAmmo, interval));
         currentAmmo = maxAmmo;
         isReloading = false;
         Debug.Log("재장전 완료");
