@@ -15,12 +15,13 @@ public class Boss : Unit
     {
         //    if (playerObject != null)
         //       player = playerObject.GetComponent<Player>();
-        player = FindObjectOfType<Player>();
+        
         currentHP = maxHP;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        player = FindObjectOfType<Player>();
         if (other.CompareTag("BoxingGlove"))
         {
             if (player != null && player.isNeckAttacking && !player.hitEnemiesThisAttack.Contains(gameObject))
@@ -37,7 +38,7 @@ public class Boss : Unit
         else if (other.CompareTag("Bullet"))
         {
             TakeDamage(player.GetBaseDamage());
-
+            Debug.Log("보스: 총알 맞고 데미지 받음");
             Destroy(other.gameObject);
         }
     }

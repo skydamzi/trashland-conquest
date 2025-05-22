@@ -630,7 +630,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.7533692, g: 0.9006049, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.46091634, g: 0.46091634, b: 0.46091634, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1483,7 +1483,7 @@ GameObject:
   m_Component:
   - component: {fileID: 971634401}
   - component: {fileID: 971634400}
-  - component: {fileID: 971634402}
+  - component: {fileID: 971634405}
   - component: {fileID: 971634403}
   - component: {fileID: 971634404}
   m_Layer: 0
@@ -1561,34 +1561,6 @@ Transform:
   - {fileID: 538967802}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &971634402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971634399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63227daca1f38634bac643d9ea0384eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitName: Boss
-  unitLV: 20
-  baseAttackPower: 10
-  bonusAttackPower: 0
-  armor: 0
-  currentShield: 0
-  maxShield: 0
-  currentHP: 5000
-  maxHP: 5000
-  criticalChance: 0
-  moveSpeed: 0
-  currentEXP: 50
-  maxEXP: 100
-  damageText: {fileID: 669626321}
-  glove_punchSound: {fileID: 8300000, guid: 5afeb439d95c6c74cba4c41eb298d0f1, type: 3}
-  dpsMeter: {fileID: 1020407861}
 --- !u!61 &971634403
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1661,6 +1633,41 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &971634405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971634399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1331194f4beee443ad709c9b46a7893, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitName: Boss
+  unitLV: 20
+  baseAttackPower: 10
+  bonusAttackPower: 0
+  armor: 0
+  currentShield: 0
+  maxShield: 0
+  currentHP: 5000
+  maxHP: 5000
+  criticalChance: 0
+  moveSpeed: 0
+  currentEXP: 50
+  maxEXP: 100
+  damageText: {fileID: 669626321}
+  glove_punchSound: {fileID: 8300000, guid: 5afeb439d95c6c74cba4c41eb298d0f1, type: 3}
+  dpsMeter: {fileID: 1020407861}
+  gooBombPrefab: {fileID: 3102443856085072580, guid: d0ea982f741a66949905550ba9bf1099, type: 3}
+  bombArcPoint: {fileID: 971634401}
+  poopInterval: 0.03
+  arcHeight: 5
+  dropRangeX: 100
+  dropOffsetY: 0
+  maxRedColor: {r: 1, g: 0.3, b: 0.3, a: 1}
 --- !u!1 &1020407856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1720,7 +1727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dpsText: {fileID: 246760183}
-  boss: {fileID: 971634402}
+  boss: {fileID: 971634405}
 --- !u!1 &1106051031
 GameObject:
   m_ObjectHideFlags: 0

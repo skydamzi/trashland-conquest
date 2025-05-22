@@ -35,6 +35,10 @@ public class Player : Unit
     [Header("Fire Control")]
     private float fireRate = 0.2f;
     private float fireTimer = 0f;
+    bool isReloading = false;
+    float reloadTime = 2f;
+    public int maxAmmo = 15;
+    private int currentAmmo;
 
     [Header("Neck Stretch FX")]
     private float stretchTimer = 0f;
@@ -70,6 +74,7 @@ public class Player : Unit
             gloveTransform.localScale = Vector3.zero;
             gloveTransform.gameObject.SetActive(false);
         }
+        currentAmmo = maxAmmo;
     }
     void Update()
     {
@@ -87,12 +92,19 @@ public class Player : Unit
         }
 
         wasGroundedLastFrame = isGrounded;
+        if (currentAmmo <= 0 && !isReloading)
+            StartCoroutine(Reload());
         if (Input.GetMouseButton(0) && fireTimer >= fireRate && !isStretching)
         {
-            Fire();
-            Sound.Instance.PlaySFX(shootSound, 1f);
-            stretchTimer = 0f;
-            fireTimer = 0f;
+            if (isReloading)
+                return;
+            else
+            {
+                Fire();
+                Sound.Instance.PlaySFX(shootSound, 1f);
+                stretchTimer = 0f;
+                fireTimer = 0f;
+            }
         }
 
         if (Input.GetMouseButtonDown(1) && !isStretching)
@@ -232,6 +244,7 @@ public class Player : Unit
         Vector2 direction = (mouseWorldPos - weaponSpawnPoint.position).normalized;
 
         GameObject bullet = Instantiate(bulletPrefab, weaponSpawnPoint.position, Quaternion.identity);
+        currentAmmo--;
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
         if (bulletRb != null)
@@ -254,7 +267,15 @@ public class Player : Unit
         Destroy(bullet, 1f);
         StartCoroutine(QuickStretch());
     }
-
+    IEnumerator Reload()
+    {
+        isReloading = true;
+        Debug.Log("재장전 중...");
+        yield return new WaitForSeconds(reloadTime);
+        currentAmmo = maxAmmo;
+        isReloading = false;
+        Debug.Log("재장전 완료");
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
