@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    public GameObject who;
-    public RectTransform fillRT;
-    public RectTransform shieldRT;
-    public Text hpText;
-    public RectTransform expRT;
-    public Text expText;
+    public GameObject who; // 뭐에 쓰는건지 모르겠지만 일단 놔둠
+    public RectTransform fillRT; // HP 바 (fill)
+    public RectTransform shieldRT; // 쉴드 바
+    public Text hpText; // HP 텍스트
+    //public RectTransform expRT; // 경험치 바
+    public Text expText; // 경험치 텍스트
 
     public Text attack_powerText;
     public Text armorText;
@@ -29,16 +29,23 @@ public class PlayerUI : MonoBehaviour
     [Header("Ammo UI")]
     public Text bulletGaugeText;
 
+    // **새로 추가: 스태미나 UI 요소**
+    [Header("Stamina UI")]
+    public RectTransform staminaFillRT; // 스태미나 바 fill RectTransform
+    public Text staminaText;            // 스태미나 텍스트 (예: 100/100)
+    
     private PlayerStatus playerStatus;
     private TraitSynergy traitSynergy;
 
     private float prevHP = -1f;
     private float prevShield = -1f;
-    private int prevEXP = -1;
+    //private int prevEXP = -1;
     private int prevLV = -1;
     private float prevBaseAtk = -1;
     private float prevBonusAtk = -1;
     private float prevArmor = -1;
+    // **새로 추가: 이전 스태미나 값 추적**
+    private float prevStamina = -1f; // 스태미나 변화 감지용
 
     private Dictionary<TraitSynergy.TraitType, int> prevTraits = new();
 
@@ -48,6 +55,7 @@ public class PlayerUI : MonoBehaviour
     {
         playerStatus = PlayerStatus.instance;
         traitSynergy = TraitSynergy.Instance;
+        
     }
 
     void Update()
@@ -56,9 +64,11 @@ public class PlayerUI : MonoBehaviour
 
         UpdateHP();
         UpdateShield();
-        UpdateEXP();
+        //UpdateEXP();
         UpdateStatusText();
         UpdateTraits();
+        // **새로 추가: 스태미나 업데이트 함수 호출**
+        UpdateStamina();
     }
 
     void UpdateHP()
@@ -73,7 +83,7 @@ public class PlayerUI : MonoBehaviour
             if (currentHP < prevHP && !isShaking)
             {
                 StartCoroutine(ShakeUI(fillRT, 0.1f, 3f));
-                StartCoroutine(ShakeUI(GetComponent<RectTransform>(), 0.1f, 5f));
+                StartCoroutine(ShakeUI(GetComponent<RectTransform>(), 0.1f, 5f)); // 전체 UI도 흔들게 유지
             }
             prevHP = currentHP;
         }
@@ -90,16 +100,16 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    void UpdateEXP()
-    {
-        if (playerStatus.currentEXP != prevEXP)
-        {
-            float rate = (float)playerStatus.currentEXP / playerStatus.maxEXP;
-            expRT.localScale = new Vector3(rate, 1f, 1f);
-            expText.text = $"{playerStatus.currentEXP} / {playerStatus.maxEXP}";
-            prevEXP = playerStatus.currentEXP;
-        }
-    }
+    //void UpdateEXP()
+    //{
+    //    if (playerStatus.currentEXP != prevEXP)
+    //    {
+    //        float rate = (float)playerStatus.currentEXP / playerStatus.maxEXP;
+    //        expRT.localScale = new Vector3(rate, 1f, 1f);
+    //        expText.text = $"{playerStatus.currentEXP} / {playerStatus.maxEXP}";
+    //        prevEXP = playerStatus.currentEXP;
+    //    }
+    //}
 
     void UpdateStatusText()
     {
@@ -158,7 +168,7 @@ public class PlayerUI : MonoBehaviour
         if (currentAmmo > 9)
             bulletGaugeText.text = $"{currentAmmo}";
         else
-            bulletGaugeText.text = $"  {currentAmmo}";
+            bulletGaugeText.text = $"  {currentAmmo}"; // 텍스트 정렬을 위해 띄어쓰기 2칸으로 맞춤
     }
 
     public IEnumerator ReloadBulletGauge(int from, int to, float interval = 0.05f)
@@ -169,7 +179,26 @@ public class PlayerUI : MonoBehaviour
             yield return new WaitForSeconds(interval);
         }
     }
+    void UpdateStamina()
+    {
+        float currentStamina = Mathf.Max(playerStatus.currentStamina, 0); 
+        float maxStamina = playerStatus.maxStamina;
 
+        // **스태미나 값이 변경되었을 때만 업데이트**
+        if (currentStamina != prevStamina) 
+        {
+            float rate = currentStamina / maxStamina;
+            SetStaminaBar(rate); // 스태미나 바 크기 조절
+
+            // 스태미나 텍스트 업데이트 (예: 75 / 100)
+            if (staminaText != null)
+            {
+                staminaText.text = $"{Mathf.RoundToInt(currentStamina)} / {Mathf.RoundToInt(maxStamina)}";
+            }
+            // **이전 스태미나 값 업데이트 (이거 중요!)**
+            prevStamina = currentStamina; 
+        }
+    }
     public void SetHPbar(float rate)
     {
         fillRT.localScale = new Vector3(rate, 1f, 1f);
@@ -178,6 +207,11 @@ public class PlayerUI : MonoBehaviour
     public void SetShieldbar(float rate)
     {
         shieldRT.localScale = new Vector3(rate, 1f, 1f);
+    }
+    
+    public void SetStaminaBar(float rate)
+    {
+         staminaFillRT.localScale = new Vector3(rate, 1f, 1f);
     }
 
     IEnumerator ShakeUI(RectTransform target, float duration = 0.1f, float magnitude = 5f)

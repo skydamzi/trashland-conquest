@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Unit 클래스에서 maxStamina, currentStamina를 상속받았다고 가정
 public class Player : Unit
 {
     [Header("Direction & Rotation")]
@@ -35,10 +36,6 @@ public class Player : Unit
     [Header("Fire Control")]
     private float fireRate = 0.2f;
     private float fireTimer = 0f;
-    bool isReloading = false;
-    float reloadTime = 1f;
-    public int maxAmmo = 15;
-    private int currentAmmo;
 
     [Header("Neck Stretch FX")]
     private float stretchTimer = 0f;
@@ -63,11 +60,19 @@ public class Player : Unit
     public AudioClip glove_readySound;
     public AudioClip glove_punchSound;
 
-    public PlayerUI playerUI;
+    // **스태미나 시스템 변수 수정 및 추가**
+    [Header("Stamina System")]
+    public float shootStaminaCost = 5f;
+    public float punchStaminaCost = 15f;
+    public float staminaRegenRate = 30f;
+    public float staminaRegenDelay = 1.5f; // 1.5초로 변경
+    private float lastAttackTime;
+    private bool isRegeneratingStamina = false;
+    private Coroutine staminaRegenCoroutine; // 스태미나 회복 코루틴을 제어하기 위한 변수
+
     void Start()
     {
         initialDirection = transform.right;
-        playerUI = FindObjectOfType<PlayerUI>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (gloveTransform != null)
@@ -76,14 +81,17 @@ public class Player : Unit
             gloveTransform.localScale = Vector3.zero;
             gloveTransform.gameObject.SetActive(false);
         }
-        currentAmmo = maxAmmo;
+        // currentStamina = maxStamina; // Unit 클래스에서 초기화 가정
+        lastAttackTime = -staminaRegenDelay; // 시작하자마자 스태미나 회복 가능하도록
     }
+
     void Update()
     {
         LookAt();
         Movement();
         Jump();
         PlayerStatusUpdate();
+
         fireTimer += Time.deltaTime;
         stretchTimer += Time.deltaTime;
         animator.SetBool("isJumping", !isGrounded);
@@ -94,29 +102,60 @@ public class Player : Unit
         }
 
         wasGroundedLastFrame = isGrounded;
+
+        // **펀치 공격 (오른쪽 마우스 버튼)**
         if (Input.GetMouseButtonDown(1) && !isStretching)
         {
-            animator.SetTrigger("attack");
-            StartCoroutine(StretchNeckAnim());
-        }
-        
-        if (currentAmmo <= 0 && !isReloading)
-            StartCoroutine(Reload());
-        
-        if (Input.GetMouseButton(0) && fireTimer >= fireRate && !isStretching)
-        {
-            if (isReloading)
-                return;
+            if (currentStamina >= punchStaminaCost)
+            {
+                StopStaminaRegen(); // 공격 시 스태미나 회복 중단
+                currentStamina -= punchStaminaCost;
+                if (PlayerStatus.instance != null) // PlayerStatus에 깎인 값 업데이트
+                {
+                    PlayerStatus.instance.currentStamina = currentStamina;
+                }
+                lastAttackTime = Time.time;
+                Debug.Log($"[Punch] 스태미나 소모: {punchStaminaCost}, 남은 스태미나: {currentStamina}");
+
+                animator.SetTrigger("attack");
+                StartCoroutine(StretchNeckAnim());
+            }
             else
             {
+                Debug.Log("스태미나가 부족하여 펀치 공격 불가!");
+            }
+        }
+
+        // **총 발사 (왼쪽 마우스 버튼)**
+        if (Input.GetMouseButton(0) && fireTimer >= fireRate && !isStretching)
+        {
+            if (currentStamina >= shootStaminaCost)
+            {
+                StopStaminaRegen(); // 공격 시 스태미나 회복 중단
                 Fire();
+                currentStamina -= shootStaminaCost;
+                if (PlayerStatus.instance != null) // PlayerStatus에 깎인 값 업데이트
+                {
+                    PlayerStatus.instance.currentStamina = currentStamina;
+                }
+                lastAttackTime = Time.time;
+                Debug.Log($"[Shoot] 스태미나 소모: {shootStaminaCost}, 남은 스태미나: {currentStamina}");
+
                 Sound.Instance.PlaySFX(shootSound, 1f);
                 stretchTimer = 0f;
                 fireTimer = 0f;
             }
+            else
+            {
+                Debug.Log("스태미나가 부족하여 총 발사 불가!");
+            }
         }
 
-        
+        // **스태미나 회복 로직**
+        if (Time.time - lastAttackTime >= staminaRegenDelay && !isRegeneratingStamina && currentStamina < maxStamina)
+        {
+            staminaRegenCoroutine = StartCoroutine(RegenerateStamina());
+        }
 
         if (!isInvincible)
             SetAlpha(1f);
@@ -142,6 +181,9 @@ public class Player : Unit
 
             moveSpeed = PlayerStatus.instance.moveSpeed;
             criticalChance = PlayerStatus.instance.criticalChance;
+
+            currentStamina = PlayerStatus.instance.currentStamina;
+            maxStamina = PlayerStatus.instance.maxStamina;
         }
     }
     private void LateUpdate()
@@ -197,7 +239,6 @@ public class Player : Unit
     {
         if (isStretching)
         {
-            // 펀치 애니메이션이 끝날 때까지 이동을 막음
             player_rb.velocity = new Vector2(0f, player_rb.velocity.y);
             animator.SetBool("isRunning", false);
             return;
@@ -219,7 +260,7 @@ public class Player : Unit
         animator.SetBool("isRunning", moveX != 0);
 
         Vector2 velocity = player_rb.velocity;
-        velocity.x = moveX * moveSpeed; // 속도 조절
+        velocity.x = moveX * moveSpeed;
         player_rb.velocity = velocity;
 
         float tiltAngle = 10f;
@@ -242,16 +283,13 @@ public class Player : Unit
         transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * 30f);
     }
 
-    void Fire() // 총알 발사
+    void Fire() // 총알 발사 (탄약 시스템 제거)
     {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
         Vector2 direction = (mouseWorldPos - weaponSpawnPoint.position).normalized;
 
         GameObject bullet = Instantiate(bulletPrefab, weaponSpawnPoint.position, Quaternion.identity);
-        currentAmmo--;
-        Debug.Log($"[Fire] 탄: {currentAmmo}/{maxAmmo}");
-        playerUI.UpdateBulletGauge(currentAmmo, maxAmmo);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
         if (bulletRb != null)
@@ -274,16 +312,46 @@ public class Player : Unit
         Destroy(bullet, 1f);
         StartCoroutine(QuickStretch());
     }
-    IEnumerator Reload()
+
+    // **스태미나 회복 중단 함수**
+    void StopStaminaRegen()
     {
-        isReloading = true;
-        Debug.Log("재장전 중...");
-        float interval = reloadTime / (maxAmmo - currentAmmo); // 딱 맞춰 분할
-        yield return StartCoroutine(playerUI.ReloadBulletGauge(currentAmmo, maxAmmo, interval));
-        currentAmmo = maxAmmo;
-        isReloading = false;
-        Debug.Log("재장전 완료");
+        if (staminaRegenCoroutine != null)
+        {
+            StopCoroutine(staminaRegenCoroutine);
+            isRegeneratingStamina = false;
+            staminaRegenCoroutine = null;
+        }
     }
+
+    // **스태미나 회복 코루틴**
+    IEnumerator RegenerateStamina()
+    {
+        isRegeneratingStamina = true;
+        Debug.Log("스태미나 회복 시작...");
+
+        while (currentStamina < maxStamina)
+        {
+            currentStamina = Mathf.Min(currentStamina + staminaRegenRate * Time.deltaTime, maxStamina);
+            if (PlayerStatus.instance != null)
+            {
+                PlayerStatus.instance.currentStamina = currentStamina;
+            }
+            yield return null;
+        }
+
+        currentStamina = maxStamina;
+        if (PlayerStatus.instance != null)
+        {
+            PlayerStatus.instance.currentStamina = currentStamina;
+        }
+        
+        isRegeneratingStamina = false;
+        staminaRegenCoroutine = null;
+        Debug.Log("스태미나 회복 완료!");
+    }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
@@ -319,7 +387,20 @@ public class Player : Unit
             }
         }
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (isInvincible) return;
 
+        if (other.CompareTag("Poop"))
+        {
+            if (other.bounds.Intersects(GetComponent<Collider2D>().bounds))
+            {
+                TakeDamage(10f);
+                Sound.Instance.PlaySFX(glove_punchSound);
+                StartCoroutine(TriggerInvincibility());
+            }
+        }
+    }
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
@@ -329,9 +410,8 @@ public class Player : Unit
     IEnumerator StretchNeckAnim()
     {
         isStretching = true;
-        // isNeckAttacking = true;
         neckCollider.enabled = true;
-        
+
         fixedNeckTarget = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         fixedNeckTarget.z = 0;
 
@@ -340,10 +420,8 @@ public class Player : Unit
 
         yield return rotationFix;
         yield return neckStretch;
-        
 
         neckCollider.enabled = false;
-        // isNeckAttacking = false;
         isStretching = false;
     }
 
@@ -358,27 +436,6 @@ public class Player : Unit
         transform.rotation = targetRotation;
     }
 
-    /*IEnumerator NeckStretchAnimSequence()
-    {
-        Vector3 originalScale = Vector3.one;
-
-        float distance = Vector2.Distance(neckTransform.position, fixedNeckTarget);
-        float spriteHeight = neckTransform.GetComponent<SpriteRenderer>().sprite.rect.height;
-        float unitPerPixel = neckTransform.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
-        float scaleY = distance / (spriteHeight / unitPerPixel);
-        Vector3 targetScale = new Vector3(1f, scaleY, 1f);
-
-        float stretchTime = 0.3f;
-        float returnTime = 0.3f;
-
-        animator.SetTrigger("Attack");
-        yield return ScaleOverTime(neckTransform, originalScale, targetScale, stretchTime);
-
-        animator.SetTrigger("Attack_reverse");
-        yield return ScaleOverTime(neckTransform, targetScale, originalScale, returnTime);
-
-        neckTransform.localScale = originalScale;
-    }*/
     IEnumerator NeckStretchAnimSequence()
     {
         Vector3 originalScale = Vector3.one;
@@ -400,13 +457,11 @@ public class Player : Unit
         Sound.Instance.PlaySFX(glove_readySound);
         yield return StartCoroutine(AnimateGlovePop(Vector3.zero, gloveOriginalScale, stretchTime));
         yield return new WaitForSeconds(gloveHoldTime);
-        //SoundManager.Instance.PlaySFX(glove_punchSound);
 
-        
         yield return StartCoroutine(AnimateGlovePop(gloveOriginalScale, gloveOriginalScale * 3f, 0.1f));
         yield return StartCoroutine(ScaleOverTime(neckTransform, originalScale, targetNeckScale, 0.1f));
         yield return new WaitForSeconds(0.15f);
-        
+
         animator.SetTrigger("attackReverse");
         Coroutine neckShrink = StartCoroutine(ScaleOverTime(neckTransform, targetNeckScale, originalScale, returnTime));
         yield return new WaitForSeconds(returnTime / 2f);
@@ -417,14 +472,11 @@ public class Player : Unit
         yield return neckShrink;
     }
 
-
-
     public void StartNeckStretch()
     {
         if (!isStretching)
             StartCoroutine(StretchNeckAnim());
     }
-
 
     IEnumerator ScaleOverTime(Transform tr, Vector3 from, Vector3 to, float duration)
     {
@@ -434,7 +486,7 @@ public class Player : Unit
             timer += Time.deltaTime;
             tr.localScale = Vector3.Lerp(from, to, timer / duration);
             yield return null;
-        }  
+        }
     }
     IEnumerator AnimateGlovePop(Vector3 from, Vector3 to, float duration)
     {
@@ -447,7 +499,6 @@ public class Player : Unit
             yield return null;
         }
     }
-
 
     IEnumerator QuickStretch()
     {

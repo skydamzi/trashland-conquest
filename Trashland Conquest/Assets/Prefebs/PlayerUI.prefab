@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1829007746910184556}
   - component: {fileID: 9152237968106031842}
   m_Layer: 5
-  m_Name: EXP_UI
+  m_Name: Stamina_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: 300, y: 20}
+  m_AnchoredPosition: {x: 0, y: -28}
+  m_SizeDelta: {x: 400, y: 20}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &1829007746910184556
 CanvasRenderer:
@@ -77,6 +77,81 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1514265008748144949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1150291407685263613}
+  - component: {fileID: 6650543233153439336}
+  - component: {fileID: 2706359156788491092}
+  m_Layer: 5
+  m_Name: Portrait
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1150291407685263613
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514265008748144949}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: -0.3, y: 0.3, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 994496213087253027}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -241, y: 15}
+  m_SizeDelta: {x: 300, y: 425}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6650543233153439336
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514265008748144949}
+  m_CullTransparentMesh: 1
+--- !u!114 &2706359156788491092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514265008748144949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 1b4ba183605819f418bab8b636e0532a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2377745483812560737
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +170,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5099409449144936869
 RectTransform:
   m_ObjectHideFlags: 0
@@ -190,7 +265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2709987099467593385
 RectTransform:
   m_ObjectHideFlags: 0
@@ -285,7 +360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4125014895424719195
 RectTransform:
   m_ObjectHideFlags: 0
@@ -380,7 +455,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6060103738305697804
 RectTransform:
   m_ObjectHideFlags: 0
@@ -475,7 +550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &628663663918150174
 RectTransform:
   m_ObjectHideFlags: 0
@@ -570,7 +645,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &856207479074358796
 RectTransform:
   m_ObjectHideFlags: 0
@@ -587,7 +662,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -67.7, y: 33}
+  m_AnchoredPosition: {x: 27, y: 725}
   m_SizeDelta: {x: 33.8037, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &922289309366600557
@@ -620,11 +695,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: d0541114b5b0aa249948ce8364a3cfc4, type: 3}
-    m_FontSize: 25
+    m_FontSize: 80
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 40
+    m_MaxSize: 80
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -683,7 +758,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 30}
+  m_SizeDelta: {x: 3, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5216768628815621781
 CanvasRenderer:
@@ -760,7 +835,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2607354351729030801
 RectTransform:
   m_ObjectHideFlags: 0
@@ -886,13 +961,14 @@ RectTransform:
   - {fileID: 4021253493070019856}
   - {fileID: 4593971194150725683}
   - {fileID: 9191903489798152626}
+  - {fileID: 1150291407685263613}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 30}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 150, y: -70}
+  m_SizeDelta: {x: 400, y: 40}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &310252878908332819
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -947,8 +1023,8 @@ MonoBehaviour:
   fillRT: {fileID: 4021253493070019856}
   shieldRT: {fileID: 4593971194150725683}
   hpText: {fileID: 6739334981586181446}
-  expRT: {fileID: 6003753016037687804}
-  expText: {fileID: 1919978555193263168}
+  expRT: {fileID: 0}
+  expText: {fileID: 0}
   attack_powerText: {fileID: 1707317133998218017}
   armorText: {fileID: 3404913369483944159}
   levelText: {fileID: 7494352777711465714}
@@ -962,6 +1038,8 @@ MonoBehaviour:
   pesticideText: {fileID: 3284460081490266169}
   purifiedWaterText: {fileID: 2713452927134212004}
   bulletGaugeText: {fileID: 7902599580588095918}
+  staminaFillRT: {fileID: 6003753016037687804}
+  staminaText: {fileID: 0}
 --- !u!1 &4541765343764100932
 GameObject:
   m_ObjectHideFlags: 0
@@ -1055,7 +1133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1984898349380659955
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1150,7 +1228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6016470857852546749
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1240,7 +1318,7 @@ GameObject:
   - component: {fileID: 1919978555193263168}
   - component: {fileID: 9111451723267021267}
   m_Layer: 5
-  m_Name: EXP
+  m_Name: Stamina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1306,7 +1384,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: EXP
+  m_Text: 
 --- !u!114 &9111451723267021267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1340,7 +1418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9220319955860408286
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1357,7 +1435,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -133.09814, y: 33}
+  m_AnchoredPosition: {x: -133.09814, y: 730}
   m_SizeDelta: {x: 33.8037, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5896374474978690869
@@ -1390,11 +1468,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: d0541114b5b0aa249948ce8364a3cfc4, type: 3}
-    m_FontSize: 40
+    m_FontSize: 120
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 40
+    m_MaxSize: 120
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1585,7 +1663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2726230049240914898
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1680,7 +1758,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7528143331543083407
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1775,7 +1853,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4541792211421647279
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1870,7 +1948,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6237784683718094237
 RectTransform:
   m_ObjectHideFlags: 0

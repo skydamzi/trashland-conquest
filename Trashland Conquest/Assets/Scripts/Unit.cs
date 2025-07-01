@@ -15,6 +15,10 @@ abstract public class Unit : MonoBehaviour
     public float maxShield;         // 최대 실드
     public float currentHP;         // 현재 체력
     public float maxHP;             // 최대 체력
+    public float maxStamina;       // 최대 스태미나
+    public float currentStamina;    // 현재 스태미나
+
+    public float attackSpeed;       // 공격 속도
     public float criticalChance;    // 크리티컬 확률
     public float moveSpeed;         // 이동 속도
     public int currentEXP = 0;      // 현재 경험치
@@ -74,6 +78,8 @@ abstract public class Unit : MonoBehaviour
         maxEXP = PlayerStatus.instance.maxEXP;
         maxHP = PlayerStatus.instance.maxHP;
         currentHP = PlayerStatus.instance.currentHP;
+        maxStamina = PlayerStatus.instance.maxStamina;
+        currentStamina = PlayerStatus.instance.currentStamina;
 
         Debug.Log($"{PlayerStatus.instance.unitName} 레벨업! 현재 레벨: {unitLV}");
     }

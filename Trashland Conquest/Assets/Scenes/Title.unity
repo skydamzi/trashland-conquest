@@ -1819,15 +1819,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: "\uC2E0\uBCD1\uC774"
   unitLV: 1
-  baseAttackPower: 50
-  bonusAttackPower: 20
+  baseAttackPower: 25
+  bonusAttackPower: 0
   armor: 0
   bonusArmor: 0
   attackSpeed: 1
   currentHP: 100
   maxHP: 100
-  currentShield: 50
-  maxShield: 50
+  currentShield: 0
+  maxShield: 100
   criticalChance: 10
   moveSpeed: 5
   currentEXP: 0

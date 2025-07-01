@@ -17,6 +17,8 @@ public class PlayerStatus : MonoBehaviour
 
     public float currentHP = 100f;
     public float maxHP = 100f;
+    public float maxStamina = 100f;       // 최대 스태미나
+    public float currentStamina = 100f;    // 현재 스태미나
     public float currentShield = 50f;
     public float maxShield = 50f;
 

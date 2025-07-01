@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Poop : MonoBehaviour
+public class Poop : Boss
 {
     public float damage = 10f;
     public AudioClip hitSound; // 맞았을 때 효과음 (선택)
