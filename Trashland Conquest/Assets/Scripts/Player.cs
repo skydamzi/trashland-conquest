@@ -609,14 +609,18 @@ public class Player : Unit
     {
         float reducedDamage = Mathf.Max(rawDamage - armor, 1f);
 
+        // 쉴드가 0보다 크면 쉴드 카운트만 줄이고 데미지는 안 들어감
         if (currentShield > 0)
         {
-            float shieldHit = Mathf.Min(currentShield, reducedDamage);
-            currentShield -= shieldHit;
-            reducedDamage -= shieldHit;
+            currentShield--; // 쉴드 카운트 1 감소
+                             // 쉴드가 남아있으니까 HP는 안 줄어드는 거지. 
+                             // reducedDamage = 0; 같은 코드를 넣어도 되는데 어차피 쉴드 있으면 밑에서 HP 안 까니까 굳이?
+        }
+        else // 쉴드가 없으면 HP가 줄어들어야지 아 ㅋㅋㅋ
+        {
+            currentHP = Mathf.Max(currentHP - reducedDamage, 0);
         }
 
-        currentHP = Mathf.Max(currentHP - reducedDamage, 0);
         if (PlayerStatus.instance != null)
         {
             PlayerStatus.instance.currentHP = currentHP;

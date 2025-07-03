@@ -1828,8 +1828,8 @@ MonoBehaviour:
   maxHP: 100
   maxStamina: 100
   currentStamina: 100
-  currentShield: 100
-  maxShield: 100
+  currentShield: 5
+  maxShield: 5
   criticalChance: 10
   moveSpeed: 5
   currentEXP: 0

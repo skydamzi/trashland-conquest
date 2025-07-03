@@ -11,8 +11,8 @@ abstract public class Unit : MonoBehaviour
     public float baseAttackPower;   // 기본 공격력
     public float bonusAttackPower;  // 추가 공격력 (장비 등)
     public float armor;             // 방어력
-    public float currentShield;     // 현재 실드
-    public float maxShield;         // 최대 실드
+    public int currentShield;     // 현재 실드
+    public int maxShield;         // 최대 실드
     public float currentHP;         // 현재 체력
     public float maxHP;             // 최대 체력
     public float maxStamina;       // 최대 스태미나
