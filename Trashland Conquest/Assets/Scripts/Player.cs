@@ -66,9 +66,11 @@ public class Player : Unit
     public float punchStaminaCost = 15f;
     public float staminaRegenRate = 30f;
     public float staminaRegenDelay = 1.5f; // 1.5초로 변경
-    private float lastAttackTime;
-    private bool isRegeneratingStamina = false;
+    private float lastStaminaConsumedTime; // 마지막으로 스태미나를 소모한 시간으로 변경
     private Coroutine staminaRegenCoroutine; // 스태미나 회복 코루틴을 제어하기 위한 변수
+
+    // **스태미나 고갈 상태 추적 - 0이 되고 100% 회복까지 공격 금지**
+    private bool isStaminaDepleted = false; 
 
     void Start()
     {
@@ -81,8 +83,14 @@ public class Player : Unit
             gloveTransform.localScale = Vector3.zero;
             gloveTransform.gameObject.SetActive(false);
         }
-        // currentStamina = maxStamina; // Unit 클래스에서 초기화 가정
-        lastAttackTime = -staminaRegenDelay; // 시작하자마자 스태미나 회복 가능하도록
+        
+        // PlayerStatus.instance가 있다면 maxStamina를 초기화해줘야 함 (Unit 클래스에서 안 한다면)
+        if (PlayerStatus.instance != null) {
+            maxStamina = PlayerStatus.instance.maxStamina; // PlayerStatus에서 가져와서 maxStamina 설정
+            currentStamina = maxStamina; // 시작 시 스태미나 풀로 채움
+            PlayerStatus.instance.currentStamina = currentStamina; // PlayerStatus도 업데이트
+        }
+        lastStaminaConsumedTime = -staminaRegenDelay; // 시작하자마자 스태미나 회복 가능하도록 설정
     }
 
     void Update()
@@ -90,7 +98,7 @@ public class Player : Unit
         LookAt();
         Movement();
         Jump();
-        PlayerStatusUpdate();
+        PlayerStatusUpdate(); 
 
         fireTimer += Time.deltaTime;
         stretchTimer += Time.deltaTime;
@@ -104,57 +112,103 @@ public class Player : Unit
         wasGroundedLastFrame = isGrounded;
 
         // **펀치 공격 (오른쪽 마우스 버튼)**
+        // isStaminaDepleted 상태이거나, 목 늘이기 중이면 공격 불가
         if (Input.GetMouseButtonDown(1) && !isStretching)
         {
-            if (currentStamina >= punchStaminaCost)
+            // 스태미나가 고갈 상태가 아니고, 스태미나가 0보다 많을 때만 공격 시도 (자투리 스태미나 허용)
+            if (!isStaminaDepleted && currentStamina > 0) 
             {
-                StopStaminaRegen(); // 공격 시 스태미나 회복 중단
-                currentStamina -= punchStaminaCost;
+                // 공격 시 스태미나 회복 중단 (코루틴이 실행 중이면 멈춘다)
+                if (staminaRegenCoroutine != null)
+                {
+                    StopCoroutine(staminaRegenCoroutine);
+                    staminaRegenCoroutine = null;
+                }
+                
+                // 실제 소모될 스태미나 계산 (currentStamina가 punchStaminaCost보다 작으면 currentStamina만큼만 소모)
+                float staminaToConsume = Mathf.Min(currentStamina, punchStaminaCost);
+                currentStamina -= staminaToConsume;
+                
                 if (PlayerStatus.instance != null) // PlayerStatus에 깎인 값 업데이트
                 {
                     PlayerStatus.instance.currentStamina = currentStamina;
                 }
-                lastAttackTime = Time.time;
-                Debug.Log($"[Punch] 스태미나 소모: {punchStaminaCost}, 남은 스태미나: {currentStamina}");
+                lastStaminaConsumedTime = Time.time; // 스태미나 소모 시간 업데이트
+                Debug.Log($"[Punch] 스태미나 소모: {staminaToConsume}, 남은 스태미나: {currentStamina}");
 
                 animator.SetTrigger("attack");
-                StartCoroutine(StretchNeckAnim());
+                StartCoroutine(StretchNeckAnim()); // 이 부분은 원래대로 유지
+
+                // **스태미나가 0이 되면 고갈 상태로 전환**
+                if (currentStamina <= 0) // 스태미나가 0 이하가 되면 고갈 상태로!
+                {
+                    isStaminaDepleted = true; // 스태미나 고갈 플래그 ON
+                    Debug.Log("스태미나 고갈 상태 진입! 스태미나 0이다! 100% 회복까지 공격 불가!");
+                }
             }
-            else
+            else // 스태미나가 부족하거나 고갈 상태일 때
             {
-                Debug.Log("스태미나가 부족하여 펀치 공격 불가!");
+                Debug.Log($"펀치 공격 불가! (스태미나 고갈: {isStaminaDepleted}, 현재 스태미나: {currentStamina})"); 
             }
         }
 
         // **총 발사 (왼쪽 마우스 버튼)**
+        // isStaminaDepleted 상태이거나, 목 늘이기 중이면 공격 불가
         if (Input.GetMouseButton(0) && fireTimer >= fireRate && !isStretching)
         {
-            if (currentStamina >= shootStaminaCost)
+            // 스태미나가 고갈 상태가 아니고, 스태미나가 0보다 많을 때만 공격 시도 (자투리 스태미나 허용)
+            if (!isStaminaDepleted && currentStamina > 0) 
             {
-                StopStaminaRegen(); // 공격 시 스태미나 회복 중단
-                Fire();
-                currentStamina -= shootStaminaCost;
+                // 공격 시 스태미나 회복 중단
+                if (staminaRegenCoroutine != null)
+                {
+                    StopCoroutine(staminaRegenCoroutine);
+                    staminaRegenCoroutine = null;
+                }
+
+                Fire(); // 총 발사
+                // 실제 소모될 스태미나 계산 (currentStamina가 shootStaminaCost보다 작으면 currentStamina만큼만 소모)
+                float staminaToConsume = Mathf.Min(currentStamina, shootStaminaCost);
+                currentStamina -= staminaToConsume;
+
                 if (PlayerStatus.instance != null) // PlayerStatus에 깎인 값 업데이트
                 {
                     PlayerStatus.instance.currentStamina = currentStamina;
                 }
-                lastAttackTime = Time.time;
-                Debug.Log($"[Shoot] 스태미나 소모: {shootStaminaCost}, 남은 스태미나: {currentStamina}");
+                lastStaminaConsumedTime = Time.time; // 스태미나 소모 시간 업데이트
+                Debug.Log($"[Shoot] 스태미나 소모: {staminaToConsume}, 남은 스태미나: {currentStamina}");
 
                 Sound.Instance.PlaySFX(shootSound, 1f);
                 stretchTimer = 0f;
                 fireTimer = 0f;
+
+                // **스태미나가 0이 되면 고갈 상태로 전환**
+                if (currentStamina <= 0) // 스태미나가 0 이하가 되면 고갈 상태로!
+                {
+                    isStaminaDepleted = true; // 스태미나 고갈 플래그 ON
+                    Debug.Log("스태미나 고갈 상태 진입! 스태미나 0이다! 100% 회복까지 공격 불가!");
+                }
             }
-            else
+            else // 스태미나가 부족하거나 고갈 상태일 때
             {
-                Debug.Log("스태미나가 부족하여 총 발사 불가!");
+                Debug.Log($"총 발사 불가! (스태미나 고갈: {isStaminaDepleted}, 현재 스태미나: {currentStamina})");
             }
         }
 
         // **스태미나 회복 로직**
-        if (Time.time - lastAttackTime >= staminaRegenDelay && !isRegeneratingStamina && currentStamina < maxStamina)
+        // 스태미나가 최대치가 아니고, 회복 코루틴이 실행 중이 아니며, 회복 지연 시간이 지났을 때만 회복 시작
+        // isStaminaDepleted 상태와 관계없이 회복은 계속 진행되어야 함.
+        if (currentStamina < maxStamina && Time.time - lastStaminaConsumedTime >= staminaRegenDelay && staminaRegenCoroutine == null)
         {
             staminaRegenCoroutine = StartCoroutine(RegenerateStamina());
+        }
+        
+        // **isStaminaDepleted 상태 해제 로직 (핵심)**
+        // 스태미나가 꽉 찼을 때만 고갈 상태 해제!
+        if (isStaminaDepleted && currentStamina >= maxStamina) 
+        {
+            isStaminaDepleted = false;
+            Debug.Log("스태미나 100% 완전 회복! 고갈 상태 해제! 다시 공격 가능!");
         }
 
         if (!isInvincible)
@@ -181,9 +235,6 @@ public class Player : Unit
 
             moveSpeed = PlayerStatus.instance.moveSpeed;
             criticalChance = PlayerStatus.instance.criticalChance;
-
-            currentStamina = PlayerStatus.instance.currentStamina;
-            maxStamina = PlayerStatus.instance.maxStamina;
         }
     }
     private void LateUpdate()
@@ -313,21 +364,12 @@ public class Player : Unit
         StartCoroutine(QuickStretch());
     }
 
-    // **스태미나 회복 중단 함수**
-    void StopStaminaRegen()
-    {
-        if (staminaRegenCoroutine != null)
-        {
-            StopCoroutine(staminaRegenCoroutine);
-            isRegeneratingStamina = false;
-            staminaRegenCoroutine = null;
-        }
-    }
-
     // **스태미나 회복 코루틴**
     IEnumerator RegenerateStamina()
     {
-        isRegeneratingStamina = true;
+        // 스태미나 회복 지연 시간 기다림
+        yield return new WaitForSeconds(staminaRegenDelay);
+
         Debug.Log("스태미나 회복 시작...");
 
         while (currentStamina < maxStamina)
@@ -340,14 +382,14 @@ public class Player : Unit
             yield return null;
         }
 
+        // 스태미나 완전 회복 완료!
         currentStamina = maxStamina;
         if (PlayerStatus.instance != null)
         {
             PlayerStatus.instance.currentStamina = currentStamina;
         }
         
-        isRegeneratingStamina = false;
-        staminaRegenCoroutine = null;
+        staminaRegenCoroutine = null; // 회복 코루틴 참조 제거
         Debug.Log("스태미나 회복 완료!");
     }
 
@@ -409,7 +451,7 @@ public class Player : Unit
 
     IEnumerator StretchNeckAnim()
     {
-        isStretching = true;
+        isStretching = true; // 목 늘이기 시작
         neckCollider.enabled = true;
 
         fixedNeckTarget = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -422,7 +464,7 @@ public class Player : Unit
         yield return neckStretch;
 
         neckCollider.enabled = false;
-        isStretching = false;
+        isStretching = false; // 목 늘이기 끝
     }
 
     IEnumerator RestoreRotation()
@@ -474,7 +516,7 @@ public class Player : Unit
 
     public void StartNeckStretch()
     {
-        if (!isStretching)
+        if (!isStretching) 
             StartCoroutine(StretchNeckAnim());
     }
 

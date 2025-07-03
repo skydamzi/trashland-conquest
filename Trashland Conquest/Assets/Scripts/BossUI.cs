@@ -44,7 +44,7 @@ public class BossUI : MonoBehaviour
                 lastHitTime = Time.time;
                 if (!isShaking)
                 {
-                    StartCoroutine(ShakeUI(fillRT, 0.1f, 3f));
+                    //StartCoroutine(ShakeUI(fillRT, 0.1f, 3f));
                     StartCoroutine(ShakeUI(GetComponent<RectTransform>(), 0.1f, 5f));
                 }
             }

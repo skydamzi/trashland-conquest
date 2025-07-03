@@ -930,7 +930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &994496213087253027
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1023,7 +1023,6 @@ MonoBehaviour:
   fillRT: {fileID: 4021253493070019856}
   shieldRT: {fileID: 4593971194150725683}
   hpText: {fileID: 6739334981586181446}
-  expRT: {fileID: 0}
   expText: {fileID: 0}
   attack_powerText: {fileID: 1707317133998218017}
   armorText: {fileID: 3404913369483944159}
@@ -1040,6 +1039,7 @@ MonoBehaviour:
   bulletGaugeText: {fileID: 7902599580588095918}
   staminaFillRT: {fileID: 6003753016037687804}
   staminaText: {fileID: 0}
+  staminaLerpSpeed: 15
 --- !u!1 &4541765343764100932
 GameObject:
   m_ObjectHideFlags: 0

@@ -307,6 +307,9 @@ MonoBehaviour:
   maxShield: 0
   currentHP: 0
   maxHP: 0
+  maxStamina: 0
+  currentStamina: 0
+  attackSpeed: 0
   criticalChance: 0
   moveSpeed: 0
   currentEXP: 0
@@ -322,7 +325,6 @@ MonoBehaviour:
   neckTransform: {fileID: 1725736524308197542}
   neckCollider: {fileID: 6593871736516076350}
   isNeckAttacking: 0
-  maxAmmo: 15
   gloveTransform: {fileID: 9106991703588079926}
   gloveOriginalScale: {x: 1, y: 1, z: 1}
   isPunchFrame: 0
@@ -333,7 +335,10 @@ MonoBehaviour:
   jump2ndSound: {fileID: 8300000, guid: 5c14c15463853ee40aeac198e97b1a4e, type: 3}
   glove_readySound: {fileID: 8300000, guid: 5491e7efa819fc14d86d91bbffc829db, type: 3}
   glove_punchSound: {fileID: 8300000, guid: 925b3574dfc99bd4cbfbd190e4382773, type: 3}
-  playerUI: {fileID: 4673424299650800296, guid: da79d025fd1263242af17dd5c2cea3dc, type: 3}
+  shootStaminaCost: 5
+  punchStaminaCost: 15
+  staminaRegenRate: 50
+  staminaRegenDelay: 0.5
 --- !u!50 &4349643468673513431
 Rigidbody2D:
   serializedVersion: 4

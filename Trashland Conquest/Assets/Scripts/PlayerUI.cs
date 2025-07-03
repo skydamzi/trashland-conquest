@@ -45,7 +45,10 @@ public class PlayerUI : MonoBehaviour
     private float prevBonusAtk = -1;
     private float prevArmor = -1;
     // **새로 추가: 이전 스태미나 값 추적**
-    private float prevStamina = -1f; // 스태미나 변화 감지용
+
+    // 스태미나 러프 보간을 위한 변수 추가
+    private float currentStaminaRate = 0f; // 현재 스태미나 바의 시각적 비율
+    public float staminaLerpSpeed = 1f; // 스태미나 바가 따라가는 속도. 이 값 낮추면 더 느리고 러프함
 
     private Dictionary<TraitSynergy.TraitType, int> prevTraits = new();
 
@@ -55,7 +58,12 @@ public class PlayerUI : MonoBehaviour
     {
         playerStatus = PlayerStatus.instance;
         traitSynergy = TraitSynergy.Instance;
-        
+        // 스태미나 바 초기화
+        if (playerStatus != null)
+        {
+            currentStaminaRate = playerStatus.currentStamina / playerStatus.maxStamina;
+            SetStaminaBar(currentStaminaRate);
+        }
     }
 
     void Update()
@@ -179,26 +187,24 @@ public class PlayerUI : MonoBehaviour
             yield return new WaitForSeconds(interval);
         }
     }
+
     void UpdateStamina()
     {
-        float currentStamina = Mathf.Max(playerStatus.currentStamina, 0); 
+        float targetStamina = Mathf.Max(playerStatus.currentStamina, 0); 
         float maxStamina = playerStatus.maxStamina;
+        float targetRate = targetStamina / maxStamina;
 
-        // **스태미나 값이 변경되었을 때만 업데이트**
-        if (currentStamina != prevStamina) 
+        // **스태미나 바를 Lerp로 부드럽게 움직임**
+        currentStaminaRate = Mathf.Lerp(currentStaminaRate, targetRate, Time.deltaTime * staminaLerpSpeed);
+        SetStaminaBar(currentStaminaRate); // 스태미나 바 크기 조절
+
+        // 스태미나 텍스트는 이전과 똑같이 즉시 업데이트
+        if (staminaText != null)
         {
-            float rate = currentStamina / maxStamina;
-            SetStaminaBar(rate); // 스태미나 바 크기 조절
-
-            // 스태미나 텍스트 업데이트 (예: 75 / 100)
-            if (staminaText != null)
-            {
-                staminaText.text = $"{Mathf.RoundToInt(currentStamina)} / {Mathf.RoundToInt(maxStamina)}";
-            }
-            // **이전 스태미나 값 업데이트 (이거 중요!)**
-            prevStamina = currentStamina; 
+            staminaText.text = $"{Mathf.RoundToInt(targetStamina)} / {Mathf.RoundToInt(maxStamina)}";
         }
     }
+
     public void SetHPbar(float rate)
     {
         fillRT.localScale = new Vector3(rate, 1f, 1f);
@@ -211,7 +217,7 @@ public class PlayerUI : MonoBehaviour
     
     public void SetStaminaBar(float rate)
     {
-         staminaFillRT.localScale = new Vector3(rate, 1f, 1f);
+        staminaFillRT.localScale = new Vector3(rate, 1f, 1f);
     }
 
     IEnumerator ShakeUI(RectTransform target, float duration = 0.1f, float magnitude = 5f)
