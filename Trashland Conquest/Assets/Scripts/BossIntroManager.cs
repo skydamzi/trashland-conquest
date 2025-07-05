@@ -54,6 +54,7 @@ public class BossIntroManager : MonoBehaviour
 
     private Player playerScript; // Player 스크립트 타입이 실제 프로젝트와 맞는지 확인해라.
     private ToxicWasteBoss bossScript; // ToxicWasteBoss 스크립트 타입이 실제 프로젝트와 맞는지 확인해라.
+    private Pause pauseScript; // Pause 스크립트 타입이 실제 프로젝트와 맞는지 확인해라.
 
     // 추가: VS 텍스트 회전 관련 변수
     [Header("VS 텍스트 회전 설정")]
@@ -114,10 +115,10 @@ public class BossIntroManager : MonoBehaviour
     {
         // --- 1. 준비 단계: 플레이어와 보스의 스크립트만 비활성화 ---
         if (playerScript != null) { playerScript.enabled = false; Debug.Log("플레이어 스크립트 비활성화!"); }
-        else Debug.LogError("플레이어 스크립트가 null이라 비활성화 실패!"); 
+        else Debug.LogError("플레이어 스크립트가 null이라 비활성화 실패!");
         if (bossScript != null) { bossScript.enabled = false; Debug.Log("보스 스크립트 비활성화!"); }
-        else Debug.LogError("보스 스크립트가 null이라 비활성화 실패!"); 
-        
+        else Debug.LogError("보스 스크립트가 null이라 비활성화 실패!");
+
         // 2. 원래 카메라 위치랑 2D 사이즈 저장
         originalCameraPos = mainCamera.transform.position;
         originalCameraOrthoSize = mainCamera.orthographicSize;
@@ -141,29 +142,29 @@ public class BossIntroManager : MonoBehaviour
 
         // --- 4. VS 화면 띄우기 및 등장 연출 시작! ---
         if (vsScreenUI != null) vsScreenUI.SetActive(true);
-        
+
         // VS 연출을 위한 초기 설정
-        float finalPlayerXPos = -275f; 
-        float finalBossXPos = 275f;   
-        float charVerticalPos = 0f; 
+        float finalPlayerXPos = -275f;
+        float finalBossXPos = 275f;
+        float charVerticalPos = 0f;
 
         // Screen.width 대신 RectTransform의 부모 크기를 기준으로 하는 게 더 정확할 수 있다.
         // 하지만 일단 Screen.width로 간다. UI 캔버스 설정에 따라 다름.
-        Vector2 playerInitialPos = new Vector2(-Screen.width / 2f - playerVsImage.rect.width, charVerticalPos); 
-        Vector2 bossInitialPos = new Vector2(Screen.width / 2f + bossVsImage.rect.width, charVerticalPos);     
-        Vector2 playerPreImpactPos = new Vector2(finalPlayerXPos - charPushBackAmount + 200f, charVerticalPos); 
-        Vector2 bossPreImpactPos = new Vector2(finalBossXPos + charPushBackAmount - 200f, charVerticalPos);     
-        Vector2 playerPushBackPos = new Vector2(finalPlayerXPos - (charPushBackAmount * 1.5f), charVerticalPos); 
-        Vector2 bossPushBackPos = new Vector2(finalBossXPos + (charPushBackAmount * 1.5f), charVerticalPos);     
+        Vector2 playerInitialPos = new Vector2(-Screen.width / 2f - playerVsImage.rect.width, charVerticalPos);
+        Vector2 bossInitialPos = new Vector2(Screen.width / 2f + bossVsImage.rect.width, charVerticalPos);
+        Vector2 playerPreImpactPos = new Vector2(finalPlayerXPos - charPushBackAmount + 200f, charVerticalPos);
+        Vector2 bossPreImpactPos = new Vector2(finalBossXPos + charPushBackAmount - 200f, charVerticalPos);
+        Vector2 playerPushBackPos = new Vector2(finalPlayerXPos - (charPushBackAmount * 1.5f), charVerticalPos);
+        Vector2 bossPushBackPos = new Vector2(finalBossXPos + (charPushBackAmount * 1.5f), charVerticalPos);
         Vector2 playerFinalPos = new Vector2(finalPlayerXPos, charVerticalPos);
         Vector2 bossFinalPos = new Vector2(finalBossXPos, charVerticalPos);
 
 
         if (playerVsImage != null) playerVsImage.anchoredPosition = playerInitialPos;
         if (bossVsImage != null) bossVsImage.anchoredPosition = bossInitialPos;
-        if (vsText != null) 
+        if (vsText != null)
         {
-            vsText.localScale = Vector3.one * vsTextStartScale; 
+            vsText.localScale = Vector3.one * vsTextStartScale;
             vsText.localRotation = Quaternion.Euler(0, 0, vsTextStartRotation); // 초기 회전값 설정
         }
 
@@ -186,12 +187,12 @@ public class BossIntroManager : MonoBehaviour
         Debug.Log("VS 연출: 캐릭터 충돌 및 반복 밀려남 연출 시작!");
 
         // VS 텍스트 확대 연출을 동시에 시작
-        StartCoroutine(VsTextScaleRoutine()); 
+        StartCoroutine(VsTextScaleRoutine());
 
 
         // --- 1회차 충돌 및 제자리 복귀 ---
         // 1단계: 밀려남 (1회차)
-        if (impactSound != null) audioSource.PlayOneShot(impactSound); 
+        if (impactSound != null) audioSource.PlayOneShot(impactSound);
         float pushBackTimer = 0f;
         while (pushBackTimer < charPushBackDuration)
         {
@@ -212,7 +213,7 @@ public class BossIntroManager : MonoBehaviour
             yield return null;
         }
 
-        
+
         // 최종 위치 보정
         if (playerVsImage != null) playerVsImage.anchoredPosition = playerFinalPos;
         if (bossVsImage != null) bossVsImage.anchoredPosition = bossFinalPos;
@@ -232,42 +233,42 @@ public class BossIntroManager : MonoBehaviour
         if (slideOutSound != null) audioSource.PlayOneShot(slideOutSound); // 퇴장 사운드
 
         // 퇴장 목표 위치 (화면 밖)
-        Vector2 playerExitPos = new Vector2(-Screen.width / 2f - playerVsImage.rect.width, charVerticalPos); 
-        Vector2 bossExitPos = new Vector2(Screen.width / 2f + bossVsImage.rect.width, charVerticalPos);     
-        
+        Vector2 playerExitPos = new Vector2(-Screen.width / 2f - playerVsImage.rect.width, charVerticalPos);
+        Vector2 bossExitPos = new Vector2(Screen.width / 2f + bossVsImage.rect.width, charVerticalPos);
+
         // VS 텍스트 축소 목표 크기
         Vector3 vsTextShrinkTargetScale = Vector3.one * vsTextStartScale; // 시작 크기 (0)로 다시 줄어들게
         // VS 텍스트 회전 목표 각도 (다시 원래 시작 회전 각도로 돌아가게)
-        Quaternion vsTextShrinkTargetRotation = Quaternion.Euler(0, 0, vsTextStartRotation); 
+        Quaternion vsTextShrinkTargetRotation = Quaternion.Euler(0, 0, vsTextStartRotation);
 
         float exitTimer = 0f;
         // 캐릭터 퇴장 시간과 VS 텍스트 축소 시간 중 더 긴 시간을 기준으로 루프를 돌림
         float maxExitDuration = Mathf.Max(charSlideOutDuration, vsTextShrinkDuration);
 
-        while (exitTimer < maxExitDuration) 
+        while (exitTimer < maxExitDuration)
         {
             exitTimer += Time.deltaTime;
             float t_char = exitTimer / charSlideOutDuration; // 캐릭터 퇴장 Lerp를 위한 t
             float t_vsText = exitTimer / vsTextShrinkDuration; // VS 텍스트 축소 Lerp를 위한 t
-            
+
             // 캐릭터 퇴장 (charSlideOutDuration에 맞춰 진행)
             if (playerVsImage != null) playerVsImage.anchoredPosition = Vector2.Lerp(playerFinalPos, playerExitPos, Mathf.Clamp01(t_char));
             if (bossVsImage != null) bossVsImage.anchoredPosition = Vector2.Lerp(bossFinalPos, bossExitPos, Mathf.Clamp01(t_char));
-            
+
             // VS 텍스트 축소 및 회전 (vsTextShrinkDuration에 맞춰 진행)
-            if (vsText != null) 
+            if (vsText != null)
             {
-                vsText.localScale = Vector3.Lerp(Vector3.one * vsTextEndScale, vsTextShrinkTargetScale, Mathf.Clamp01(t_vsText)); 
+                vsText.localScale = Vector3.Lerp(Vector3.one * vsTextEndScale, vsTextShrinkTargetScale, Mathf.Clamp01(t_vsText));
                 // 회전에도 SmoothStep 적용
                 vsText.localRotation = Quaternion.Slerp(Quaternion.Euler(0, 0, vsTextEndRotation), vsTextShrinkTargetRotation, Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t_vsText)));
             }
-            
+
             yield return null;
         }
         // 최종적으로 위치 및 스케일 보정 (완전히 화면 밖으로, 스케일 0)
         if (playerVsImage != null) playerVsImage.anchoredPosition = playerExitPos;
         if (bossVsImage != null) bossVsImage.anchoredPosition = bossExitPos;
-        if (vsText != null) 
+        if (vsText != null)
         {
             vsText.localScale = vsTextShrinkTargetScale; // 최종 스케일 적용 (0으로 완전히 사라지도록)
             vsText.localRotation = vsTextShrinkTargetRotation; // 최종 회전 적용
