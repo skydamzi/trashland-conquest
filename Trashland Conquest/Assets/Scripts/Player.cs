@@ -95,6 +95,7 @@ public class Player : Unit
 
     void Update()
     {
+        if (Pause.isPaused) return;
         LookAt();
         Movement();
         Jump();
