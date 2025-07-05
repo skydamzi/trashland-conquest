@@ -1658,7 +1658,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1464171131}
+  - {fileID: 1429213495}
   - {fileID: 920670945}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1853,7 +1853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 140163710}
   offset: {x: 0, y: 3, z: -10}
---- !u!1001 &1464171130
+--- !u!1001 &1429213494
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1887,11 +1887,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 994496213087253027, guid: da79d025fd1263242af17dd5c2cea3dc, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 994496213087253027, guid: da79d025fd1263242af17dd5c2cea3dc, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 994496213087253027, guid: da79d025fd1263242af17dd5c2cea3dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1923,11 +1923,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 994496213087253027, guid: da79d025fd1263242af17dd5c2cea3dc, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 994496213087253027, guid: da79d025fd1263242af17dd5c2cea3dc, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -70
+      value: -80
       objectReference: {fileID: 0}
     - target: {fileID: 994496213087253027, guid: da79d025fd1263242af17dd5c2cea3dc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1954,10 +1954,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da79d025fd1263242af17dd5c2cea3dc, type: 3}
---- !u!224 &1464171131 stripped
+--- !u!224 &1429213495 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 994496213087253027, guid: da79d025fd1263242af17dd5c2cea3dc, type: 3}
-  m_PrefabInstance: {fileID: 1464171130}
+  m_PrefabInstance: {fileID: 1429213494}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1604708340
 GameObject:
