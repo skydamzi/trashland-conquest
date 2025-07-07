@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class BossIntroManager : MonoBehaviour
 {
+    public bool IsIntroPlaying { get; private set; } 
     [Header("카메라 & 타겟")]
     public Camera mainCamera;
     public Transform player; 
@@ -61,14 +62,15 @@ public class BossIntroManager : MonoBehaviour
     public float vsTextStartRotation = -180f; // 시작 회전 각도
     public float vsTextEndRotation = 0f;      // 최종 회전 각도
 
-    void Awake() 
+    void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        if (audioSource == null) 
+        if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false;
         }
+        IsIntroPlaying = false; 
     }
 
     void Start()
@@ -107,10 +109,24 @@ public class BossIntroManager : MonoBehaviour
             if (bossScript == null) Debug.LogError("BossIntroManager: Boss Transform에 ToxicWasteBoss 스크립트가 없습니다!");
         }
         else Debug.LogError("BossIntroManager: Boss Transform이 할당되지 않았습니다!");
+        IsIntroPlaying = true;
 
         StartCoroutine(BossIntroSequence());
     }
-
+    void Update()
+    {
+        // 인트로 시퀀스가 진행 중일 때만 ESC 키 입력을 처리
+        if (IsIntroPlaying)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                // 인트로가 진행 중일 때 ESC가 눌리면 아무것도 하지 않고 무시한다.
+                Debug.Log("보스 인트로 시퀀스 중에는 ESC를 눌러도 효과가 없습니다.");
+                // 필요하다면 여기에 "인스턴스를 건너뛸 수 없습니다" 같은 텍스트 UI를 잠시 띄워줄 수도 있다.
+                return; // 중요한 건 여기서 바로 리턴해서 다른 로직이 실행되지 않게 하는 것!
+            }
+        }
+    }
     private IEnumerator BossIntroSequence()
     {
         // --- 1. 준비 단계: 플레이어와 보스의 스크립트만 비활성화 ---
@@ -309,7 +325,7 @@ public class BossIntroManager : MonoBehaviour
             // 보스 UI는 아래에서 위로 (시작 위치는 아래, 목표 위치는 원래 위치)
             StartCoroutine(SlideInUI(bossUI.transform, bossUIOriginalLocalPosition, uiSlideInDuration));
         }
-
+        IsIntroPlaying = false;
         Debug.Log("보스전 시작!");
 
         if (playerScript != null) { playerScript.enabled = true; Debug.Log("플레이어 스크립트 활성화!"); }
