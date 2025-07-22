@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Boss : Unit
 {
    // public GameObject playerObject;
-    private Player player;
+    protected Player player;
     public Text damageText;
     public AudioClip glove_punchSound; 
     public DPSMeter dpsMeter;

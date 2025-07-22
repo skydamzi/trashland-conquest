@@ -13,8 +13,8 @@ public class ToxicWasteBoss : Boss
     public Transform bombArcPoint;               // 던지는 기준점 (보스 머리 위쪽)
 
     public float poopInterval = 0.05f;           // 똥 떨어지는 간격
-    public float arcHeight = 15f;                // 똥 곡사 높이
-    public float dropRangeX = 0.5f;              // 좌우 범위 (보스 기준)
+    public float arcHeight = 5f;                // 똥 곡사 높이
+    public float dropRangeX = 100f;              // 좌우 범위 (보스 기준)
     public float dropOffsetY = 0f;               // 드롭 위치 y 오프셋
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
@@ -27,8 +27,8 @@ public class ToxicWasteBoss : Boss
     public float puddleDuration = 5f;            // 장판 지속 시간
     public int numberOfPuddlePoops = 3;          // 장판 똥 발사 개수
     public float puddlePoopInterval = 1.0f;      // 장판 똥 사이의 발사 간격 (기존 poopInterval보다 길게)
-    public float puddleArcHeight = 10f;          // 장판 똥 곡사 높이 (다르게 줄 수도 있음)
-    public float puddleDropRangeX = 2f;          // 장판 똥 좌우 범위 (더 넓게 줄 수도 있음)
+    public float puddleArcHeight = 5f;          // 장판 똥 곡사 높이 (다르게 줄 수도 있음)
+    public float puddleDropRangeX = 20f;          // 장판 똥 좌우 범위 (더 넓게 줄 수도 있음)
 
 
     // **추가: CanAct 플래그 (다른 스크립트에서 제어 안 하려면 그냥 내부용으로 씀)**
@@ -260,7 +260,7 @@ public class ToxicWasteBoss : Boss
 
         Vector2 velocityY = Vector2.up * Mathf.Sqrt(2 * gravity * height);
 
-        float xForceMultiplier = 0.25f; // 이 값은 조절해야 할 수 있음. 똥이 날아가는 속도에 영향.
+        float xForceMultiplier = 0.35f; // 이 값은 조절해야 할 수 있음. 똥이 날아가는 속도에 영향.
         Vector2 velocityXZ = (displacementXZ / totalTime) * xForceMultiplier;
 
         return velocityXZ + velocityY;

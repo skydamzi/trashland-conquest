@@ -948,7 +948,7 @@ GameObject:
   - component: {fileID: 538967802}
   - component: {fileID: 538967803}
   - component: {fileID: 538967804}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BossHitbox
   m_TagString: Boss
   m_Icon: {fileID: 0}
@@ -1643,9 +1643,9 @@ GameObject:
   - component: {fileID: 971634405}
   - component: {fileID: 971634403}
   - component: {fileID: 971634404}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Boss
-  m_TagString: Floor
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1825,7 +1825,7 @@ MonoBehaviour:
   bombArcPoint: {fileID: 971634401}
   poopInterval: 0.05
   arcHeight: 5
-  dropRangeX: 100
+  dropRangeX: 50
   dropOffsetY: 0
   maxRedColor: {r: 1, g: 0.3, b: 0.3, a: 1}
   puddlePoopPrefab: {fileID: 3102443856085072580, guid: 77b193f3385c55840abe00a248f22a8f, type: 3}
@@ -1833,8 +1833,8 @@ MonoBehaviour:
   puddleDuration: 5
   numberOfPuddlePoops: 3
   puddlePoopInterval: 1
-  puddleArcHeight: 10
-  puddleDropRangeX: 2
+  puddleArcHeight: 3
+  puddleDropRangeX: 50
 --- !u!1 &981448246 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3396686800821570963, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
