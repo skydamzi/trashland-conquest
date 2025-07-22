@@ -1776,6 +1776,13 @@ MonoBehaviour:
   dropRangeX: 100
   dropOffsetY: 0
   maxRedColor: {r: 1, g: 0.3, b: 0.3, a: 1}
+  puddlePoopPrefab: {fileID: 3102443856085072580, guid: d0ea982f741a66949905550ba9bf1099, type: 3}
+  puddlePrefab: {fileID: 3102443856085072580, guid: 77b193f3385c55840abe00a248f22a8f, type: 3}
+  puddleDuration: 5
+  numberOfPuddlePoops: 3
+  puddlePoopInterval: 1
+  puddleArcHeight: 10
+  puddleDropRangeX: 2
 --- !u!1 &981448246 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3396686800821570963, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
