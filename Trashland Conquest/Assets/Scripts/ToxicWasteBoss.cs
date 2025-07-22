@@ -1,30 +1,34 @@
 using System.Collections;
+
 using System.Collections.Generic;
+
 using UnityEngine;
+
+
 
 public class ToxicWasteBoss : Boss
 {
     [Header("Poop Rain Settings")]
-    public GameObject gooBombPrefab;            // 떨어지는 똥 프리팹
-    public Transform bombArcPoint;              // 던지는 기준점 (보스 머리 위쪽)
+    public GameObject gooBombPrefab;             // 떨어지는 똥 프리팹
+    public Transform bombArcPoint;               // 던지는 기준점 (보스 머리 위쪽)
 
-    public float poopInterval = 0.05f;          // 똥 떨어지는 간격
-    public float arcHeight = 15f;               // 똥 곡사 높이
-    public float dropRangeX = 0.5f;             // 좌우 범위 (보스 기준)
-    public float dropOffsetY = 0f;              // 드롭 위치 y 오프셋
+    public float poopInterval = 0.05f;           // 똥 떨어지는 간격
+    public float arcHeight = 15f;                // 똥 곡사 높이
+    public float dropRangeX = 0.5f;              // 좌우 범위 (보스 기준)
+    public float dropOffsetY = 0f;               // 드롭 위치 y 오프셋
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     public Color maxRedColor = new Color(1f, 0.3f, 0.3f, 1f); // 완전 빨간 느낌
 
     // **추가: 장판 똥 패턴 설정**
     [Header("Puddle Poop Settings")]
-    public GameObject puddlePoopPrefab;         // 장판을 남길 똥 프리팹 (gooBombPrefab과 다를 수 있음)
-    public GameObject puddlePrefab;             // 땅에 닿으면 생성될 장판 프리팹
-    public float puddleDuration = 5f;           // 장판 지속 시간
-    public int numberOfPuddlePoops = 3;         // 장판 똥 발사 개수
-    public float puddlePoopInterval = 1.0f;     // 장판 똥 사이의 발사 간격 (기존 poopInterval보다 길게)
-    public float puddleArcHeight = 10f;         // 장판 똥 곡사 높이 (다르게 줄 수도 있음)
-    public float puddleDropRangeX = 2f;         // 장판 똥 좌우 범위 (더 넓게 줄 수도 있음)
+    public GameObject puddlePoopPrefab;          // 장판을 남길 똥 프리팹 (gooBombPrefab과 다를 수 있음)
+    public GameObject puddlePrefab;              // 땅에 닿으면 생성될 장판 프리팹
+    public float puddleDuration = 5f;            // 장판 지속 시간
+    public int numberOfPuddlePoops = 3;          // 장판 똥 발사 개수
+    public float puddlePoopInterval = 1.0f;      // 장판 똥 사이의 발사 간격 (기존 poopInterval보다 길게)
+    public float puddleArcHeight = 10f;          // 장판 똥 곡사 높이 (다르게 줄 수도 있음)
+    public float puddleDropRangeX = 2f;          // 장판 똥 좌우 범위 (더 넓게 줄 수도 있음)
 
 
     // **추가: CanAct 플래그 (다른 스크립트에서 제어 안 하려면 그냥 내부용으로 씀)**
@@ -47,7 +51,7 @@ public class ToxicWasteBoss : Boss
     {
         Debug.Log("ToxicWasteBoss: OnEnable 호출됨. 패턴 코루틴 시작 시도.");
 
-        _canAct = true; 
+        _canAct = true;
 
         if (poopRoutine != null)
         {
@@ -66,7 +70,7 @@ public class ToxicWasteBoss : Boss
         if (poopRoutine != null)
         {
             StopCoroutine(poopRoutine);
-            poopRoutine = null; 
+            poopRoutine = null;
         }
         if (activePoopCoroutine != null) // 중첩된 코루틴도 멈춰야 함
         {
@@ -88,8 +92,8 @@ public class ToxicWasteBoss : Boss
         {
             if (!_canAct)
             {
-                yield return null; 
-                continue; 
+                yield return null;
+                continue;
             }
             DropPoop(gooBombPrefab, bombArcPoint.position, arcHeight, dropRangeX); // 일반 똥 드롭
             yield return new WaitForSeconds(poopInterval);
@@ -104,7 +108,7 @@ public class ToxicWasteBoss : Boss
         {
             if (!_canAct) { yield break; } // 중간에 캔액트 꺼지면 중지
 
-            // 장판 똥 드롭 (PuddlePoopPrefab 사용)
+            // 장판을 남길 똥을 드롭 (PuddlePoopPrefab 사용)
             DropPoop(puddlePoopPrefab, bombArcPoint.position, puddleArcHeight, puddleDropRangeX, true); 
             yield return new WaitForSeconds(puddlePoopInterval);
         }
@@ -119,7 +123,7 @@ public class ToxicWasteBoss : Boss
         {
             if (!_canAct)
             {
-                yield return null; 
+                yield return null;
                 continue;
             }
 
@@ -129,7 +133,7 @@ public class ToxicWasteBoss : Boss
             float poopTimer = 0f;
             for (float t = 0f; t < preWait; t += Time.deltaTime)
             {
-                if (!_canAct) { yield return null; break; } 
+                if (!_canAct) { yield return null; break; }
                 
                 float lerpFactor = t / preWait;
                 spriteRenderer.color = Color.Lerp(originalColor, maxRedColor, lerpFactor);
@@ -170,7 +174,7 @@ public class ToxicWasteBoss : Boss
             float recoverDuration = 0.5f;
             for (float t = 0f; t < recoverDuration; t += Time.deltaTime)
             {
-                if (!_canAct) { yield return null; break; } 
+                if (!_canAct) { yield return null; break; }
                 
                 float lerpFactor = t / recoverDuration;
                 spriteRenderer.color = Color.Lerp(maxRedColor, originalColor, lerpFactor);
@@ -191,7 +195,7 @@ public class ToxicWasteBoss : Boss
     // DropPoop 함수 수정: 프리팹, 시작점, 높이, 범위, 장판 여부를 인자로 받도록
     void DropPoop(GameObject poopToInstantiate, Vector2 startPoint, float arcH, float dropRX, bool isPuddlePoop = false)
     {
-        if (startPoint == null) // transform.position 대신 Vector2 startPoint로 받으므로 Null 체크는 덜 중요하지만, 그래도...
+        if (startPoint == null) 
         {
             Debug.LogWarning("발사 기준점 이상함!");
             return;
@@ -206,17 +210,34 @@ public class ToxicWasteBoss : Boss
         {
             rb.AddForce(CalculateArcForce(startPoint, targetPos, arcH), ForceMode2D.Impulse);
         }
+        else // Rigidbody2D가 없으면 경고 로그 (이전 오류 해결되면 이 로그는 안 뜰 것)
+        {
+            Debug.LogWarning($"ToxicWasteBoss: {poopToInstantiate.name}에 Rigidbody2D가 없습니다. 물리 적용 안 됨.");
+        }
 
-        // **추가: 장판 똥이라면 PuddlePoop 스크립트 붙여서 처리**
+        // **장판 똥이라면 PuddlePoop 스크립트 붙여서 처리**
         if (isPuddlePoop)
         {
             PuddlePoop puddlePoop = bomb.AddComponent<PuddlePoop>();
-            puddlePoop.puddlePrefab = puddlePrefab;
-            puddlePoop.puddleDuration = puddleDuration;
-            // PuddlePoop 스크립트에 필요한 다른 초기화값 전달
+            if (puddlePoop != null) // 컴포넌트 추가 성공 시에만 값 할당
+            {
+                puddlePoop.puddlePrefab = puddlePrefab;
+                puddlePoop.puddleDuration = puddleDuration;
+                Debug.Log($"ToxicWasteBoss: PuddlePoop 스크립트 추가 및 설정 완료! Prefab: {puddlePrefab?.name}, Duration: {puddleDuration}");
+                // PuddlePoop 스크립트가 스스로 삭제를 관리하므로, 여기서 bomb 삭제는 하지 않는다!
+                // Destroy(bomb, 5f); 이 줄은 삭제 또는 주석 처리해야 함
+            }
+            else
+            {
+                Debug.LogError("ToxicWasteBoss: PuddlePoop 컴포넌트를 추가할 수 없습니다! PuddlePoop 스크립트가 올바른지 확인하세요.");
+                // 컴포넌트 추가 실패 시에도 똥이 남아있지 않도록 일단 삭제.
+                Destroy(bomb, 5f); 
+            }
         }
-
-        Destroy(bomb, 5f); // 일단 기본적으로 5초 후 폭탄 삭제 (장판 똥은 PuddlePoop 스크립트에서 스스로 처리)
+        else // 일반 똥일 경우에만 5초 뒤 삭제 (원래 로직)
+        {
+            Destroy(bomb, 5f); // 일반 똥은 여기서 5초 뒤 삭제
+        }
     }
 
     // GetRandomDropPosition 함수 수정: 기준점과 범위를 인자로 받도록

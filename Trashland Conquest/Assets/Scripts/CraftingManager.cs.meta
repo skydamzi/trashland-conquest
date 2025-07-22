@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: 26000e3eccccc654a876f983a62efa5a
+guid: 091b58c073e99544681214b4a994db94
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - puddlePrefab: {fileID: 3102443856085072580, guid: a810e3b7e555dc845b0b1477178cd511, type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

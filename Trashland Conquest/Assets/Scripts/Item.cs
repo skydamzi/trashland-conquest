@@ -5,7 +5,9 @@ using UnityEngine;
 public enum ItemType
 {
     Consumable,
-    Equip
+    Equip, // 장비 아이템
+    Drink,    // 조합으로 만들어지는 음료 아이템
+    Other     // 기타 (쓰기 나름)
 }
 
 public enum EffectType
@@ -30,12 +32,15 @@ public enum Rarity
 public class Item : ScriptableObject
 {
     [Header("정보")]
-    public string itemName;
+    public string id;           // 아이템 고유 ID (예: "001_cow", "002_chocolate")
+    public string itemName;     // 아이템 이름 (예: "젖소", "초콜릿")
+    public string description;  // 아이템 설명 (조합 성공 메시지에 쓸 거다)
+
     public Sprite icon;
     public ItemType itemType;
 
     [Header("희귀도")]
-    public Rarity rarity = Rarity.Common;  // �⺻��: Common
+    public Rarity rarity = Rarity.Common;
 
     [Header("기본 효과")]
     public List<Effect> effects = new List<Effect>();
@@ -44,8 +49,6 @@ public class Item : ScriptableObject
     public List<TraitEffect> traitEffects = new List<TraitEffect>();
 
     [Header("설명")]
-    [TextArea]
-    public string description;
 
     // 드롭될 실제 프리팹
     public GameObject dropPrefab;
