@@ -652,7 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74fd0772fe8cfcc479fd216b979f8d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BGM: {fileID: 8300000, guid: 0e3e6f6cc7a725844acdb6b56e2016c8, type: 3}
+  BGM: {fileID: 8300000, guid: 356563e20deb72f4a98337714a80d558, type: 3}
   bgmVolume: 0.3
 --- !u!1 &748611584
 GameObject:

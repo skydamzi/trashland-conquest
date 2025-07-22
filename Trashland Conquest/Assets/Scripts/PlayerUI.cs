@@ -12,7 +12,6 @@ public class PlayerUI : MonoBehaviour
     // HP UI (니가 원래 준 것)
     public RectTransform fillRT; // HP 바 (fill)
     public Text hpText; // HP 텍스트
-
     // EXP UI (니가 주석 처리했기에 그대로 주석 유지)
     //public RectTransform expRT; // 경험치 바
     public Text expText; // 경험치 텍스트

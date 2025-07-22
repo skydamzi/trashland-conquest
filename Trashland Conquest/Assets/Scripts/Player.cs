@@ -60,16 +60,13 @@ public class Player : Unit
     public AudioClip glove_readySound;
     public AudioClip glove_punchSound;
 
-    // **스태미나 시스템 변수 수정 및 추가**
     [Header("Stamina System")]
     public float shootStaminaCost = 5f;
     public float punchStaminaCost = 15f;
     public float staminaRegenRate = 30f;
-    public float staminaRegenDelay = 1.5f; // 1.5초로 변경
+    public float staminaRegenDelay = 1.5f; // 스테미나 리젠 딜레이 시간
     private float lastStaminaConsumedTime; // 마지막으로 스태미나를 소모한 시간으로 변경
-    private Coroutine staminaRegenCoroutine; // 스태미나 회복 코루틴을 제어하기 위한 변수
-
-    // **스태미나 고갈 상태 추적 - 0이 되고 100% 회복까지 공격 금지**
+    private Coroutine staminaRegenCoroutine; // 스태미나 회복 코루틴
     private bool isStaminaDepleted = false; 
 
     void Start()
@@ -112,9 +109,8 @@ public class Player : Unit
 
         wasGroundedLastFrame = isGrounded;
 
-        // **펀치 공격 (오른쪽 마우스 버튼)**
         // isStaminaDepleted 상태이거나, 목 늘이기 중이면 공격 불가
-        if (Input.GetMouseButtonDown(1) && !isStretching)
+        if (Input.GetMouseButtonDown(1) && !isStretching) // 펀치 공격
         {
             // 스태미나가 고갈 상태가 아니고, 스태미나가 0보다 많을 때만 공격 시도 (자투리 스태미나 허용)
             if (!isStaminaDepleted && currentStamina > 0) 
@@ -158,7 +154,7 @@ public class Player : Unit
         if (Input.GetMouseButton(0) && fireTimer >= fireRate && !isStretching)
         {
             // 스태미나가 고갈 상태가 아니고, 스태미나가 0보다 많을 때만 공격 시도 (자투리 스태미나 허용)
-            if (!isStaminaDepleted && currentStamina > 0) 
+            if (!isStaminaDepleted && currentStamina > 0) // 근데 만약 자투리 스태미나 허용 아니면 currentStamina > shootStaminaCost
             {
                 // 공격 시 스태미나 회복 중단
                 if (staminaRegenCoroutine != null)
@@ -613,11 +609,9 @@ public class Player : Unit
         // 쉴드가 0보다 크면 쉴드 카운트만 줄이고 데미지는 안 들어감
         if (currentShield > 0)
         {
-            currentShield--; // 쉴드 카운트 1 감소
-                             // 쉴드가 남아있으니까 HP는 안 줄어드는 거지. 
-                             // reducedDamage = 0; 같은 코드를 넣어도 되는데 어차피 쉴드 있으면 밑에서 HP 안 까니까 굳이?
+            currentShield--;
         }
-        else // 쉴드가 없으면 HP가 줄어들어야지 아 ㅋㅋㅋ
+        else // 쉴드가 없으면 HP가 줄어든다.
         {
             currentHP = Mathf.Max(currentHP - reducedDamage, 0);
         }
