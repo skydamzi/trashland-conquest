@@ -48,8 +48,8 @@ public class Item : ScriptableObject
     [Header("특성 효과")]
     public List<TraitEffect> traitEffects = new List<TraitEffect>();
 
-    [Header("설명")]
-
+    [Header("조합 관련")]
+    public List<string> combinationTags;
     // 드롭될 실제 프리팹
     public GameObject dropPrefab;
 }

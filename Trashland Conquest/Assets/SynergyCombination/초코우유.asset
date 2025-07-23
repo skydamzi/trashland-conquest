@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2990a7ec458f92d4fb20e10d84cd7145, type: 3}
+  m_Name: "\uCD08\uCF54\uC6B0\uC720"
+  m_EditorClassIdentifier: 
+  combinationName: "\uCD08\uCF54\uC6B0\uC720"
+  description: "\uB2EC\uB2EC\uD558\uACE0 \uACE0\uC18C\uD55C \uCD08\uCF54\uC6B0\uC720"
+  requiredTags:
+  - tag: "\uCD08\uCF54"
+    count: 1
+  - tag: "\uC6B0\uC720"
+    count: 1
+  synergyEffects: []
+  synergyTraitEffects: []
+  resultItem: {fileID: 0}
+  destroyIngredientsOnCombine: 1

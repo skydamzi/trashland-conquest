@@ -56,7 +56,7 @@ public class PlayerUI : MonoBehaviour
 
     // 이전 값 추적용 (모두 포함)
     private float prevHP = -1f;
-    private int prevShieldCount = -1; 
+    //private int prevShieldCount = -1; 
     private int prevMaxShield = -1; 
     //private int prevEXP = -1; // 니가 주석 처리했던 EXP 관련 prev 변수도 넣어둠
     private int prevLV = -1;
@@ -105,7 +105,6 @@ public class PlayerUI : MonoBehaviour
         UpdateShield(); // 매 프레임마다 쉴드 투명도 업데이트를 위해 호출
         //UpdateEXP(); // 주석 처리된 함수도 살려두겠다.
         UpdateStatusText();
-        UpdateTraits();
         UpdateStamina(); 
     }
 
@@ -198,7 +197,7 @@ public class PlayerUI : MonoBehaviour
         shieldContainer.gameObject.SetActive(maxShield > 0); 
         
         prevMaxShield = maxShield; 
-        prevShieldCount = -1; // currentShield 업데이트 로직 강제 실행을 위해 -1로 초기화
+        //prevShieldCount = -1; // currentShield 업데이트 로직 강제 실행을 위해 -1로 초기화
     }
 
 
@@ -278,33 +277,7 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    void UpdateTraits()
-    {
-        foreach (TraitSynergy.TraitType type in System.Enum.GetValues(typeof(TraitSynergy.TraitType)))
-        {
-            int current = traitSynergy.GetStack(type);
-            if (!prevTraits.ContainsKey(type) || prevTraits[type] != current)
-            {
-                prevTraits[type] = current;
-                UpdateTraitText(type, current);
-            }
-        }
-    }
 
-    void UpdateTraitText(TraitSynergy.TraitType type, int value)
-    {
-        switch (type)
-        {
-            case TraitSynergy.TraitType.Milk: milkText.text = $"우유: {value}"; break;
-            case TraitSynergy.TraitType.Slush: slushText.text = $"슬러시: {value}"; break;
-            case TraitSynergy.TraitType.Alcohol: alcoholText.text = $"알코올: {value}"; break;
-            case TraitSynergy.TraitType.Soda: sodaText.text = $"탄산: {value}"; break;
-            case TraitSynergy.TraitType.EnergyDrink: energyDrinkText.text = $"이온: {value}"; break;
-            case TraitSynergy.TraitType.Coffee: coffeeText.text = $"커피: {value}"; break;
-            case TraitSynergy.TraitType.Pesticide: pesticideText.text = $"농약: {value}"; break;
-            case TraitSynergy.TraitType.PurifiedWater: purifiedWaterText.text = $"정제수: {value}"; break;
-        }
-    }
 
     public void UpdateBulletGauge(int currentAmmo, int maxAmmo)
     {

@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stage1_Battle.unity
     guid: 9dd0c7f01892b014dbe0cc648b3e0fe5
+  - enabled: 1
+    path: Assets/Scenes/SBSTestScene.unity
+    guid: 3151f804faf819a4abefc266a3883648
   m_configObjects: {}

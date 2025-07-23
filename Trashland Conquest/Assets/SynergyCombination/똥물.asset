@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2990a7ec458f92d4fb20e10d84cd7145, type: 3}
+  m_Name: "\uB625\uBB3C"
+  m_EditorClassIdentifier: 
+  combinationName: "\uB625\uBB3C"
+  description: "\uC6B0\uC6E9 \uB625\uBB3C\uC774\uB2E4"
+  requiredTags: []
+  synergyEffects: []
+  synergyTraitEffects: []
+  resultItem: {fileID: 0}
+  destroyIngredientsOnCombine: 1
+  disablesCombinations:
+  - {fileID: 11400000, guid: ef0946c2f1a865045a7d1a0a02f63e22, type: 2}
+  - {fileID: 11400000, guid: e2b90950916315c4986c744ca6ec5e1c, type: 2}

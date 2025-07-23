@@ -10,22 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 297c6d3279f2c0b4895ceafdb5764fe7, type: 3}
-  m_Name: "\uCEE4\uD53C\uC6B0\uC720"
+  m_Name: "\uC6B0\uC720"
   m_EditorClassIdentifier: 
-  itemName: "\uCEE4\uD53C\uC6B0\uC720"
-  icon: {fileID: 21300000, guid: 0f452332f0db3064190532947fdebc3d, type: 3}
+  id: 
+  itemName: "\uC6B0\uC720"
+  description: "\uACE0\uC18C\uD55C \uC6B0\uC720"
+  icon: {fileID: 0}
   itemType: 1
   rarity: 0
-  effects:
-  - effectType: 0
-    effectValue: 5
-  - effectType: 1
-    effectValue: 2
-  traitEffects:
-  - traitType: 1
-    stackAmount: 1
-  - traitType: 6
-    stackAmount: 1
-  description: "\uCEE4\uD53C\uC6B0\uC720\uC774\uB2E4.\n\uCEE4\uD53C +1, \uC6B0\uC720
-    +1"
+  effects: []
+  traitEffects: []
+  combinationTags:
+  - "\uC6B0\uC720"
   dropPrefab: {fileID: 0}

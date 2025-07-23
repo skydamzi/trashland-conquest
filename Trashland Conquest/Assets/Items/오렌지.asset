@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 297c6d3279f2c0b4895ceafdb5764fe7, type: 3}
+  m_Name: "\uC624\uB80C\uC9C0"
+  m_EditorClassIdentifier: 
+  id: 
+  itemName: "\uC624\uB80C\uC9C0"
+  description: "\uC0C1\uD07C\uD55C \uC624\uB80C\uC9C0"
+  icon: {fileID: 0}
+  itemType: 1
+  rarity: 0
+  effects: []
+  traitEffects: []
+  combinationTags:
+  - "\uC624\uB80C\uC9C0"
+  dropPrefab: {fileID: 0}
