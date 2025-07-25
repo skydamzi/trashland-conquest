@@ -255,14 +255,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2905595537052561532}
-  - component: {fileID: 6547344604097624011}
+  - component: {fileID: 1794080671477526897}
   - component: {fileID: 4349643468673513431}
   - component: {fileID: 7321237683004726985}
-  - component: {fileID: 6627266320747884683}
-  - component: {fileID: 8932653887802956321}
-  - component: {fileID: 8848838246803540542}
+  - component: {fileID: 1143991035346693142}
+  - component: {fileID: 7240995806552506459}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player Top
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -286,7 +285,7 @@ Transform:
   - {fileID: 7767974256442591950}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6547344604097624011
+--- !u!114 &1794080671477526897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -295,7 +294,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6240583114979988411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9023e72a917a694b828a01fb78ee505, type: 3}
+  m_Script: {fileID: 11500000, guid: a52d12072ce7d0f4aa09fe30c5f442c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: 
@@ -313,23 +312,24 @@ MonoBehaviour:
   criticalChance: 0
   moveSpeed: 0
   currentEXP: 0
-  maxEXP: 100
+  maxEXP: 0
   isLookAt: 1
-  spriteDefaultAngle: 90
+  spriteDefaultAngle: 0
   bulletPrefab: {fileID: 6492353934552966595, guid: 8691ceac4b8699d4f9172a2f0de43e6e, type: 3}
   weaponSpawnPoint: {fileID: 7918870118771554939}
   swingAngle: 90
-  swingSpeed: 4
+  swingSpeed: 10
   angleOffset: -90
   player_rb: {fileID: 4349643468673513431}
   neckTransform: {fileID: 1725736524308197542}
   neckCollider: {fileID: 6593871736516076350}
   isNeckAttacking: 0
   gloveTransform: {fileID: 9106991703588079926}
-  gloveOriginalScale: {x: 0, y: 0, z: 0}
+  gloveOriginalScale: {x: 1, y: 1, z: 1}
   isPunchFrame: 0
   invincibleDuration: 0.5
   traitSynergy: {fileID: 0}
+  isFacingFront: 0
   shootSound: {fileID: 8300000, guid: 42e84e506ad36284eab81b32bfbf501a, type: 3}
   jump1stSound: {fileID: 8300000, guid: 1b9453630796ca049a867a3d9d344f00, type: 3}
   jump2ndSound: {fileID: 8300000, guid: 5c14c15463853ee40aeac198e97b1a4e, type: 3}
@@ -338,7 +338,9 @@ MonoBehaviour:
   shootStaminaCost: 5
   punchStaminaCost: 15
   staminaRegenRate: 50
-  staminaRegenDelay: 1.5
+  staminaRegenDelay: 0.5
+  tiltAngle: 15
+  tiltSpeed: 30
 --- !u!50 &4349643468673513431
 Rigidbody2D:
   serializedVersion: 4
@@ -347,7 +349,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6240583114979988411}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -376,7 +378,7 @@ Animator:
   m_GameObject: {fileID: 6240583114979988411}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 14ce7698355846f43a1493f008b02e04, type: 2}
+  m_Controller: {fileID: 9100000, guid: 37040c37354d71343ac2b0a0cf3ae7c0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -387,41 +389,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6627266320747884683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6240583114979988411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c55c83d4c4dd1145ad5fbbab3c3df36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AlphaTolerance: 1
-  DistanceThreshold: 6
-  Scale: 1
-  Decompose: 0
-  RunInPlayMode: 0
-  UseCache: 0
-  lastAlphaTolerance: 1
-  lastScale: 1
-  lastDistanceThreshold: 6
-  lastDecompose: 0
-  lastSprite: {fileID: 21300000, guid: 3ea3749ba40136649a3ec6eef4bb24fd, type: 3}
-  lastRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 40
-    height: 60
-  lastOffset: {x: 20, y: 30}
-  lastPixelsPerUnit: 64
-  lastFlipX: 0
-  lastFlipY: 0
-  editorCache: []
---- !u!212 &8932653887802956321
+--- !u!212 &1143991035346693142
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -462,19 +430,19 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3ea3749ba40136649a3ec6eef4bb24fd, type: 3}
+  m_Sprite: {fileID: -1786287086, guid: d275bc809773c4a4c8d8072d7ea4e69e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.1875, y: 1.875}
+  m_Size: {x: 0.640625, y: 0.9375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &8848838246803540542
-PolygonCollider2D:
+--- !u!70 &7240995806552506459
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -482,7 +450,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 6240583114979988411}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 3ba5f2d8424f1f34db3e3ba4bae4d44a, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -505,26 +473,9 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.625, y: 0.9375}
-    newSize: {x: 1.1875, y: 1.875}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.2421875, y: -0.4609375}
-      - {x: 0.2265625, y: -0.4609375}
-      - {x: 0.2265625, y: 0.2578125}
-      - {x: 0.1015625, y: 0.4296875}
-      - {x: -0.104243755, y: 0.4301063}
-      - {x: -0.2265625, y: 0.3046875}
-      - {x: -0.2421875, y: -0.4453125}
-  m_UseDelaunayMesh: 0
+  m_Offset: {x: -0.0015981197, y: 0.025886655}
+  m_Size: {x: 0.49071074, y: 0.7995887}
+  m_Direction: 0
 --- !u!1 &8702378304035786394
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +494,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9106991703588079926
 Transform:
   m_ObjectHideFlags: 0

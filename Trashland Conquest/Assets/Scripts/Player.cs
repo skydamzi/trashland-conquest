@@ -20,7 +20,7 @@ public class Player : Unit
     public float angleOffset = -90f;
 
     [Header("Jump & Physics")]
-    public Rigidbody2D player_rb;
+    public Rigidbody2D player_rb; // Rigidbody2D는 그대로 유지!
     private int jumpCount = 0;
     private bool isGrounded = false;
     private bool wasGroundedLastFrame = false;
@@ -53,6 +53,10 @@ public class Player : Unit
     [Header("TraitSynergy")]
     public TraitSynergy traitSynergy;
 
+    [Header("Animation Control")] // 새로운 헤더 추가
+    public bool isFacingFront = false; // 정면 바라보는지 여부를 애니메이터에 넘겨줄 변수
+    private Vector2 lastNonZeroMoveInput = Vector2.up; // 캐릭터가 멈췄을 때 마지막 유효 이동 방향 (기본값: 위)
+
     private Animator animator;
     public AudioClip shootSound;
     public AudioClip jump1stSound;
@@ -69,11 +73,21 @@ public class Player : Unit
     private Coroutine staminaRegenCoroutine; // 스태미나 회복 코루틴
     private bool isStaminaDepleted = false; 
 
+    [Header("Tilt Settings")]
+    public float tiltAngle = 15f; // 캐릭터가 좌우로 기울어지는 최대 각도
+    public float tiltSpeed = 30f; // 기울어지는 속도
+
     void Start()
     {
         initialDirection = transform.right;
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        // Rigidbody2D 컴포넌트 가져오기 (만약 인스펙터에서 안 끌어왔다면)
+        if (player_rb == null) 
+        {
+            player_rb = GetComponent<Rigidbody2D>();
+        }
+
         if (gloveTransform != null)
         {
             gloveOriginalScale = gloveTransform.localScale;
@@ -95,13 +109,11 @@ public class Player : Unit
         if (Pause.isPaused) return;
         LookAt();
         Movement();
-        Jump();
+        // Jump(); // 점프 임시로 뺄 거라 했으니 주석 처리함. 나중에 필요하면 주석 풀어!
         PlayerStatusUpdate(); 
 
         fireTimer += Time.deltaTime;
         stretchTimer += Time.deltaTime;
-        animator.SetBool("isJumping", !isGrounded);
-        animator.SetFloat("verticalVelocity", player_rb.velocity.y);
         if (!isGrounded && wasGroundedLastFrame && jumpCount == 0)
         {
             jumpCount = 1;
@@ -154,7 +166,7 @@ public class Player : Unit
         if (Input.GetMouseButton(0) && fireTimer >= fireRate && !isStretching)
         {
             // 스태미나가 고갈 상태가 아니고, 스태미나가 0보다 많을 때만 공격 시도 (자투리 스태미나 허용)
-            if (!isStaminaDepleted && currentStamina > 0) // 근데 만약 자투리 스태미나 허용 아니면 currentStamina > shootStaminaCost
+            if (!isStaminaDepleted && currentStamina > 0) 
             {
                 // 공격 시 스태미나 회복 중단
                 if (staminaRegenCoroutine != null)
@@ -210,6 +222,9 @@ public class Player : Unit
 
         if (!isInvincible)
             SetAlpha(1f);
+        
+        // isFacingFront 애니메이터 파라미터 업데이트는 Movement()에서 처리하므로 여기서 별도 호출 필요 없음
+        // animator.SetBool("isFacingFront", isFacingFront); 
     }
 
     void PlayerStatusUpdate()
@@ -249,6 +264,8 @@ public class Player : Unit
         }
     }
 
+    // Jump 함수는 그대로 두되, Update에서 호출 부분만 주석 처리함.
+    /*
     void Jump()
     {
         if (Input.GetKeyDown(KeyCode.W) && jumpCount < 2)
@@ -266,14 +283,15 @@ public class Player : Unit
                 Sound.Instance.PlaySFX(jump2ndSound, 1f);
             }
 
-            jumpCount++;
-            animator.SetInteger("jumpCount", jumpCount);
-            animator.SetBool("isJumping", true);
+            //jumpCount++;
+            //animator.SetInteger("jumpCount", jumpCount);
+            //animator.SetBool("isJumping", true);
         }
-    }
+    }*/
 
     void LookAt()
     {
+        // 총알 조준용이니 그대로 유지
         if (!isLookAt || neckTransform == null || isStretching) return;
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -283,53 +301,75 @@ public class Player : Unit
         neckTransform.rotation = Quaternion.Lerp(neckTransform.rotation, targetRotation, Time.deltaTime * 20f);
     }
 
-    void Movement()
+     // --- 여기부터 Movement 함수 수정 ---
+void Movement()
+{
+    if (isStretching) // 목 늘이기 중이면 이동 불가
     {
-        if (isStretching)
-        {
-            player_rb.velocity = new Vector2(0f, player_rb.velocity.y);
-            animator.SetBool("isRunning", false);
-            return;
-        }
+        player_rb.velocity = new Vector2(0f, 0f);
 
-        float moveX = 0f;
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            moveX = -1f;
-            transform.localScale = new Vector3(-1f, 1f, 1f);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            moveX = 1f;
-            transform.localScale = new Vector3(1f, 1f, 1f);
-        }
-
-        animator.SetBool("isRunning", moveX != 0);
-
-        Vector2 velocity = player_rb.velocity;
-        velocity.x = moveX * moveSpeed;
-        player_rb.velocity = velocity;
-
-        float tiltAngle = 10f;
-        float targetZ;
-
-        if (!isGrounded)
-            targetZ = 0f;
-        else
-        {
-            if (moveX > 0)
-                targetZ = -tiltAngle;
-            else if (moveX < 0)
-                targetZ = tiltAngle;
-            else
-                targetZ = 0f;
-        }
-
-        Quaternion currentRotation = transform.rotation;
-        Quaternion targetRotation = Quaternion.Euler(0, 0, targetZ);
-        transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * 30f);
+        animator.SetBool("isRunning", false);
+        animator.SetFloat("InputX", 0f);
+        animator.SetFloat("InputY", 0f);
+        return;
     }
+
+    // WASD 입력 받기
+    float moveX = Input.GetAxisRaw("Horizontal");
+    float moveY = Input.GetAxisRaw("Vertical");
+
+    Vector2 moveInput = new Vector2(moveX, moveY);
+    Vector2 moveDirection = moveInput.normalized;
+
+    player_rb.velocity = moveDirection * moveSpeed;
+
+    bool isMoving = moveInput.magnitude > 0.1f;
+
+    if (isMoving)
+    {
+        lastNonZeroMoveInput = moveInput;
+    }
+
+    // --- 스프라이트 좌우 반전 로직 ---
+    float flipDirectionX = isMoving ? moveX : lastNonZeroMoveInput.x;
+
+    if (Mathf.Abs(flipDirectionX) > 0.01f)
+    {
+        Vector3 currentScale = transform.localScale;
+        currentScale.x = Mathf.Abs(currentScale.x) * Mathf.Sign(flipDirectionX);
+        transform.localScale = currentScale;
+    }
+
+    // --- 기울기 로직 (수정된 버전) ---
+    float maxTilt = tiltAngle;
+    Vector2 moveDir = moveInput.normalized;
+    float tiltPercent = Mathf.Abs(moveDir.x); // X축 기울기 비중 계산
+    float targetZ = -moveDir.x * maxTilt * tiltPercent;
+
+    Quaternion currentRotation = transform.rotation;
+    Quaternion targetRotation = Quaternion.Euler(0, 0, targetZ);
+    transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * tiltSpeed);
+    // --- 기울기 로직 끝 ---
+
+    // --- 애니메이터 파라미터 갱신 ---
+    animator.SetBool("isRunning", isMoving);
+
+    if (isMoving)
+    {
+        animator.SetFloat("InputX", moveInput.x);
+        animator.SetFloat("InputY", moveInput.y);
+    }
+    else
+    {
+        animator.SetFloat("InputX", lastNonZeroMoveInput.x);
+        animator.SetFloat("InputY", lastNonZeroMoveInput.y);
+    }
+}
+
+
+
+
+    // --- Movement 함수 수정 끝 ---
 
     void Fire() // 총알 발사 (탄약 시스템 제거)
     {
@@ -393,6 +433,7 @@ public class Player : Unit
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Rigidbody2D가 있으니 충돌 감지 정상 작동
         if (collision.gameObject.CompareTag("Floor"))
         {
             foreach (ContactPoint2D contact in collision.contacts)
@@ -428,6 +469,7 @@ public class Player : Unit
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Rigidbody2D가 있으니 트리거 감지 정상 작동
         if (isInvincible) return;
 
         if (other.CompareTag("Poop"))

@@ -53,7 +53,7 @@ public class BossIntroManager : MonoBehaviour
     private Vector3 originalCameraPos;
     private float originalCameraOrthoSize;
 
-    private Player playerScript; // Player 스크립트 타입이 실제 프로젝트와 맞는지 확인해라.
+    private PlayerSideView playerScript; // PlayerSideView 스크립트 타입이 실제 프로젝트와 맞는지 확인해라.
     private ToxicWasteBoss bossScript; // ToxicWasteBoss 스크립트 타입이 실제 프로젝트와 맞는지 확인해라.
     private Pause pauseScript; // Pause 스크립트 타입이 실제 프로젝트와 맞는지 확인해라.
 
@@ -98,7 +98,7 @@ public class BossIntroManager : MonoBehaviour
         // null 체크는 필수다. 인스펙터에서 제대로 할당했는지 확인해라.
         if (player != null)
         {
-            playerScript = player.GetComponent<Player>();
+            playerScript = player.GetComponent<PlayerSideView>();
             if (playerScript == null) Debug.LogError("BossIntroManager: Player Transform에 Player 스크립트가 없습니다!");
         }
         else Debug.LogError("BossIntroManager: Player Transform이 할당되지 않았습니다!");
