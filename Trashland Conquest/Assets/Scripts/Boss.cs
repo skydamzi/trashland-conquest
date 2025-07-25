@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Boss : Unit
 {
    // public GameObject playerObject;
-    protected Player player;
+    protected PlayerSideView player;
     public Text damageText;
     public AudioClip glove_punchSound; 
     public DPSMeter dpsMeter;
@@ -21,7 +21,7 @@ public class Boss : Unit
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        player = FindObjectOfType<Player>();
+        player = FindObjectOfType<PlayerSideView>();
         if (other.CompareTag("BoxingGlove"))
         {
             if (player != null && player.isNeckAttacking && !player.hitEnemiesThisAttack.Contains(gameObject))

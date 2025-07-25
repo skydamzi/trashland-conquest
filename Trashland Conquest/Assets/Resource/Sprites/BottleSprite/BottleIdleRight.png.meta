@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d275bc809773c4a4c8d8072d7ea4e69e
+guid: 247d1c2dcf512a5419d2bcd66a744c39
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,12 +97,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BottleIdleFront_0
+      name: BottleIdleRight_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 41
+        width: 40
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -111,19 +111,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 22f68dc9b513b4448966d9a836dd6c2c
-      internalID: -1786287086
+      spriteID: 77432536bc1d3c54ab8250de1e0b8214
+      internalID: 1524623187
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BottleIdleFront_1
+      name: BottleIdleRight_1
       rect:
         serializedVersion: 2
-        x: 41
+        x: 40
         y: 0
-        width: 41
+        width: 40
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -132,19 +132,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da0bd86f1dfce41488228fc23842551e
-      internalID: -1655124237
+      spriteID: 2017c9e58cc32e2478ff9bf9d4a55c6a
+      internalID: -1313308284
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BottleIdleFront_2
+      name: BottleIdleRight_2
       rect:
         serializedVersion: 2
-        x: 82
+        x: 80
         y: 0
-        width: 41
+        width: 40
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -153,19 +153,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bac951956bcfe2344b516e81d404fea9
-      internalID: 1578287344
+      spriteID: d4e7044aa5aa3f44a83ce58386fb1c08
+      internalID: -1297873135
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BottleIdleFront_3
+      name: BottleIdleRight_3
       rect:
         serializedVersion: 2
-        x: 123
+        x: 120
         y: 0
-        width: 41
+        width: 40
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -174,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 635bd6248045a824682e8f4babf613da
-      internalID: -1449055518
+      spriteID: 56b8b8c0a3f4da34ab84bd0b8b14c92c
+      internalID: 1856274073
       vertices: []
       indices: 
       edges: []
@@ -191,10 +191,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BottleIdleFront_0: -1786287086
-      BottleIdleFront_1: -1655124237
-      BottleIdleFront_2: 1578287344
-      BottleIdleFront_3: -1449055518
+      BottleIdleRight_0: 1524623187
+      BottleIdleRight_1: -1313308284
+      BottleIdleRight_2: -1297873135
+      BottleIdleRight_3: 1856274073
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

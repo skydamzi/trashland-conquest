@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 227a64d7aef1a0d4aa1c72e72edad8e6
+guid: 4a02ea4884cc00e4c8f45afbebe1b452
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BottleIdleBack_0
+      name: BottleIdleFront_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f8279e24edebe540ae4bf3fefd02d6f
-      internalID: -1246095872
+      spriteID: 4d780490cf79cfd4b99bf2d381844afa
+      internalID: -1237776641
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BottleIdleBack_1
+      name: BottleIdleFront_1
       rect:
         serializedVersion: 2
         x: 41
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 431b12cfc7f6c2745ab91b55d078eba7
-      internalID: -767131596
+      spriteID: 277e015d25dd5de479a50fd6f3ba216a
+      internalID: 1622848732
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BottleIdleBack_2
+      name: BottleIdleFront_2
       rect:
         serializedVersion: 2
         x: 82
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 458fbb2459137b340a6ea9beef101b27
-      internalID: 496285671
+      spriteID: 3cdad8b4e2749d84784c9c558ceb7ba6
+      internalID: -1086731326
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BottleIdleBack_3
+      name: BottleIdleFront_3
       rect:
         serializedVersion: 2
         x: 123
@@ -174,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb6235592ba5a854e973bf75f90f9365
-      internalID: -1671486009
+      spriteID: 82175e909c1f6d147b934f76ca2f21bb
+      internalID: 1999598878
       vertices: []
       indices: 
       edges: []
@@ -191,10 +191,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BottleIdleBack_0: -1246095872
-      BottleIdleBack_1: -767131596
-      BottleIdleBack_2: 496285671
-      BottleIdleBack_3: -1671486009
+      BottleIdleFront_0: -1237776641
+      BottleIdleFront_1: 1622848732
+      BottleIdleFront_2: -1086731326
+      BottleIdleFront_3: 1999598878
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

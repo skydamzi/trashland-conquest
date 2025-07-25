@@ -55,7 +55,7 @@ public class Player : Unit
 
     [Header("Animation Control")] // 새로운 헤더 추가
     public bool isFacingFront = false; // 정면 바라보는지 여부를 애니메이터에 넘겨줄 변수
-    private Vector2 lastNonZeroMoveInput = Vector2.up; // 캐릭터가 멈췄을 때 마지막 유효 이동 방향 (기본값: 위)
+    private Vector2 lastNonZeroMoveInput = Vector2.down; // 캐릭터가 멈췄을 때 마지막 유효 이동 방향 (기본값: 위)
 
     private Animator animator;
     public AudioClip shootSound;
@@ -289,19 +289,19 @@ public class Player : Unit
         }
     }*/
 
-    void LookAt()
-    {
-        // 총알 조준용이니 그대로 유지
-        if (!isLookAt || neckTransform == null || isStretching) return;
+  void LookAt()
+{
+    // 총알 조준용이니 그대로 유지
+    if (!isLookAt || neckTransform == null || isStretching) return;
 
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPos.z = 0;
-        Vector3 direction = (mouseWorldPos - neckTransform.position).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
-        neckTransform.rotation = Quaternion.Lerp(neckTransform.rotation, targetRotation, Time.deltaTime * 20f);
-    }
+    Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    mouseWorldPos.z = 0;
+    Vector3 direction = (mouseWorldPos - neckTransform.position).normalized;
+    Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
+    neckTransform.rotation = Quaternion.Lerp(neckTransform.rotation, targetRotation, Time.deltaTime * 20f);
+}
 
-     // --- 여기부터 Movement 함수 수정 ---
+// --- 여기부터 Movement 함수 수정 ---
 void Movement()
 {
     if (isStretching) // 목 늘이기 중이면 이동 불가
@@ -325,20 +325,26 @@ void Movement()
 
     bool isMoving = moveInput.magnitude > 0.1f;
 
+    // 움직이는 중이면 lastNonZeroMoveInput 업데이트
     if (isMoving)
     {
         lastNonZeroMoveInput = moveInput;
     }
 
-    // --- 스프라이트 좌우 반전 로직 ---
-    float flipDirectionX = isMoving ? moveX : lastNonZeroMoveInput.x;
-
-    if (Mathf.Abs(flipDirectionX) > 0.01f)
-    {
-        Vector3 currentScale = transform.localScale;
-        currentScale.x = Mathf.Abs(currentScale.x) * Mathf.Sign(flipDirectionX);
-        transform.localScale = currentScale;
-    }
+    // --- 스프라이트 좌우 반전 로직 (삭제!!!) ---
+    // 애니메이션에서 직접 처리한다고 했으니 여기 코드는 필요없다, 새꺄!
+    // float currentFlipDirectionX = moveX; 
+    // if (Mathf.Abs(moveX) < 0.01f && Mathf.Abs(lastNonZeroMoveInput.x) > 0.01f)
+    // {
+    //     currentFlipDirectionX = lastNonZeroMoveInput.x;
+    // }
+    // if (Mathf.Abs(currentFlipDirectionX) > 0.01f)
+    // {
+    //     Vector3 currentScale = transform.localScale;
+    //     currentScale.x = Mathf.Abs(currentScale.x) * Mathf.Sign(currentFlipDirectionX);
+    //     transform.localScale = currentScale; // 이 라인도 삭제!
+    // }
+    // --- 스프라이트 좌우 반전 로직 끝 (싹 다 날려버림!) ---
 
     // --- 기울기 로직 (수정된 버전) ---
     float maxTilt = tiltAngle;
@@ -354,6 +360,7 @@ void Movement()
     // --- 애니메이터 파라미터 갱신 ---
     animator.SetBool("isRunning", isMoving);
 
+    // 애니메이터는 lastNonZeroMoveInput을 계속 사용해서 마지막 방향을 유지하도록.
     if (isMoving)
     {
         animator.SetFloat("InputX", moveInput.x);
@@ -365,7 +372,6 @@ void Movement()
         animator.SetFloat("InputY", lastNonZeroMoveInput.y);
     }
 }
-
 
 
 

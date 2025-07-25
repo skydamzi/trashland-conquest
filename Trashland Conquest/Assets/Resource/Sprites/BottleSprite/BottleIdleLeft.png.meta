@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2e233fa2a8ea6c24d80c1cd97c21e1eb
+guid: 7a2c4c5b584d9bb42a633b25adbf650e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,12 +97,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BottleRunSide_0
+      name: BottleIdleLeft_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 42
+        width: 40
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -111,19 +111,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ed246b2215751340a62fbf6e73c73c2
-      internalID: -343592010
+      spriteID: a63b45fdbb89afc47a3b92a474e0dac4
+      internalID: -1343977731
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BottleRunSide_1
+      name: BottleIdleLeft_1
       rect:
         serializedVersion: 2
-        x: 42
+        x: 40
         y: 0
-        width: 42
+        width: 40
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -132,19 +132,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4961882858b58f4428e3e2fa5b368dee
-      internalID: -1301065226
+      spriteID: 94ba76a622291914fa75c86bba986b29
+      internalID: 240857503
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BottleRunSide_2
+      name: BottleIdleLeft_2
       rect:
         serializedVersion: 2
-        x: 84
+        x: 80
         y: 0
-        width: 42
+        width: 40
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -153,19 +153,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd6c7189434c25c4cad043fb98a86196
-      internalID: 115876877
+      spriteID: b3c117c27fb81d0439e85771b62b1e33
+      internalID: 2137648340
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BottleRunSide_3
+      name: BottleIdleLeft_3
       rect:
         serializedVersion: 2
-        x: 126
+        x: 120
         y: 0
-        width: 42
+        width: 40
         height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -174,50 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 504f2e05ac5493145b21fd3a0a559ae3
-      internalID: -2131704622
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BottleRunSide_4
-      rect:
-        serializedVersion: 2
-        x: 168
-        y: 0
-        width: 42
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 31fc8b3fd649c6041a7eb67921280c59
-      internalID: -363780667
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BottleRunSide_5
-      rect:
-        serializedVersion: 2
-        x: 210
-        y: 0
-        width: 42
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 52614e8879cd7044784fe3039bb99fc1
-      internalID: 573800860
+      spriteID: 341f8dd2a4b3d154cae0a6997de44706
+      internalID: -1713271050
       vertices: []
       indices: 
       edges: []
@@ -233,12 +191,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BottleRunSide_0: -343592010
-      BottleRunSide_1: -1301065226
-      BottleRunSide_2: 115876877
-      BottleRunSide_3: -2131704622
-      BottleRunSide_4: -363780667
-      BottleRunSide_5: 573800860
+      BottleIdleLeft_0: -1343977731
+      BottleIdleLeft_1: 240857503
+      BottleIdleLeft_2: 2137648340
+      BottleIdleLeft_3: -1713271050
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
