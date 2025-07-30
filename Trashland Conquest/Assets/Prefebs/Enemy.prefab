@@ -114,7 +114,7 @@ MonoBehaviour:
   moveSpeed: 0
   currentEXP: 0
   maxEXP: 100
-  experienceGemPrefab: {fileID: 0}
+  experienceGemPrefab: {fileID: 6346317279201060211, guid: 4a79c9520441dcb478f53b8627e49f1c, type: 3}
   experienceAmount: 1
   healthBarPrefab: {fileID: 7278252718788031220, guid: 62c408eb222072449ab6d0fcf3d9aabb, type: 3}
 --- !u!58 &1816787223477121873
