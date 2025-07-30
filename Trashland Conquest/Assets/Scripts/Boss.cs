@@ -61,10 +61,7 @@ public class Boss : Unit
     void Die()
     {
         Debug.Log("Boss Dead!");
-        if (player != null)
-        {
-            player.GainEXP(currentEXP);
-        }
+       
         Destroy(gameObject);
     }
 }
