@@ -1,10 +1,10 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
-    [Header("ÆĞ³Î ¿¬°á")]
+    [Header("íŒ¨ë„ ì—°ê²°")]
     public GameObject equipmentPanel;
     public GameObject inventoryPanel;
     public GameObject skillPanel;
@@ -19,7 +19,7 @@ public class PauseMenu : MonoBehaviour
         panels.Add("Skill", skillPanel);
         panels.Add("Settings", settingsPanel);
 
-        //ShowPanel("Equipment"); ÃÖÃÊ ÁøÀÔ ½Ã ÀåºñÃ¢ÀÌ ¶ß°ÔÇÔ (Çö: ÃÖÃÊÁøÀÔ½Ã ¸Ş´º¸¸ ³ª¿È)
+        //ShowPanel("Equipment"); ìµœì´ˆ ì§„ì… ì‹œ ì¥ë¹„ì°½ì´ ëœ¨ê²Œí•¨ (í˜„: ìµœì´ˆì§„ì…ì‹œ ë©”ë‰´ë§Œ ë‚˜ì˜´)
     }
 
     public void ShowPanel(string panelName)

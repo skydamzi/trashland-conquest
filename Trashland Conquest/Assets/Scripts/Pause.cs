@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +13,10 @@ public class Pause : MonoBehaviour
 
     [Header("일시정지 메뉴 UI")] // 이것도 인코딩 깨졌는데 '일시정지 메뉴 UI' 일듯
     public GameObject PauseMenuUI;
+
+    [Header("패널 리스트 (왼쪽부터 오른쪽 순서)")]
+    public List<GameObject> menuPanels = new List<GameObject>(); // 0: Equipment, 1: Inventory, 2: Skill, 3: Setting 등
+    private int currentPanelIndex = 0;
 
 
     private void Awake()
@@ -40,6 +44,14 @@ public class Pause : MonoBehaviour
         {
             TogglePause();
         }
+
+        if (isPaused)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+                NavigatePanel(1); //메뉴 좌측이동
+            else if (Input.GetKeyDown(KeyCode.E))
+                NavigatePanel(-1);  //메뉴 우측이동
+        }
     }
 
     public void TogglePause()
@@ -57,9 +69,17 @@ public class Pause : MonoBehaviour
             // 씨발, introManager가 null일 수도 있으니 null 체크 해라!
             if (introManager != null) 
             {
-                // introManager.StopIntro(); // 보스 인트로 관련 뭔가를 멈춰야 할 것 같으면 여기에 넣어라
+                       // introManager.StopIntro(); // 보스 인트로 관련 뭔가를 멈춰야 할 것 같으면 여기에 넣어라
             }
+            
             Sound.Instance.PlaySFX(PauseSound, 1f); // Sound.Instance도 null 체크 필요할 수도 있음
+
+
+            for (int i = 0; i < menuPanels.Count; i++)
+            {
+                menuPanels[i].SetActive(i == currentPanelIndex);
+            }
+            
         }
         else
         {
@@ -72,4 +92,30 @@ public class Pause : MonoBehaviour
             // 정지 해제 시에도 introManager 관련 동작이 필요하면 여기에 넣어라
         }
     }
+    private void NavigatePanel(int direction)
+    {
+        if (menuPanels == null || menuPanels.Count == 0)
+        {
+            Debug.LogWarning("menuPanels가 비어 있거나 null입니다.");
+            return;
+        }
+
+        // 현재 인덱스가 유효한지 확인한 후에만 비활성화
+        if (currentPanelIndex >= 0 && currentPanelIndex < menuPanels.Count)
+        {
+            menuPanels[currentPanelIndex].SetActive(false);
+        }
+
+        // 인덱스 계산 (순환 구조)
+        currentPanelIndex += direction;
+        if (currentPanelIndex < 0)
+            currentPanelIndex = menuPanels.Count - 1;
+        else if (currentPanelIndex >= menuPanels.Count)
+            currentPanelIndex = 0;
+
+        // 새 패널 활성화
+        menuPanels[currentPanelIndex].SetActive(true);
+        Debug.Log($"현재 패널: {menuPanels[currentPanelIndex].name}");
+    }
+
 }
