@@ -36,14 +36,9 @@ public class ExperienceGem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Player player = other.GetComponent<Player>();
-            if (player != null)
+            if (PlayerStatus.instance != null)
             {
-                player.GainEXP(experienceAmount);
-            }
-            else
-            {
-                Debug.LogWarning("ExperienceGem: 'Player' 태그를 가진 오브젝트에 Player 스크립트가 없습니다.");
+                PlayerStatus.instance.AddExperience(experienceAmount);
             }
             Destroy(gameObject);
         }
