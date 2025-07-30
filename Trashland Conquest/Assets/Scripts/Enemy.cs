@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Enemy : Unit
 {
+    protected Player player;
     public GameObject experienceGemPrefab; // 경험치 보석 프리팹
     public int experienceAmount = 1; // 이 적이 죽었을 때 줄 경험치
     public GameObject healthBarPrefab; // 체력바 UI 프리팹 (Canvas)
@@ -89,19 +90,31 @@ public class Enemy : Unit
     // 다른 오브젝트와 충돌했을 때 (예: 플레이어의 공격)
     void OnTriggerEnter2D(Collider2D other)
     {
+        player = FindObjectOfType<Player>();
         // 플레이어의 공격 태그와 비교
         if (other.CompareTag("Bullet"))
         {
-            
-            TakeDamage(10);
-
+            // 디버그
+            Debug.Log($"[Enemy] {unitName}이(가) 플레이어의 공격을 받음!");
+            // 플레이어가 공격한 경우, 플레이어의 공격력으로 적에게 데미지를 줍니다.
+            TakeDamage(player.GetBaseDamage()); // 플레이어의 기본 공격력으로 데미지
             // 만약 플레이어의 공격이 투사체라면 파괴합니다.
             Destroy(other.gameObject);
         }
+        
+        else if (other.CompareTag("BoxingGlove"))
+        {
+            // 플레이어의 근접 공격 태그와 비교
+
+            TakeDamage(player.GetMeleeDamage()); // 플레이어의 근접 공격력으로 데미지
+
+
+        }
+
         // TODO: 플레이어와 닿았을 때 플레이어에게 데미지 주는 로직 추가 가능
         else if (other.CompareTag("Player"))
         {
-            Player player = other.GetComponent<Player>(); // 플레이어 스크립트 가져오기
+
             if (player != null)
             {
                 player.TakeDamage(GetBaseDamage()); // 적의 공격력으로 플레이어에게 데미지
@@ -134,6 +147,7 @@ public class Enemy : Unit
         }
         UpdateHealthBar();
     }
+    
 
     // Unit 클래스에서 선언된 추상 Die() 함수를 구현합니다.
     void Die()

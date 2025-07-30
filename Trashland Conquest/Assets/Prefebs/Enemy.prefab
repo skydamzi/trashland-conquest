@@ -105,13 +105,13 @@ MonoBehaviour:
   armor: 0
   currentShield: 0
   maxShield: 0
-  currentHP: 0
-  maxHP: 0
+  currentHP: 100
+  maxHP: 100
   maxStamina: 0
   currentStamina: 0
   attackSpeed: 0
   criticalChance: 0
-  moveSpeed: 0
+  moveSpeed: 2
   currentEXP: 0
   maxEXP: 100
   experienceGemPrefab: {fileID: 6346317279201060211, guid: 4a79c9520441dcb478f53b8627e49f1c, type: 3}

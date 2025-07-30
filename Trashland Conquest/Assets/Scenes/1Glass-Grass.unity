@@ -7520,7 +7520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: "\uC2E0\uBCD1\uC774"
   unitLV: 1
-  baseAttackPower: 25
+  baseAttackPower: 10
   bonusAttackPower: 0
   armor: 0
   bonusArmor: 0
@@ -8056,18 +8056,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -7987590787422632772, guid: a32b3ad6f01ce234d967b9fc8cc8a46f, type: 3}
-      propertyPath: maxHP
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: -7987590787422632772, guid: a32b3ad6f01ce234d967b9fc8cc8a46f, type: 3}
-      propertyPath: currentHP
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: -7987590787422632772, guid: a32b3ad6f01ce234d967b9fc8cc8a46f, type: 3}
-      propertyPath: moveSpeed
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3523753513102148108, guid: a32b3ad6f01ce234d967b9fc8cc8a46f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.8
