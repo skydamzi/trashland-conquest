@@ -646,10 +646,12 @@ void Movement()
             renderer.color = color;
         }
     }
+
     public void OnSuccessfulPunch()
     {
         Sound.Instance.PlaySFX(glove_punchSound);
     }
+
     public void TakeDamage(float rawDamage)
     {
         float reducedDamage = Mathf.Max(rawDamage - armor, 1f);
@@ -659,6 +661,7 @@ void Movement()
         {
             currentShield--;
         }
+
         else // 쉴드가 없으면 HP가 줄어든다.
         {
             currentHP = Mathf.Max(currentHP - reducedDamage, 0);
@@ -669,5 +672,17 @@ void Movement()
             PlayerStatus.instance.currentHP = currentHP;
             PlayerStatus.instance.currentShield = currentShield;
         }
+
+        if (currentHP <= 0)
+        {
+            Die(); // 체력이 0 이하면 Die() 호출
+        }
+    }
+
+    void Die()
+    {
+        gameObject.SetActive(false); // 플레이어 오브젝트 비활성화
+        // Time.timeScale = 0f; // 게임 일시 정지 (선택 사항)
+        // GameManager.Instance.GameOver(); // 게임 관리자에게 게임 오버 알림 (선택 사항)
     }
 }

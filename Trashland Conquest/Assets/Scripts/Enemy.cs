@@ -1,135 +1,160 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : Unit
 {
-    [Header("Movement Settings")]
-    public float detectionRange = 7f;            // 플레이어 탐지 범위
-    public float attackRange = 1.5f;             // 공격 가능 범위
-    public Transform[] waypoints;                // 순찰 경로 지점들
-    private int currentWaypointIndex = 0;        // 현재 순찰 지점 인덱스
+    public GameObject experienceGemPrefab; // 경험치 보석 프리팹
+    public int experienceAmount = 1; // 이 적이 죽었을 때 줄 경험치
+    public GameObject healthBarPrefab; // 체력바 UI 프리팹 (Canvas)
+    private Image healthBarFillImage; // 체력바의 채워지는 부분 Image 컴포넌트
 
-    [Header("Attack Settings")]
-    public float attackCooldown = 2f;            // 공격 쿨타임
-    private float attackTimer;
+    private Transform playerTransform; // 플레이어의 Transform
+    
+    // Unit 클래스의 Awake()나 Start()가 호출된 후 이 Awake()가 호출됩니다.
+    void Awake()
+    {
+        if (healthBarPrefab != null)
+        {
+            GameObject healthBarInstance = Instantiate(healthBarPrefab, transform);
+            // 체력바를 적 머리 위로 살짝 올립니다.
+            // 필요에 따라 Offset을 조절하세요.
+            healthBarInstance.transform.localPosition = new Vector3(0, 0.3f, 0);
 
-    private Transform playerTR;                  // 플레이어 Transform
-    public Player player;                        // 플레이어 스크립트 참조
-    public AudioClip glove_punchSound;           // 공격 사운드
+            // HealthBarFill Image 컴포넌트를 찾아서 할당합니다.
+            // HealthBarFill이 Canvas > HealthBarBackground 아래에 있다고 가정
+            Transform fillTransform = healthBarInstance.transform.Find("HealthBarBackground/HealthBar");
+            if (fillTransform != null)
+            {
+                healthBarFillImage = fillTransform.GetComponent<Image>();
+            }
+            else
+            {
+                Debug.LogError("HealthBarFill Image를 찾을 수 없습니다. 경로를 확인해주세요.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Health Bar Prefab이 할당되지 않았습니다!");
+        }
+    }
 
-    private bool isGrounded = false;             // 땅에 닿아 있는지 여부
-    private bool isChasingPlayer = false;        // 플레이어 추적 여부
-
-    private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
-    private Color originalColor;
-
-    [Header("Layer Settings")]
-    public string groundTag = "Floor";           // 바닥으로 인식할 태그명
+    
 
     void Start()
     {
-        playerTR = GameObject.FindGameObjectWithTag("Player").transform;
-        attackTimer = attackCooldown;
-        player = FindObjectOfType<Player>();
-        rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        originalColor = spriteRenderer.color;
-
-        if (waypoints.Length == 0)
+        // 씬에서 "Player" 태그를 가진 오브젝트를 찾아 Transform을 가져옵니다.
+        // 적이 생성되자마자 플레이어를 찾아 추격을 시작합니다.
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
         {
-            Debug.LogWarning("순찰 지점이 설정되어 있지 않습니다!");
+            playerTransform = player.transform;
         }
+        else
+        {
+            Debug.LogError("Player 오브젝트를 찾을 수 없습니다. 'Player' 태그가 있는지 확인해주세요.");
+            // 플레이어가 없으면 적이 할 일이 없으므로 스스로 파괴할 수도 있습니다.
+            // Destroy(gameObject);
+        }
+        UpdateHealthBar();
     }
 
     void Update()
     {
-        attackTimer -= Time.deltaTime;
-        float distanceToPlayer = Vector2.Distance(transform.position, playerTR.position);
-
-        if (distanceToPlayer <= detectionRange && isGrounded)
+        // 플레이어 트랜스폼이 유효한지 확인하고 추격 로직 실행
+        if (playerTransform != null)
         {
-            isChasingPlayer = true;
-            spriteRenderer.color = Color.red; // 플레이어를 발견하면 빨간색으로 변경
-        }
-        else
-        {
-            isChasingPlayer = false;
-            spriteRenderer.color = originalColor; // 원래 색상으로 복귀
+            // 플레이어 방향으로 벡터 계산 및 정규화
+            // 감지 범위 없이, 항상 플레이어를 향해 이동합니다.
+            Vector3 direction = (playerTransform.position - transform.position).normalized;
+            // 이동 속도와 Time.deltaTime을 곱하여 프레임에 독립적인 이동
+            transform.position += direction * moveSpeed * Time.deltaTime;
         }
     }
 
-    void FixedUpdate()
+    private void UpdateHealthBar()
     {
-        if (!isGrounded) return; // 땅에 없으면 이동 X
-
-        if (isChasingPlayer)
+        if (healthBarFillImage != null)
         {
-            MoveTowardsPlayer(); // 플레이어 추적
-        }
-        else
-        {
-            Patrol(); // 순찰 행동
-        }
-    }
-
-    void Patrol()
-    {
-        if (waypoints.Length == 0) return;
-
-        Transform targetWaypoint = waypoints[currentWaypointIndex];
-        float distanceToWaypoint = Vector2.Distance(transform.position, targetWaypoint.position);
-
-        if (distanceToWaypoint < 0.2f)
-        {
-            // 다음 순찰 지점으로 이동
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+            healthBarFillImage.fillAmount = currentHP / maxHP;
         }
 
-        Vector2 direction = (targetWaypoint.position - transform.position).normalized;
-        rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
-    }
-
-    void MoveTowardsPlayer()
-    {
-        Vector2 direction = (playerTR.position - transform.position).normalized;
-        rb.velocity = new Vector2(direction.x * moveSpeed * 1.5f, rb.velocity.y);
-    }
-
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag(groundTag))
+        if (currentHP <= 0 && healthBarFillImage != null)
         {
-            isGrounded = true; // 바닥에 닿아 있음
+            healthBarFillImage.transform.parent.gameObject.SetActive(false); // HealthBarBackground를 비활성화
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag(groundTag))
-        {
-            isGrounded = false; // 바닥에서 떨어짐
-        }
-    }
-
+    // 다른 오브젝트와 충돌했을 때 (예: 플레이어의 공격)
     void OnTriggerEnter2D(Collider2D other)
     {
+        // 플레이어의 공격 태그와 비교
         if (other.CompareTag("Bullet"))
         {
-            TakeDamage(player.GetBaseDamage()); // 총알 맞으면 데미지 입음
-            Destroy(other.gameObject);          // 총알 제거
+            
+            TakeDamage(10);
+
+            // 만약 플레이어의 공격이 투사체라면 파괴합니다.
+            Destroy(other.gameObject);
+        }
+        // TODO: 플레이어와 닿았을 때 플레이어에게 데미지 주는 로직 추가 가능
+        else if (other.CompareTag("Player"))
+        {
+            Player player = other.GetComponent<Player>(); // 플레이어 스크립트 가져오기
+            if (player != null)
+            {
+                player.TakeDamage(GetBaseDamage()); // 적의 공격력으로 플레이어에게 데미지
+            }
         }
     }
 
     public void TakeDamage(float damage)
     {
-        currentHP -= damage;
-        if (currentHP <= 0) Die();
+        float finalDamage = damage - armor; // 방어력 적용
+        if (finalDamage < 0) finalDamage = 0; // 최소 데미지는 0
+
+        if (currentShield > 0)
+        {
+            currentShield -= (int)finalDamage;
+            if (currentShield < 0)
+            {
+                currentHP += currentShield; // 남은 데미지를 체력에 적용 (currentShield가 음수가 됨)
+                currentShield = 0;
+            }
+        }
+        else
+        {
+            currentHP -= finalDamage;
+        }
+
+        if (currentHP <= 0)
+        {
+            Die(); // 체력이 0 이하면 Die() 호출
+        }
+        UpdateHealthBar();
     }
 
+    // Unit 클래스에서 선언된 추상 Die() 함수를 구현합니다.
     void Die()
     {
-        Destroy(gameObject); // 적 제거
+        Debug.Log($"{unitName} 사망!");
+
+        // 경험치 보석 드랍
+        if (experienceGemPrefab != null)
+        {
+            // 경험치 보석을 현재 적의 위치에 생성합니다.
+            GameObject gem = Instantiate(experienceGemPrefab, transform.position, Quaternion.identity);
+
+            // 경험치 보석 스크립트에 경험치 양을 설정합니다.
+            ExperienceGem expGem = gem.GetComponent<ExperienceGem>();
+            if (expGem != null)
+            {
+                expGem.SetExperience(experienceAmount);
+            }
+        }
+
+        // 적 오브젝트를 파괴합니다.
+        Destroy(gameObject);
     }
 }

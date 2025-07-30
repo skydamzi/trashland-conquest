@@ -28,6 +28,28 @@ public class PlayerStatus : MonoBehaviour
 
     public int currentEXP = 0;
     public int maxEXP = 100;
+
+    public void AddExperience(int amount)
+    {
+        currentEXP += amount;
+        Debug.Log($"경험치 획득: {amount}. 현재 경험치: {currentEXP} / {maxEXP}");
+        CheckForLevelUp();
+    }
+
+    private void CheckForLevelUp()
+    {
+        while (currentEXP >= maxEXP) { currentEXP -= maxEXP; LevelUp(); }
+    }
+
+    private void LevelUp()
+    {
+        unitLV++;
+        maxEXP = maxEXP + 50;
+        
+
+        Debug.Log($"{unitName} 레벨업! 현재 레벨: {unitLV}. 새로운 필요 경험치: {maxEXP}");
+    }
+
     void Awake()
     {
         if (instance == null)
