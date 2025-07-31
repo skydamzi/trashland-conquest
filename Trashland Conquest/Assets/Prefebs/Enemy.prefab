@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: 
   unitLV: 0
-  baseAttackPower: 5
+  baseAttackPower: 50
   bonusAttackPower: 0
   armor: 0
   currentShield: 0

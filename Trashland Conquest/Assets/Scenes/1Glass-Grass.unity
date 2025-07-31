@@ -8146,7 +8146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 162173435}
-  gameOverTextObject: {fileID: 0}
+  gameOverTextObject: {fileID: 583132394}
   maxSurvivalTime: 180
 --- !u!4 &1110333703
 Transform:
@@ -8323,7 +8323,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7987590787422632772, guid: a32b3ad6f01ce234d967b9fc8cc8a46f, type: 3}
       propertyPath: baseAttackPower
-      value: 5
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 3523753513102148108, guid: a32b3ad6f01ce234d967b9fc8cc8a46f, type: 3}
       propertyPath: m_LocalPosition.x
