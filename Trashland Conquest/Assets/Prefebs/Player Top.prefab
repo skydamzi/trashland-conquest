@@ -265,6 +265,7 @@ MonoBehaviour:
   shadowTransform: {fileID: 6447175036709458069}
   squashAmount: 0.5
   shadowOffsetY: -0.4
+  shadowOpacity: 0.5
 --- !u!1 &4484674168280677017
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +446,7 @@ MonoBehaviour:
   staminaRegenDelay: 0.5
   tiltAngle: 15
   tiltSpeed: 30
+  damageCooldown: 1
 --- !u!50 &4349643468673513431
 Rigidbody2D:
   serializedVersion: 4
@@ -592,6 +594,7 @@ GameObject:
   - component: {fileID: 5201128139285668797}
   - component: {fileID: 2247742620187886573}
   - component: {fileID: 7278294159402956144}
+  - component: {fileID: 655763360713858230}
   m_Layer: 0
   m_Name: BoxingGlove
   m_TagString: BoxingGlove
@@ -764,3 +767,15 @@ PolygonCollider2D:
       - {x: -0.2265625, y: 0.1640625}
       - {x: -0.1796875, y: 0.1015625}
   m_UseDelaunayMesh: 0
+--- !u!114 &655763360713858230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8702378304035786394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071aa7e41e63db240a9f5dedee1cce03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

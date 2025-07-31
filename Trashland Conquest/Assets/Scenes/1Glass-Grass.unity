@@ -8192,8 +8192,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 538505ded2e0de944a6611b3dd315357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerText: {fileID: 0}
-  gameOverTextObject: {fileID: 0}
+  timerText: {fileID: 162173435}
+  gameOverTextObject: {fileID: 583132394}
   maxSurvivalTime: 180
 --- !u!4 &1197421504
 Transform:
