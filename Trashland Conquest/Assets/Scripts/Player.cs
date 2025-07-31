@@ -708,7 +708,10 @@ void Movement()
     void Die()
     {
         gameObject.SetActive(false); // 플레이어 오브젝트 비활성화
-        // Time.timeScale = 0f; // 게임 일시 정지 (선택 사항)
-        // GameManager.Instance.GameOver(); // 게임 관리자에게 게임 오버 알림 (선택 사항)
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.EndGame(false); // isWin = false (패배)
+        }
     }
 }
