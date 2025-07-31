@@ -111,15 +111,7 @@ public class Enemy : Unit
 
         }
 
-        // TODO: 플레이어와 닿았을 때 플레이어에게 데미지 주는 로직 추가 가능
-        else if (other.CompareTag("Player"))
-        {
-
-            if (player != null)
-            {
-                player.TakeDamage(GetBaseDamage()); // 적의 공격력으로 플레이어에게 데미지
-            }
-        }
+        
     }
 
     public void TakeDamage(float damage)

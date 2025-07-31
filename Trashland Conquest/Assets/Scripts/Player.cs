@@ -77,6 +77,10 @@ public class Player : Unit
     public float tiltAngle = 15f; // 캐릭터가 좌우로 기울어지는 최대 각도
     public float tiltSpeed = 30f; // 기울어지는 속도
 
+    [Header("Damage Cooldown")]
+    private bool canTakeDamage = true; // 데미지를 받을 수 있는지 여부
+    public float damageCooldown = 1.0f; // 데미지를 다시 받기까지의 쿨다운 시간
+
     void Start()
     {
         initialDirection = transform.right;
@@ -435,8 +439,6 @@ void Movement()
         staminaRegenCoroutine = null; // 회복 코루틴 참조 제거
         Debug.Log("스태미나 회복 완료!");
     }
-
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Rigidbody2D가 있으니 충돌 감지 정상 작동
@@ -454,40 +456,55 @@ void Movement()
                 }
             }
         }
-        if (collision.gameObject.CompareTag("Boss"))
-        {
-            if (isInvincible) return;
-            Boss boss = collision.gameObject.GetComponentInParent<Boss>();
-            Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
-            if (boss != null)
-            {
-                TakeDamage(boss.GetBaseDamage());
-                Sound.Instance.PlaySFX(glove_punchSound);
-                StartCoroutine(TriggerInvincibility());
-            }
-            else if (enemy != null)
-            {
-                TakeDamage(enemy.GetBaseDamage());
-                Sound.Instance.PlaySFX(glove_punchSound);
-                StartCoroutine(TriggerInvincibility());
-            }
-        }
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Rigidbody2D가 있으니 트리거 감지 정상 작동
-        if (isInvincible) return;
+        
+    }
 
-        if (other.CompareTag("Poop"))
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (!isInvincible && canTakeDamage)
         {
-            if (other.bounds.Intersects(GetComponent<Collider2D>().bounds))
+            if (other.CompareTag("Boss") || other.CompareTag("Poop") || other.CompareTag("Enemy"))
             {
-                TakeDamage(10f);
-                Sound.Instance.PlaySFX(glove_punchSound);
-                StartCoroutine(TriggerInvincibility());
+                float damageToTake = 0f;
+
+                // ... (데미지 계산 로직) ...
+                if (other.CompareTag("Poop"))
+                {
+                    damageToTake = 10f; // Poop의 고정 데미지
+                }
+                else if (other.CompareTag("Boss"))
+                {
+                    Boss boss = other.GetComponentInParent<Boss>();
+                    if (boss != null)
+                    {
+                        damageToTake = boss.GetBaseDamage();
+                    }
+                }
+                else if (other.CompareTag("Enemy"))
+                {
+                    Enemy enemy = other.GetComponent<Enemy>();
+                    if (enemy != null)
+                    {
+                        damageToTake = enemy.GetBaseDamage();
+                    }
+                }
+
+                if (damageToTake > 0)
+                {
+                    TakeDamage(damageToTake);
+                    Sound.Instance.PlaySFX(glove_punchSound);
+
+                    // 데미지를 입힌 후 쿨다운 코루틴 시작
+                    StartCoroutine(DamageCooldownCoroutine());
+                }
             }
         }
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
@@ -521,6 +538,15 @@ void Movement()
             yield return null;
         }
         transform.rotation = targetRotation;
+    }
+
+    IEnumerator DamageCooldownCoroutine()
+    {
+        canTakeDamage = false;
+        // isInvincible 코루틴과 함께 실행
+        StartCoroutine(TriggerInvincibility());
+        yield return new WaitForSeconds(damageCooldown);
+        canTakeDamage = true;
     }
 
     IEnumerator NeckStretchAnimSequence()
