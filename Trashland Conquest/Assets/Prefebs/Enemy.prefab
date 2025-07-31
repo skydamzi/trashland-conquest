@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1816787223477121873}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.8, y: 4.02, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,9 +74,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.89210093, g: 0.56468993, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: 
   unitLV: 0
-  baseAttackPower: 0
+  baseAttackPower: 5
   bonusAttackPower: 0
   armor: 0
   currentShield: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
   currentEXP: 0
   maxEXP: 100
   experienceGemPrefab: {fileID: 6346317279201060211, guid: 4a79c9520441dcb478f53b8627e49f1c, type: 3}
-  experienceAmount: 1
+  experienceAmount: 15
   healthBarPrefab: {fileID: 7278252718788031220, guid: 62c408eb222072449ab6d0fcf3d9aabb, type: 3}
 --- !u!58 &1816787223477121873
 CircleCollider2D:

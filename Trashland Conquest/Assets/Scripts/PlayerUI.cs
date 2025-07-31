@@ -14,23 +14,12 @@ public class PlayerUI : MonoBehaviour
     public Text hpText; // HP 텍스트
     // EXP UI (니가 주석 처리했기에 그대로 주석 유지)
     //public RectTransform expRT; // 경험치 바
-    public Text expText; // 경험치 텍스트
 
     // 스탯 텍스트 (니가 원래 준 것)
     public Text attack_powerText;
     public Text armorText;
     public Text levelText;
     public Text nameText;
-
-    // 트레잇 텍스트 (니가 원래 준 것)
-    public Text milkText;
-    public Text slushText;
-    public Text alcoholText;
-    public Text sodaText;
-    public Text energyDrinkText;
-    public Text coffeeText;
-    public Text pesticideText;
-    public Text purifiedWaterText;
 
     [Header("Ammo UI")] // (니가 원래 준 것)
     public Text bulletGaugeText;
@@ -39,7 +28,11 @@ public class PlayerUI : MonoBehaviour
     [Header("Stamina UI")]
     public RectTransform staminaFillRT; // 스태미나 바 fill RectTransform
     public Text staminaText;            // 스태미나 텍스트 (예: 100/100)
-    
+
+    // EXP UI (니가 새로 추가한 부분 그대로 살려둠)
+    [Header("EXP UI")]
+    public RectTransform expRT; // 경험치 바 fill RectTransform
+
     // 이 씨발놈의 쉴드 UI (동적으로 생성/삭제 + 크기 조절!) - 최종 방식
     [Header("Shield UI - Dynamic")] 
     public GameObject shieldIconPrefab; // 쉴드 아이콘으로 사용할 프리팹 (사각형 Image, Layout Element 필요!)
@@ -58,7 +51,7 @@ public class PlayerUI : MonoBehaviour
     private float prevHP = -1f;
     //private int prevShieldCount = -1; 
     private int prevMaxShield = -1; 
-    //private int prevEXP = -1; // 니가 주석 처리했던 EXP 관련 prev 변수도 넣어둠
+    private int prevEXP = -1; // 니가 주석 처리했던 EXP 관련 prev 변수도 넣어둠
     private int prevLV = -1;
     private float prevBaseAtk = -1;
     private float prevBonusAtk = -1;
@@ -103,9 +96,10 @@ public class PlayerUI : MonoBehaviour
 
         UpdateHP();
         UpdateShield(); // 매 프레임마다 쉴드 투명도 업데이트를 위해 호출
-        //UpdateEXP(); // 주석 처리된 함수도 살려두겠다.
-        UpdateStatusText();
         UpdateStamina(); 
+        UpdateEXP();
+        UpdateStatusText();
+
     }
 
     // HP UI 업데이트
@@ -241,17 +235,16 @@ public class PlayerUI : MonoBehaviour
     
     // --- 아래는 이전 코드에서 가져온 기타 UI 업데이트 함수들 ---
 
-    // 경험치 업데이트 함수 (니가 주석 처리한 상태로 넣어둠)
-    //void UpdateEXP()
-    //{
-    //    if (playerStatus.currentEXP != prevEXP)
-    //    {
-    //        float rate = (float)playerStatus.currentEXP / playerStatus.maxEXP;
-    //        expRT.localScale = new Vector3(rate, 1f, 1f);
-    //        expText.text = $"{playerStatus.currentEXP} / {playerStatus.maxEXP}";
-    //        prevEXP = playerStatus.currentEXP;
-    //    }
-    //}
+    //경험치 업데이트 함수 (니가 주석 처리한 상태로 넣어둠)
+    void UpdateEXP()
+    {
+        if (playerStatus.currentEXP != prevEXP)
+        {
+            float rate = (float)playerStatus.currentEXP / playerStatus.maxEXP;
+            expRT.localScale = new Vector3(rate, 1f, 1f);
+            prevEXP = playerStatus.currentEXP;
+        }
+    }
 
     void UpdateStatusText()
     {
@@ -320,6 +313,8 @@ public class PlayerUI : MonoBehaviour
     {
         staminaFillRT.localScale = new Vector3(rate, 1f, 1f);
     }
+
+
 
     IEnumerator ShakeUI(RectTransform target, float duration = 0.1f, float magnitude = 5f)
     {

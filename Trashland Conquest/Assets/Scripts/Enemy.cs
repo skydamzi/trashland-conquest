@@ -105,13 +105,8 @@ public class Enemy : Unit
         else if (other.CompareTag("BoxingGlove"))
         {
             // 플레이어의 근접 공격 태그와 비교
-
             TakeDamage(player.GetMeleeDamage()); // 플레이어의 근접 공격력으로 데미지
-
-
         }
-
-        
     }
 
     public void TakeDamage(float damage)

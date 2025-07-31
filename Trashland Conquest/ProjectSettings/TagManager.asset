@@ -11,6 +11,7 @@ TagManager:
   - BoxingGlove
   - Boss
   - Poop
+  - Enemy
   layers:
   - Default
   - TransparentFX
