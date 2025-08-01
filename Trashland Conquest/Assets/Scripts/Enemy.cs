@@ -11,7 +11,7 @@ public class Enemy : Unit, IDamageable
     public int experienceAmount = 1;
     public GameObject healthBarPrefab;
     private Image healthBarFillImage;
-
+    public bool isElite = false; // 엘리트 몬스터 여부
     private Transform targetTransform; // 추격 대상의 Transform
 
     // Awake()는 기존 코드와 동일합니다.
@@ -174,6 +174,11 @@ public class Enemy : Unit, IDamageable
         // 코루틴 사용 예시
         // StartCoroutine(DestroyAfterDelay(2f)); 
 
+        // 만약 엘리트 몬스터일경우 클리어
+        if (isElite)
+        {
+            GameManager.instance.EndGame(GameManager.GameEndReason.WinByNpcArrival);
+        }
         Destroy(gameObject);
     }
 }

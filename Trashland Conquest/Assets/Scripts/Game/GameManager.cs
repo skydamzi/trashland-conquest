@@ -8,20 +8,20 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    // ���� ���� ������ ��Ȯ�� �����ϱ� ���� ������(Enum)
+    // 게임 종료 이유를 정의하는 Enum입니다.
     public enum GameEndReason { WinByTime, WinByNpcArrival, LossByTimeOut, LossByNpcDeath, LossByDeath };
 
     [Header("UI References")]
-    public Text timerText; // Ÿ�̸Ӹ� ǥ���� UI Text ������Ʈ
-    public GameObject gameOverTextObject;// ���� ���� �� ǥ���� UI GameObject
+    public Text timerText; // 타이머 표시 UI Text 오브젝트
+    public GameObject gameOverTextObject;// 게임 오버 시 표시할 UI GameObject
     public GameObject gameClearTextObject;
-    public GameObject winByTimeTextObject; // �ð� �ʰ��� �¸� �� ǥ���� UI GameObject
-    public GameObject winByNpcTextObject; // NPC �������� �¸� �� ǥ���� UI GameObject
+    public GameObject winByTimeTextObject; // 시간 초과 승리 시 표시할 UI GameObject
+    public GameObject winByNpcTextObject; // NPC 도착 승리 시 표시할 UI GameObject
     public GameObject gameOverlayObject;
 
     [Header("Game Settings")]
-    public bool enableTimer = true; // �ν����Ϳ��� Ÿ�̸� ����� �Ѱ� �� �� �ִ� ����
-    public float maxSurvivalTime = 180f; // �����ؾ� �� �ִ� �ð� (�� ����)
+    public bool enableTimer = true; // 타이머 기능 활성화 여부
+    public float maxSurvivalTime = 180f; // 최대 생존 시간 (초 단위)
     private float currentSurvivalTime;
 
     private bool isGameActive = true;
@@ -43,14 +43,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Ÿ�̸� ����� Ȱ��ȭ�Ǿ��� ���� �ʱ�ȭ�մϴ�.
+        // 타이머 관련 초기화를 진행합니다.
         if (enableTimer)
         {
             currentSurvivalTime = maxSurvivalTime;
             UpdateTimerUI();
         }
 
-        // ���� �� ��� ���� ���� UI�� ��Ȱ��ȭ�մϴ�.
+        // 게임 오버 및 클리어 관련 UI를 비활성화합니다.
         if (gameOverTextObject != null) gameOverTextObject.SetActive(false);
         if (gameClearTextObject != null) gameClearTextObject.SetActive(false);
         if (winByTimeTextObject != null) winByTimeTextObject.SetActive(false);
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
             if (currentSurvivalTime <= 0)
             {
                 currentSurvivalTime = 0;
-                // �ð��� 0�� �Ǹ� '�ð� �ʰ� �¸�'�� ������ �����ϴ�.
+                // 시간이 0이 되었을 때 '시간 초과 패배'로 게임 종료.
                 EndGame(GameEndReason.WinByTime);
             }
 
@@ -86,18 +86,18 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ������ �����ϰ� ����� ó���ϴ� �Լ�.
-    /// ������ ���� ������ GameEndReason enum���� �޽��ϴ�.
+    /// 게임을 종료하는 함수입니다.
+    /// 게임 종료 이유에 따라 UI를 업데이트하고 게임을 멈춥니다.
     /// </summary>
-    /// <param name="reason">������ ����� ����</param>
+    /// <param name="reason"></param>
     public void EndGame(GameEndReason reason)
     {
         if (!isGameActive) return;
 
         isGameActive = false;
-        Debug.Log("���� ����! ����: " + reason);
+        Debug.Log("게임 종료! 이유: " + reason);
 
-        // ���� ���ο� ���� �ٸ� UI�� Ȱ��ȭ�մϴ�.
+        // 게임 종료 이유에 따라 UI를 업데이트합니다.
         switch (reason)
         {
             case GameEndReason.WinByTime:
