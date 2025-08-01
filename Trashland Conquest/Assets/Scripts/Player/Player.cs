@@ -662,6 +662,7 @@ void Movement()
         SetAlpha(1f);
         isInvincible = false;
     }
+
     void SetAlpha(float alpha)
     {
         SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
@@ -711,7 +712,7 @@ void Movement()
 
         if (GameManager.instance != null)
         {
-            GameManager.instance.EndGame(false); // isWin = false (패배)
+            GameManager.instance.EndGame(GameManager.GameEndReason.LossByDeath); // isWin = false (패배)
         }
     }
 }

@@ -12,6 +12,7 @@ TagManager:
   - Boss
   - Poop
   - Enemy
+  - NPC
   layers:
   - Default
   - TransparentFX
