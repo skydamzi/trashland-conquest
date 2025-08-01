@@ -8,20 +8,20 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    // °ÔÀÓ Á¾·á ÀÌÀ¯¸¦ ¸íÈ®È÷ ±¸ºÐÇÏ±â À§ÇÑ ¿­°ÅÇü(Enum)
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Enum)
     public enum GameEndReason { WinByTime, WinByNpcArrival, LossByTimeOut, LossByNpcDeath, LossByDeath };
 
     [Header("UI References")]
-    public Text timerText; // Å¸ÀÌ¸Ó¸¦ Ç¥½ÃÇÒ UI Text ÄÄÆ÷³ÍÆ®
-    public GameObject gameOverTextObject;// °ÔÀÓ ¿À¹ö ½Ã Ç¥½ÃÇÒ UI GameObject
+    public Text timerText; // Å¸ï¿½Ì¸Ó¸ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ UI Text ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    public GameObject gameOverTextObject;// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ UI GameObject
     public GameObject gameClearTextObject;
-    public GameObject winByTimeTextObject; // ½Ã°£ ÃÊ°ú·Î ½Â¸® ½Ã Ç¥½ÃÇÒ UI GameObject
-    public GameObject winByNpcTextObject; // NPC µµÂøÀ¸·Î ½Â¸® ½Ã Ç¥½ÃÇÒ UI GameObject
+    public GameObject winByTimeTextObject; // ï¿½Ã°ï¿½ ï¿½Ê°ï¿½ï¿½ï¿½ ï¿½Â¸ï¿½ ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ UI GameObject
+    public GameObject winByNpcTextObject; // NPC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â¸ï¿½ ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ UI GameObject
     public GameObject gameOverlayObject;
 
     [Header("Game Settings")]
-    public bool enableTimer = true; // ÀÎ½ºÆåÅÍ¿¡¼­ Å¸ÀÌ¸Ó ±â´ÉÀ» ÄÑ°í ²ø ¼ö ÀÖ´Â º¯¼ö
-    public float maxSurvivalTime = 180f; // »ýÁ¸ÇØ¾ß ÇÒ ÃÖ´ë ½Ã°£ (ÃÊ ´ÜÀ§)
+    public bool enableTimer = true; // ï¿½Î½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public float maxSurvivalTime = 180f; // ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ã°ï¿½ (ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
     private float currentSurvivalTime;
 
     private bool isGameActive = true;
@@ -43,14 +43,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Å¸ÀÌ¸Ó ±â´ÉÀÌ È°¼ºÈ­µÇ¾úÀ» ¶§¸¸ ÃÊ±âÈ­ÇÕ´Ï´Ù.
+        // Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Õ´Ï´ï¿½.
         if (enableTimer)
         {
             currentSurvivalTime = maxSurvivalTime;
             UpdateTimerUI();
         }
 
-        // ½ÃÀÛ ½Ã ¸ðµç °ÔÀÓ Á¾·á UI¸¦ ºñÈ°¼ºÈ­ÇÕ´Ï´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ï¿½Õ´Ï´ï¿½.
         if (gameOverTextObject != null) gameOverTextObject.SetActive(false);
         if (gameClearTextObject != null) gameClearTextObject.SetActive(false);
         if (winByTimeTextObject != null) winByTimeTextObject.SetActive(false);
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
             if (currentSurvivalTime <= 0)
             {
                 currentSurvivalTime = 0;
-                // ½Ã°£ÀÌ 0ÀÌ µÇ¸é '½Ã°£ ÃÊ°ú ½Â¸®'·Î °ÔÀÓÀ» ³¡³À´Ï´Ù.
+                // ï¿½Ã°ï¿½ï¿½ï¿½ 0ï¿½ï¿½ ï¿½Ç¸ï¿½ 'ï¿½Ã°ï¿½ ï¿½Ê°ï¿½ ï¿½Â¸ï¿½'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
                 EndGame(GameEndReason.WinByTime);
             }
 
@@ -86,18 +86,18 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// °ÔÀÓÀ» Á¾·áÇÏ°í °á°ú¸¦ Ã³¸®ÇÏ´Â ÇÔ¼ö.
-    /// °ÔÀÓÀÌ ³¡³­ ÀÌÀ¯¸¦ GameEndReason enumÀ¸·Î ¹Þ½À´Ï´Ù.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GameEndReason enumï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½Ï´ï¿½.
     /// </summary>
-    /// <param name="reason">°ÔÀÓÀÌ Á¾·áµÈ ¿øÀÎ</param>
+    /// <param name="reason">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</param>
     public void EndGame(GameEndReason reason)
     {
         if (!isGameActive) return;
 
         isGameActive = false;
-        Debug.Log("°ÔÀÓ Á¾·á! ¿øÀÎ: " + reason);
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½! ï¿½ï¿½ï¿½ï¿½: " + reason);
 
-        // Á¾·á ¿øÀÎ¿¡ µû¶ó ´Ù¸¥ UI¸¦ È°¼ºÈ­ÇÕ´Ï´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ UIï¿½ï¿½ È°ï¿½ï¿½È­ï¿½Õ´Ï´ï¿½.
         switch (reason)
         {
             case GameEndReason.WinByTime:
@@ -118,6 +118,6 @@ public class GameManager : MonoBehaviour
         {
             gameOverlayObject.SetActive(true);
         }
-        Time.timeScale = 0; // °ÔÀÓ ½Ã°£À» ¸ØÃç °ÔÀÓÀ» Á¤Áö½ÃÅµ´Ï´Ù.
+        Time.timeScale = 0;
     }
 }

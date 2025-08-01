@@ -779,3 +779,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071aa7e41e63db240a9f5dedee1cce03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  glove_punchSound: {fileID: 8300000, guid: 925b3574dfc99bd4cbfbd190e4382773, type: 3}

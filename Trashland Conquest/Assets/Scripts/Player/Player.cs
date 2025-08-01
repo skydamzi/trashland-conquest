@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Unit 클래스에서 maxStamina, currentStamina를 상속받았다고 가정
-public class Player : Unit
+public class Player : Unit, IDamageable
 {
     [Header("Direction & Rotation")]
     public bool isLookAt = true;
@@ -439,31 +439,13 @@ void Movement()
         staminaRegenCoroutine = null; // 회복 코루틴 참조 제거
         Debug.Log("스태미나 회복 완료!");
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Rigidbody2D가 있으니 충돌 감지 정상 작동
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-            foreach (ContactPoint2D contact in collision.contacts)
-            {
-                if (contact.normal.y > 0.5f)
-                {
-                    isGrounded = true;
-                    jumpCount = 0;
-                    animator.SetInteger("jumpCount", 0);
-                    animator.SetBool("isJumping", false);
-                    break;
-                }
-            }
-        }
-    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    /*private void OnTriggerStay2D(Collider2D other)
     {
         if (!isInvincible && canTakeDamage)
         {
@@ -503,14 +485,8 @@ void Movement()
                 }
             }
         }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Floor"))
-            isGrounded = false;
-    }
-
+    }*/
+    
     IEnumerator StretchNeckAnim()
     {
         isStretching = true; // 목 늘이기 시작
@@ -662,7 +638,6 @@ void Movement()
         SetAlpha(1f);
         isInvincible = false;
     }
-
     void SetAlpha(float alpha)
     {
         SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
@@ -681,7 +656,10 @@ void Movement()
 
     public void TakeDamage(float rawDamage)
     {
+        if (!canTakeDamage || isInvincible) return; // 데미지를 받을 수 없거나 무적 상태면 아무 일도 안 함
         float reducedDamage = Mathf.Max(rawDamage - armor, 1f);
+        // 무적상태일때는 아무 일도 일어나지 않음
+        Sound.Instance.PlaySFX(glove_punchSound);  
 
         // 쉴드가 0보다 크면 쉴드 카운트만 줄이고 데미지는 안 들어감
         if (currentShield > 0)
@@ -704,6 +682,7 @@ void Movement()
         {
             Die(); // 체력이 0 이하면 Die() 호출
         }
+        StartCoroutine(TriggerInvincibility());
     }
 
     void Die()

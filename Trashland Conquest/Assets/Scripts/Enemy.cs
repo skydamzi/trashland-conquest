@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : Unit
+public class Enemy : Unit, IDamageable
 {
     // Unit 클래스의 변수들과 메서드들은 Unit.cs에 이미 구현되어 있다고 가정합니다.
     protected Player player;
@@ -123,10 +123,6 @@ public class Enemy : Unit
             Debug.Log($"[Enemy] {unitName}이(가) 플레이어의 공격을 받음!");
             TakeDamage(player.GetBaseDamage());
             Destroy(other.gameObject);
-        }
-        else if (other.CompareTag("BoxingGlove"))
-        {
-            TakeDamage(player.GetMeleeDamage());
         }
     }
 

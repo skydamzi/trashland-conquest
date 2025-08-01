@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6996150116486810718}
   - component: {fileID: 5220326645255989534}
-  - component: {fileID: 7371883232875524996}
+  - component: {fileID: 7907260982675816698}
   m_Layer: 0
   m_Name: Hitbox
   m_TagString: Untagged
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glove_punchSound: {fileID: 8300000, guid: 925b3574dfc99bd4cbfbd190e4382773, type: 3}
---- !u!58 &7371883232875524996
+--- !u!58 &7907260982675816698
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: -7987590787422632772}
   - component: {fileID: 1816787223477121873}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EliteEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,7 +110,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.8, y: 4.02, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6996150116486810718}
@@ -158,7 +158,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.89210093, g: 0.56468993, b: 1, a: 1}
+  m_Color: {r: 0.010476112, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -182,18 +182,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: 
   unitLV: 0
-  baseAttackPower: 5
+  baseAttackPower: 50
   bonusAttackPower: 0
   armor: 0
   currentShield: 0
   maxShield: 0
-  currentHP: 100
-  maxHP: 100
+  currentHP: 2000
+  maxHP: 2000
   maxStamina: 0
   currentStamina: 0
   attackSpeed: 0
   criticalChance: 0
-  moveSpeed: 2
+  moveSpeed: 1.5
   currentEXP: 0
   maxEXP: 100
   experienceGemPrefab: {fileID: 6346317279201060211, guid: 4a79c9520441dcb478f53b8627e49f1c, type: 3}

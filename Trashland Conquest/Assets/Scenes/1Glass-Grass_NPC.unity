@@ -7625,7 +7625,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Gay Over
+  m_Text: Game Over
 --- !u!222 &583132397
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8021,11 +8021,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6240583114979988411, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
   m_PrefabInstance: {fileID: 856475701}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &856475708 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2905595537052561532, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-  m_PrefabInstance: {fileID: 856475701}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &968011732
 GameObject:
   m_ObjectHideFlags: 0
@@ -8322,58 +8317,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1197421502
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1197421504}
-  - component: {fileID: 1197421503}
-  m_Layer: 0
-  m_Name: FrameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1197421503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197421502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 538505ded2e0de944a6611b3dd315357, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timerText: {fileID: 162173435}
-  gameOverTextObject: {fileID: 583132394}
-  gameClearTextObject: {fileID: 0}
-  winByTimeTextObject: {fileID: 0}
-  winByNpcTextObject: {fileID: 0}
-  gameOverlayObject: {fileID: 0}
-  enableTimer: 1
-  maxSurvivalTime: 180
---- !u!4 &1197421504
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197421502}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.163247, y: -0.84176964, z: -0.033681937}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1690080427
 GameObject:
   m_ObjectHideFlags: 0
@@ -8408,7 +8351,7 @@ MonoBehaviour:
   maxMonsters: 200
   monstersPerWave: 8
   spawnRadius: 10
-  playerTransform: {fileID: 856475708}
+  playerTransform: {fileID: 1964789100}
 --- !u!4 &1690080429
 Transform:
   m_ObjectHideFlags: 0
@@ -8662,13 +8605,13 @@ MonoBehaviour:
   armor: 0
   currentShield: 0
   maxShield: 0
-  currentHP: 1
-  maxHP: 0
+  currentHP: 500
+  maxHP: 500
   maxStamina: 0
   currentStamina: 0
   attackSpeed: 0
   criticalChance: 0
-  moveSpeed: 6
+  moveSpeed: 1
   currentEXP: 0
   maxEXP: 100
   damageCooldown: 1
@@ -8889,7 +8832,6 @@ SceneRoots:
   - {fileID: 636048482}
   - {fileID: 1902428718}
   - {fileID: 856475701}
-  - {fileID: 1197421504}
   - {fileID: 2109936295}
   - {fileID: 968011734}
   - {fileID: 2073449424}
