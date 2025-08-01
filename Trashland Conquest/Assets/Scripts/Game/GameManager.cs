@@ -13,9 +13,11 @@ public class GameManager : MonoBehaviour
 
     [Header("UI References")]
     public Text timerText; // 타이머를 표시할 UI Text 컴포넌트
-    public GameObject gameOverTextObject; // 게임 오버 시 표시할 UI GameObject
+    public GameObject gameOverTextObject;// 게임 오버 시 표시할 UI GameObject
+    public GameObject gameClearTextObject;
     public GameObject winByTimeTextObject; // 시간 초과로 승리 시 표시할 UI GameObject
     public GameObject winByNpcTextObject; // NPC 도착으로 승리 시 표시할 UI GameObject
+    public GameObject gameOverlayObject;
 
     [Header("Game Settings")]
     public bool enableTimer = true; // 인스펙터에서 타이머 기능을 켜고 끌 수 있는 변수
@@ -49,18 +51,11 @@ public class GameManager : MonoBehaviour
         }
 
         // 시작 시 모든 게임 종료 UI를 비활성화합니다.
-        if (gameOverTextObject != null)
-        {
-            gameOverTextObject.SetActive(false);
-        }
-        if (winByTimeTextObject != null)
-        {
-            winByTimeTextObject.SetActive(false);
-        }
-        if (winByNpcTextObject != null)
-        {
-            winByNpcTextObject.SetActive(false);
-        }
+        if (gameOverTextObject != null) gameOverTextObject.SetActive(false);
+        if (gameClearTextObject != null) gameClearTextObject.SetActive(false);
+        if (winByTimeTextObject != null) winByTimeTextObject.SetActive(false);
+        if (winByNpcTextObject != null) winByNpcTextObject.SetActive(false);
+        if (gameOverlayObject != null) gameOverlayObject.SetActive(false);
     }
 
     void Update()
@@ -106,23 +101,22 @@ public class GameManager : MonoBehaviour
         switch (reason)
         {
             case GameEndReason.WinByTime:
-                if (winByTimeTextObject != null)
-                {
-                    winByTimeTextObject.SetActive(true);
-                }
+                if (winByTimeTextObject != null) winByTimeTextObject.SetActive(true);
+                if (gameClearTextObject != null) gameClearTextObject.SetActive(true);
                 break;
             case GameEndReason.WinByNpcArrival:
-                if (winByNpcTextObject != null)
-                {
-                    winByNpcTextObject.SetActive(true);
-                }
+                if (winByNpcTextObject != null) winByNpcTextObject.SetActive(true);
+                if (gameClearTextObject != null) gameClearTextObject.SetActive(true);
                 break;
             case GameEndReason.LossByNpcDeath:
-                if (gameOverTextObject != null)
-                {
-                    gameOverTextObject.SetActive(true);
-                }
+            case GameEndReason.LossByDeath:
+                if (gameOverTextObject != null) gameOverTextObject.SetActive(true);
                 break;
+        }
+
+        if (gameOverlayObject != null)
+        {
+            gameOverlayObject.SetActive(true);
         }
         Time.timeScale = 0; // 게임 시간을 멈춰 게임을 정지시킵니다.
     }
