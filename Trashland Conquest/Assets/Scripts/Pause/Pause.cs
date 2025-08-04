@@ -16,7 +16,7 @@ public class Pause : MonoBehaviour
 
     [Header("패널 리스트 (왼쪽부터 오른쪽 순서)")]
     public List<GameObject> menuPanels = new List<GameObject>(); // 0: Equipment, 1: Inventory, 2: Skill, 3: Setting 등
-    private int currentPanelIndex = 0;
+    public int currentPanelIndex = 0;
 
 
     private void Awake()
@@ -31,11 +31,9 @@ public class Pause : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // <<< 씨발, 여기다! 여기다 이사시켜라!
         introManager = FindObjectOfType<BossIntroManager>(); 
         // 이제 Awake에서 호출되니까 제대로 찾아올 거다.
         // 만약 BossIntroManager가 Pause 스크립트보다 나중에 활성화될 수도 있다면 Start()에서 초기화하는 게 더 안전할 수도 있다.
-        // 근데 일단 Awake()로 옮겨봐라.
     }
 
     void Update()
@@ -48,9 +46,9 @@ public class Pause : MonoBehaviour
         if (isPaused)
         {
             if (Input.GetKeyDown(KeyCode.Q))
-                NavigatePanel(1); //메뉴 좌측이동
+                NavigatePanel(-1); //메뉴 좌측이동
             else if (Input.GetKeyDown(KeyCode.E))
-                NavigatePanel(-1);  //메뉴 우측이동
+                NavigatePanel(1);  //메뉴 우측이동
         }
     }
 
@@ -61,30 +59,32 @@ public class Pause : MonoBehaviour
         if (isPaused)
         {
             Time.timeScale = 0f;
-            Debug.Log(" Ͻ!"); // 게임이 일시정지됨!
+            Debug.Log("ESC 게임 중지!"); // 게임이 일시정지됨!
             
             if (PauseMenuUI != null)
                 PauseMenuUI.SetActive(true);
             
-            // 씨발, introManager가 null일 수도 있으니 null 체크 해라!
+            // , introManager가 null일 수도 있으니 null 체크 해라!
             if (introManager != null) 
             {
-                       // introManager.StopIntro(); // 보스 인트로 관련 뭔가를 멈춰야 할 것 같으면 여기에 넣어라
+                //introManager.StopIntro(); // 보스 인트로 관련 뭔가를 멈춰야 할 것 같으면 여기에 넣어라
             }
             
             Sound.Instance.PlaySFX(PauseSound, 1f); // Sound.Instance도 null 체크 필요할 수도 있음
 
 
-            for (int i = 0; i < menuPanels.Count; i++)
+            if (currentPanelIndex >= 0 && currentPanelIndex < menuPanels.Count)
             {
-                menuPanels[i].SetActive(i == currentPanelIndex);
+                menuPanels[currentPanelIndex].SetActive(true);
+                Debug.Log($"현재 패널: {menuPanels[currentPanelIndex].name}");
             }
-            
-        }
+
+
+    }
         else
         {
             Time.timeScale = 1f;
-            Debug.Log(" 簳!"); // 게임이 재개됨!
+            Debug.Log("ESC 게임 재개!"); // 게임이 재개됨!
 
             if (PauseMenuUI != null)
                 PauseMenuUI.SetActive(false);
@@ -92,11 +92,12 @@ public class Pause : MonoBehaviour
             // 정지 해제 시에도 introManager 관련 동작이 필요하면 여기에 넣어라
         }
     }
+
     private void NavigatePanel(int direction)
     {
         if (menuPanels == null || menuPanels.Count == 0)
         {
-            Debug.LogWarning("menuPanels가 비어 있거나 null입니다.");
+            Debug.LogWarning("menuPanel이 비어 있거나 null입니다.");
             return;
         }
 

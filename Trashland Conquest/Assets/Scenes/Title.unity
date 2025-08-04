@@ -363,13 +363,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7002429a75a304e44ad2b01708f4363a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PauseSound: {fileID: 8300000, guid: 925b3574dfc99bd4cbfbd190e4382773, type: 3}
+  PauseSound: {fileID: 8300000, guid: 96ecbda42fe4a5a478d7a6722dd2f419, type: 3}
   PauseMenuUI: {fileID: 235722909}
   menuPanels:
-  - {fileID: 1021470495}
-  - {fileID: 861165316}
-  - {fileID: 1312459769}
   - {fileID: 1319322840}
+  - {fileID: 1312459769}
+  - {fileID: 861165316}
+  - {fileID: 1021470495}
+  currentPanelIndex: 0
 --- !u!4 &32607983
 Transform:
   m_ObjectHideFlags: 0
@@ -1499,6 +1500,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 835626635347007133, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
+      propertyPath: m_Name
+      value: Equip Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 835626635347007133, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 977311299127782013, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
       propertyPath: m_Type
       value: 0
@@ -1517,11 +1526,19 @@ PrefabInstance:
       objectReference: {fileID: 1852060284, guid: 4e73089c77dfbc24bb0ca2d2ca7fe6ac, type: 3}
     - target: {fileID: 2097907148498262964, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
       propertyPath: m_Name
-      value: Panel Purple
+      value: Setting Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2097907148498262964, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2282528269895634882, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
       propertyPath: m_Name
-      value: Panel Blue
+      value: Skill Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282528269895634882, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3396686800821570963, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
       propertyPath: m_Name
@@ -1645,7 +1662,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7057026150073779290, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
       propertyPath: m_Name
-      value: Panel Yellow
+      value: Inven Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7057026150073779290, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7106073471586603878, guid: 20aee9a658bd42c44be1a520385e90df, type: 3}
       propertyPath: m_Color.b
