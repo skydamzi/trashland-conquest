@@ -9,23 +9,31 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     // 게임 종료 이유를 정의하는 Enum입니다.
-    public enum GameEndReason { WinByTime, WinByNpcArrival,WinByGoal, LossByTimeOut, LossByNpcDeath, LossByDeath };
+    public enum GameEndReason { WinByNpcArrival, LossByNpcDeath, WinByGoal, LossByDeath, WinByGoStop, WinByTime };
 
     [Header("UI References")]
-    public Text timerText; // 타이머 표시 UI Text 오브젝트
-    public GameObject gameOverTextObject;// 게임 오버 시 표시할 UI GameObject
+    public Text timerText;
+    public GameObject gameOverTextObject;
     public GameObject gameClearTextObject;
-    public GameObject winByTimeTextObject; // 시간 초과 승리 시 표시할 UI GameObject
-    public GameObject winByNpcTextObject; // NPC 도착 승리 시 표시할 UI GameObject
-    public GameObject winByGoalTextObject; // 골인 승리 시 표시할 UI GameObject
+    public GameObject winByTimeTextObject;
+    public GameObject winByNpcTextObject;
+    public GameObject winByGoalTextObject;
     public GameObject gameOverlayObject;
 
+    [Header("Go-Stop UI")]
+    public GameObject choicePanel;
+    public Text goCountText;
+
     [Header("Game Settings")]
-    public bool enableTimer = true; // 타이머 기능 활성화 여부
-    public float maxSurvivalTime = 180f; // 최대 생존 시간 (초 단위)
+    public bool enableTimer = true;
+    public float maxSurvivalTime = 180f;
     private float currentSurvivalTime;
 
     private bool isGameActive = true;
+
+    // MonsterManager의 '고' 횟수를 받아서 처리
+    private int goCount = 0;
+    private int maxGoCount = 0; // MonsterManager에서 받아올 값
 
     void Awake()
     {
@@ -44,21 +52,21 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // 타이머 관련 초기화를 진행합니다.
         if (enableTimer)
         {
             currentSurvivalTime = maxSurvivalTime;
             UpdateTimerUI();
         }
 
-        // 게임 오버 및 클리어 관련 UI를 비활성화합니다.
         if (gameOverTextObject != null) gameOverTextObject.SetActive(false);
         if (gameClearTextObject != null) gameClearTextObject.SetActive(false);
         if (winByTimeTextObject != null) winByTimeTextObject.SetActive(false);
         if (winByNpcTextObject != null) winByNpcTextObject.SetActive(false);
         if (winByGoalTextObject != null) winByGoalTextObject.SetActive(false);
-
         if (gameOverlayObject != null) gameOverlayObject.SetActive(false);
+
+        if (choicePanel != null) choicePanel.SetActive(false);
+        UpdateGoCountUI();
     }
 
     void Update()
@@ -66,14 +74,11 @@ public class GameManager : MonoBehaviour
         if (isGameActive && enableTimer)
         {
             currentSurvivalTime -= Time.deltaTime;
-
             if (currentSurvivalTime <= 0)
             {
                 currentSurvivalTime = 0;
-                // 시간이 0이 되었을 때 '시간 초과 패배'로 게임 종료.
                 EndGame(GameEndReason.WinByTime);
             }
-
             UpdateTimerUI();
         }
     }
@@ -88,11 +93,60 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 게임을 종료하는 함수입니다.
-    /// 게임 종료 이유에 따라 UI를 업데이트하고 게임을 멈춥니다.
-    /// </summary>
-    /// <param name="reason"></param>
+    void UpdateGoCountUI()
+    {
+        if (goCountText != null)
+        {
+            goCountText.text = $"최대 3번 도전 가능 ( {goCount} / {maxGoCount} )";
+        }
+    }
+
+    public void WaveClear(int currentGoCount, int maxGo)
+    {
+        goCount = currentGoCount;
+        maxGoCount = maxGo;
+        UpdateGoCountUI();
+
+        Debug.Log("웨이브 클리어! 다음 웨이브를 선택하세요.");
+
+        if (goCount < maxGoCount)
+        {
+            if (choicePanel != null)
+            {
+                choicePanel.SetActive(true);
+            }
+        }
+        else
+        {
+            // '고' 횟수가 최대치에 도달하면 최종 승리 처리
+            EndGame(GameEndReason.WinByGoStop);
+        }
+    }
+
+    public void PlayerChoosesGo()
+    {
+        if (choicePanel != null)
+        {
+            choicePanel.SetActive(false);
+        }
+        // MonsterManager에게 '고'를 선택했음을 알림
+        if (FindObjectOfType<MonsterManager2>() != null)
+        {
+            FindObjectOfType<MonsterManager2>().PlayerChoosesGo();
+        }
+        Debug.Log("고를 선택했습니다! 다음 웨이브가 시작됩니다.");
+    }
+
+    public void PlayerChoosesStop()
+    {
+        if (choicePanel != null)
+        {
+            choicePanel.SetActive(false);
+        }
+        Debug.Log("스톱을 선택했습니다! 게임 클리어!");
+        EndGame(GameEndReason.WinByGoStop);
+    }
+
     public void EndGame(GameEndReason reason)
     {
         if (!isGameActive) return;
@@ -100,11 +154,10 @@ public class GameManager : MonoBehaviour
         isGameActive = false;
         Debug.Log("게임 종료! 이유: " + reason);
 
-        // 게임 종료 이유에 따라 UI를 업데이트합니다.
         switch (reason)
         {
             case GameEndReason.WinByTime:
-                if (winByTimeTextObject != null) winByTimeTextObject.SetActive(true);
+            case GameEndReason.WinByGoStop:
                 if (gameClearTextObject != null) gameClearTextObject.SetActive(true);
                 break;
             case GameEndReason.WinByNpcArrival:
