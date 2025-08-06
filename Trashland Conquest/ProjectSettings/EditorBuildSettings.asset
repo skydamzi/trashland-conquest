@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/1Glass-Grass_NPC.unity
     guid: 381e030a2be53554ab2f19b21ec1c3a1
+  - enabled: 1
+    path: Assets/Scenes/1Glass-Grass_Soccer.unity
+    guid: dd906f6ba2fcec14eabf8ca597d08507
   m_configObjects: {}
