@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     // 게임 종료 이유를 정의하는 Enum입니다.
-    public enum GameEndReason { WinByTime, WinByNpcArrival, LossByTimeOut, LossByNpcDeath, LossByDeath };
+    public enum GameEndReason { WinByTime, WinByNpcArrival,WinByGoal, LossByTimeOut, LossByNpcDeath, LossByDeath };
 
     [Header("UI References")]
     public Text timerText; // 타이머 표시 UI Text 오브젝트
@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameClearTextObject;
     public GameObject winByTimeTextObject; // 시간 초과 승리 시 표시할 UI GameObject
     public GameObject winByNpcTextObject; // NPC 도착 승리 시 표시할 UI GameObject
+    public GameObject winByGoalTextObject; // 골인 승리 시 표시할 UI GameObject
     public GameObject gameOverlayObject;
 
     [Header("Game Settings")]
@@ -55,6 +56,8 @@ public class GameManager : MonoBehaviour
         if (gameClearTextObject != null) gameClearTextObject.SetActive(false);
         if (winByTimeTextObject != null) winByTimeTextObject.SetActive(false);
         if (winByNpcTextObject != null) winByNpcTextObject.SetActive(false);
+        if (winByGoalTextObject != null) winByGoalTextObject.SetActive(false);
+
         if (gameOverlayObject != null) gameOverlayObject.SetActive(false);
     }
 
@@ -106,6 +109,10 @@ public class GameManager : MonoBehaviour
                 break;
             case GameEndReason.WinByNpcArrival:
                 if (winByNpcTextObject != null) winByNpcTextObject.SetActive(true);
+                if (gameClearTextObject != null) gameClearTextObject.SetActive(true);
+                break;
+            case GameEndReason.WinByGoal:
+                if (winByGoalTextObject != null) winByGoalTextObject.SetActive(true);
                 if (gameClearTextObject != null) gameClearTextObject.SetActive(true);
                 break;
             case GameEndReason.LossByNpcDeath:

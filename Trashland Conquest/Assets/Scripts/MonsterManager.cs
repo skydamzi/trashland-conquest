@@ -47,7 +47,7 @@ public class MonsterManager : MonoBehaviour
 
         // 쫄몹 스폰 코루틴 시작 및 변수에 저장
         spawnCoroutine = StartCoroutine(SpawnNormalMonsters());
-        
+
         // 미션 시작 시 엘리트몹을 딱 한 마리 스폰
         SpawnEliteMonster();
     }
