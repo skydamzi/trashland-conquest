@@ -8099,7 +8099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74fd0772fe8cfcc479fd216b979f8d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BGM: {fileID: 8300000, guid: 09327b3ba6260ad43b30a326179bf915, type: 3}
+  BGM: {fileID: 8300000, guid: d725076b635ec1d42b0d27ad7669b40e, type: 3}
   bgmVolume: 0.3
 --- !u!4 &1044001489
 Transform:
@@ -8193,6 +8193,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerText: {fileID: 162173435}
   gameOverTextObject: {fileID: 583132394}
+  gameClearTextObject: {fileID: 0}
+  winByTimeTextObject: {fileID: 0}
+  winByNpcTextObject: {fileID: 0}
+  winByGoalTextObject: {fileID: 0}
+  gameOverlayObject: {fileID: 0}
+  choicePanel: {fileID: 0}
+  goCountText: {fileID: 0}
+  enableTimer: 1
   maxSurvivalTime: 180
 --- !u!4 &1110333703
 Transform:
@@ -8240,6 +8248,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerText: {fileID: 162173435}
   gameOverTextObject: {fileID: 583132394}
+  gameClearTextObject: {fileID: 0}
+  winByTimeTextObject: {fileID: 0}
+  winByNpcTextObject: {fileID: 0}
+  winByGoalTextObject: {fileID: 0}
+  gameOverlayObject: {fileID: 0}
+  choicePanel: {fileID: 0}
+  goCountText: {fileID: 0}
+  enableTimer: 1
   maxSurvivalTime: 180
 --- !u!4 &1197421504
 Transform:

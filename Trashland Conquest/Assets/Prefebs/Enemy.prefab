@@ -110,7 +110,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.8, y: 4.02, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6996150116486810718}
@@ -193,12 +193,13 @@ MonoBehaviour:
   currentStamina: 0
   attackSpeed: 0
   criticalChance: 0
-  moveSpeed: 2
+  moveSpeed: 1.5
   currentEXP: 0
   maxEXP: 100
   experienceGemPrefab: {fileID: 6346317279201060211, guid: 4a79c9520441dcb478f53b8627e49f1c, type: 3}
   experienceAmount: 15
   healthBarPrefab: {fileID: 7278252718788031220, guid: 62c408eb222072449ab6d0fcf3d9aabb, type: 3}
+  isElite: 0
 --- !u!58 &1816787223477121873
 CircleCollider2D:
   m_ObjectHideFlags: 0

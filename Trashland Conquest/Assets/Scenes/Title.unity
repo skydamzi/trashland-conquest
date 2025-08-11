@@ -4263,7 +4263,8 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "Director: \uC190\uBC94\uC11D\n\nProducer: \uC190\uBC94\uC11D, \uB098\uC900\uC0C1\n\nProgrammer:
     \uC190\uBC94\uC11D, \uBC15\uC885\uC6D0\n\nArtist: \uC190\uBC94\uC11D\n\nSound
-    Designer: \uC190\uBC94\uC11D\n\nTester: \uC190\uBC94\uC11D, \uBC29\uC9C4\uC218"
+    Designer: \uC190\uBC94\uC11D\n\nTester: \uC190\uBC94\uC11D, \uBC29\uC9C4\uC218\n\nSpecial
+    Thanks: \uBC29\uC9C4\uC218"
 --- !u!222 &2078557906
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -27,6 +27,7 @@ public class Player : Unit, IDamageable
 
     [Header("Neck Attack")]
     public Transform neckTransform;
+    public Transform neckCoverTransform;
     public Collider2D neckCollider;
     private bool isStretching = false;
     public bool isNeckAttacking = false;
@@ -81,6 +82,14 @@ public class Player : Unit, IDamageable
     private bool canTakeDamage = true; // 데미지를 받을 수 있는지 여부
     public float damageCooldown = 1.0f; // 데미지를 다시 받기까지의 쿨다운 시간
 
+    [Header("Charging Attack")]
+    private bool isPunchCharging = false; // 펀치 차지 중인지 확인하는 플래그
+    private float punchChargeTimer = 0f; // 펀치 차지 시간
+    public float maxPunchChargeTime = 0.5f; // 최대 차지 시간
+    public float maxStaminaCost = 30f; // 최대 차지 시 소모할 스태미나
+    public float minStaminaCost = 5f; // 최소 차지 시 소모할 스태미나
+    public float finalPunchDamage = 0f; // 차지 펀치 기본 데미지
+
     void Start()
     {
         initialDirection = transform.right;
@@ -125,46 +134,133 @@ public class Player : Unit, IDamageable
 
         wasGroundedLastFrame = isGrounded;
 
-        // isStaminaDepleted 상태이거나, 목 늘이기 중이면 공격 불가
-        if (Input.GetMouseButtonDown(1) && !isStretching) // 펀치 공격
+        
+        PunchAttack();
+        FireAttack();
+
+        // **스태미나 회복 로직**
+        // 스태미나가 최대치가 아니고, 회복 코루틴이 실행 중이 아니며, 회복 지연 시간이 지났을 때만 회복 시작
+        // isStaminaDepleted 상태와 관계없이 회복은 계속 진행되어야 함.
+        if (currentStamina < maxStamina && Time.time - lastStaminaConsumedTime >= staminaRegenDelay && staminaRegenCoroutine == null)
         {
-            // 스태미나가 고갈 상태가 아니고, 스태미나가 0보다 많을 때만 공격 시도 (자투리 스태미나 허용)
-            if (!isStaminaDepleted && currentStamina > 0) 
+            staminaRegenCoroutine = StartCoroutine(RegenerateStamina());
+        }
+        
+        // **isStaminaDepleted 상태 해제 로직 (핵심)**
+        // 스태미나가 꽉 찼을 때만 고갈 상태 해제!
+        if (isStaminaDepleted && currentStamina >= maxStamina) 
+        {
+            isStaminaDepleted = false;
+            Debug.Log("스태미나 100% 완전 회복! 고갈 상태 해제! 다시 공격 가능!");
+        }
+
+        if (!isInvincible)
+            SetAlpha(1f);
+        
+        // isFacingFront 애니메이터 파라미터 업데이트는 Movement()에서 처리하므로 여기서 별도 호출 필요 없음
+        // animator.SetBool("isFacingFront", isFacingFront); 
+    }
+    void PunchAttack()
+    {
+        // 스태미나가 고갈 상태이거나, 목 늘이기 중이면 공격 불가
+        if (isStaminaDepleted || isStretching)
+        {
+            // 차지 중이었으면 강제로 초기화
+            if (isPunchCharging)
             {
-                // 공격 시 스태미나 회복 중단 (코루틴이 실행 중이면 멈춘다)
+                isPunchCharging = false;
+                punchChargeTimer = 0f;
+                Debug.Log("스태미나 고갈 또는 목 늘이기 중이라 차지 취소됨.");
+            }
+            return; // 공격 시도조차 못 하게 막음
+        }
+
+        // 마우스 우클릭 누르고 있을 때 (펀치 차지 시작/진행)
+        if (Input.GetMouseButton(1))
+        {
+            // 스태미나가 0보다 많고, 아직 차지 중이 아니면 차지 시작
+            if (currentStamina > 0 && !isPunchCharging)
+            {
+                isPunchCharging = true;
+                punchChargeTimer = 0f;
+                Debug.Log("펀치 차지 시작!");
+                // 애니메이션: 펀치 차지 시작 애니메이션 트리거 (예: "punchCharge")
+                // animator.SetTrigger("punchCharge");
+            }
+
+            // 차지 중이면 타이머 증가 (스태미나도 서서히 소모시킬 수 있음)
+            if (isPunchCharging)
+            {
+                punchChargeTimer += Time.deltaTime;
+                punchChargeTimer = Mathf.Min(punchChargeTimer, maxPunchChargeTime); // 최대 차지 시간 제한
+
+                if (punchChargeTimer < maxPunchChargeTime)
+                {
+                    float staminaDrainRate = (maxStaminaCost - minStaminaCost) / maxPunchChargeTime;
+                    currentStamina -= staminaDrainRate * Time.deltaTime;
+                    currentStamina = Mathf.Max(currentStamina, 0);
+                    if (PlayerStatus.instance != null)
+                    {
+                        PlayerStatus.instance.currentStamina = currentStamina;
+                    }
+                }
+                else
+                {
+                    float staminaDrainRate = (maxStaminaCost - minStaminaCost) / maxPunchChargeTime;
+                    currentStamina -= staminaDrainRate * Time.deltaTime / 5;
+                    currentStamina = Mathf.Max(currentStamina, 0);
+                    if (PlayerStatus.instance != null)
+                    {
+                        PlayerStatus.instance.currentStamina = currentStamina;
+                    }
+                }
+                // 목이 차지하면서 줄어드는 효과
+                neckTransform.localScale = Vector3.Lerp(Vector3.one, new Vector3(1f, 0.5f, 1f), punchChargeTimer / maxPunchChargeTime);
                 if (staminaRegenCoroutine != null)
                 {
                     StopCoroutine(staminaRegenCoroutine);
                     staminaRegenCoroutine = null;
                 }
-                
-                // 실제 소모될 스태미나 계산 (currentStamina가 punchStaminaCost보다 작으면 currentStamina만큼만 소모)
-                float staminaToConsume = Mathf.Min(currentStamina, punchStaminaCost);
-                currentStamina -= staminaToConsume;
-                
-                if (PlayerStatus.instance != null) // PlayerStatus에 깎인 값 업데이트
-                {
-                    PlayerStatus.instance.currentStamina = currentStamina;
-                }
-                lastStaminaConsumedTime = Time.time; // 스태미나 소모 시간 업데이트
-                Debug.Log($"[Punch] 스태미나 소모: {staminaToConsume}, 남은 스태미나: {currentStamina}");
-
-                animator.SetTrigger("attack");
-                StartCoroutine(StretchNeckAnim()); // 이 부분은 원래대로 유지
-
-                // **스태미나가 0이 되면 고갈 상태로 전환**
-                if (currentStamina <= 0) // 스태미나가 0 이하가 되면 고갈 상태로!
-                {
-                    isStaminaDepleted = true; // 스태미나 고갈 플래그 ON
-                    Debug.Log("스태미나 고갈 상태 진입! 스태미나 0이다! 100% 회복까지 공격 불가!");
-                }
-            }
-            else // 스태미나가 부족하거나 고갈 상태일 때
-            {
-                Debug.Log($"펀치 공격 불가! (스태미나 고갈: {isStaminaDepleted}, 현재 스태미나: {currentStamina})"); 
             }
         }
 
+        // 마우스 우클릭에서 손을 뗄 때 (펀치 공격 실행)
+        if (Input.GetMouseButtonUp(1) && isPunchCharging)
+        {
+            isPunchCharging = false; // 차지 상태 해제
+
+            // 차지 비율을 계산해서 데미지와 스태미나를 동적으로 계산
+            float chargeRatio = punchChargeTimer / maxPunchChargeTime;
+            finalPunchDamage = Mathf.Lerp(0f, GetMeleeDamage(), chargeRatio);
+            
+
+            if (PlayerStatus.instance != null)
+            {
+                PlayerStatus.instance.currentStamina = currentStamina;
+            }
+            lastStaminaConsumedTime = Time.time;
+
+            // 펀치 애니메이션 실행
+            animator.SetTrigger("attack");
+            StartCoroutine(StretchNeckAnim());
+
+            Debug.Log($"펀치 공격! 차지 시간: {punchChargeTimer:F2}초, 최종 데미지: {finalPunchDamage:F2}");
+
+            // **2. 데미지를 전달하는 함수 호출 (예: Target에게 데미지 적용)**
+            // ApplyDamage(finalDamage);
+
+            // **3. 스태미나가 0이 되면 고갈 상태로 전환**
+            if (currentStamina <= 0)
+            {
+                isStaminaDepleted = true;
+                Debug.Log("스태미나 고갈 상태 진입! 100% 회복까지 공격 불가!");
+            }
+
+            punchChargeTimer = 0f; // 타이머 초기화
+        }
+    }
+    void FireAttack()
+    {
         // **총 발사 (왼쪽 마우스 버튼)**
         // isStaminaDepleted 상태이거나, 목 늘이기 중이면 공격 불가
         if (Input.GetMouseButton(0) && fireTimer >= fireRate && !isStretching)
@@ -207,30 +303,7 @@ public class Player : Unit, IDamageable
                 Debug.Log($"총 발사 불가! (스태미나 고갈: {isStaminaDepleted}, 현재 스태미나: {currentStamina})");
             }
         }
-
-        // **스태미나 회복 로직**
-        // 스태미나가 최대치가 아니고, 회복 코루틴이 실행 중이 아니며, 회복 지연 시간이 지났을 때만 회복 시작
-        // isStaminaDepleted 상태와 관계없이 회복은 계속 진행되어야 함.
-        if (currentStamina < maxStamina && Time.time - lastStaminaConsumedTime >= staminaRegenDelay && staminaRegenCoroutine == null)
-        {
-            staminaRegenCoroutine = StartCoroutine(RegenerateStamina());
-        }
-        
-        // **isStaminaDepleted 상태 해제 로직 (핵심)**
-        // 스태미나가 꽉 찼을 때만 고갈 상태 해제!
-        if (isStaminaDepleted && currentStamina >= maxStamina) 
-        {
-            isStaminaDepleted = false;
-            Debug.Log("스태미나 100% 완전 회복! 고갈 상태 해제! 다시 공격 가능!");
-        }
-
-        if (!isInvincible)
-            SetAlpha(1f);
-        
-        // isFacingFront 애니메이터 파라미터 업데이트는 Movement()에서 처리하므로 여기서 별도 호출 필요 없음
-        // animator.SetBool("isFacingFront", isFacingFront); 
     }
-
     void PlayerStatusUpdate()
     {
         if (PlayerStatus.instance != null)

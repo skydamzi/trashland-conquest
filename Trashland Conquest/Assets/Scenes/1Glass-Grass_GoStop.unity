@@ -8394,7 +8394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74fd0772fe8cfcc479fd216b979f8d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BGM: {fileID: 8300000, guid: 09327b3ba6260ad43b30a326179bf915, type: 3}
+  BGM: {fileID: 8300000, guid: d725076b635ec1d42b0d27ad7669b40e, type: 3}
   bgmVolume: 0.3
 --- !u!4 &1044001489
 Transform:

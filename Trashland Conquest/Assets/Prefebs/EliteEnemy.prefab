@@ -187,8 +187,8 @@ MonoBehaviour:
   armor: 0
   currentShield: 0
   maxShield: 0
-  currentHP: 500
-  maxHP: 500
+  currentHP: 1000
+  maxHP: 1000
   maxStamina: 0
   currentStamina: 0
   attackSpeed: 0
