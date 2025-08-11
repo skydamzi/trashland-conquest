@@ -105,7 +105,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 0f452332f0db3064190532947fdebc3d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -237,7 +237,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -3
   m_Sprite: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -263,8 +263,8 @@ MonoBehaviour:
   playerTransform: {fileID: 2905595537052561532}
   shadowSpriteRenderer: {fileID: 5807875453537215490}
   shadowTransform: {fileID: 6447175036709458069}
-  squashAmount: 0.5
-  shadowOffsetY: -0.4
+  squashAmount: 0.2
+  shadowOffsetY: -0.5
   shadowOpacity: 0.5
 --- !u!1 &4484674168280677017
 GameObject:
@@ -338,7 +338,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 6151a5705bb51c94ea7fa4de9e2d82db, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -445,11 +445,11 @@ MonoBehaviour:
   punchStaminaCost: 15
   staminaRegenRate: 50
   staminaRegenDelay: 0.5
-  tiltAngle: 15
+  tiltAngle: 10
   tiltSpeed: 30
   damageCooldown: 1
-  maxPunchChargeTime: 1
-  maxStaminaCost: 25
+  maxPunchChargeTime: 0.5
+  maxStaminaCost: 20
   minStaminaCost: 0
   finalPunchDamage: 0
 --- !u!50 &4349643468673513431
@@ -489,7 +489,7 @@ Animator:
   m_GameObject: {fileID: 6240583114979988411}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 37040c37354d71343ac2b0a0cf3ae7c0, type: 2}
+  m_Controller: {fileID: 9100000, guid: f1d8ba7d9f2584e49ac71f9baf59afe3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -540,7 +540,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -1237776641, guid: 4a02ea4884cc00e4c8f45afbebe1b452, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

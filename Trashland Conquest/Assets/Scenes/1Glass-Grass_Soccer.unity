@@ -4977,30 +4977,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 100083008674955030, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1143991035346693142, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -1237776641, guid: 4a02ea4884cc00e4c8f45afbebe1b452, type: 3}
-    - target: {fileID: 1143991035346693142, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1143991035346693142, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1794080671477526897, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-      propertyPath: tiltAngle
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1794080671477526897, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-      propertyPath: maxPunchChargeTime
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2905595537052561532, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5041,30 +5017,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5807875453537215490, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-      propertyPath: m_Color.a
-      value: 0.5882353
-      objectReference: {fileID: 0}
     - target: {fileID: 6240583114979988411, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
       propertyPath: m_Name
       value: Player Top
       objectReference: {fileID: 0}
-    - target: {fileID: 6619172375377466980, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7129267594758545468, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-      propertyPath: squashAmount
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7129267594758545468, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-      propertyPath: shadowOffsetY
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7321237683004726985, guid: 6d72993f3370c9c429fa9f033617fb28, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: f1d8ba7d9f2584e49ac71f9baf59afe3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

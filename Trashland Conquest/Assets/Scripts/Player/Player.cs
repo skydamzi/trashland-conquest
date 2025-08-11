@@ -85,7 +85,7 @@ public class Player : Unit, IDamageable
     [Header("Charging Attack")]
     private bool isPunchCharging = false; // 펀치 차지 중인지 확인하는 플래그
     private float punchChargeTimer = 0f; // 펀치 차지 시간
-    public float maxPunchChargeTime = 1f; // 최대 차지 시간
+    public float maxPunchChargeTime = 0.5f; // 최대 차지 시간
     public float maxStaminaCost = 30f; // 최대 차지 시 소모할 스태미나
     public float minStaminaCost = 5f; // 최소 차지 시 소모할 스태미나
     public float finalPunchDamage = 0f; // 차지 펀치 기본 데미지
@@ -207,7 +207,7 @@ public class Player : Unit, IDamageable
                 else
                 {
                     float staminaDrainRate = (maxStaminaCost - minStaminaCost) / maxPunchChargeTime;
-                    currentStamina -= staminaDrainRate * Time.deltaTime / 3;
+                    currentStamina -= staminaDrainRate * Time.deltaTime / 5;
                     currentStamina = Mathf.Max(currentStamina, 0);
                     if (PlayerStatus.instance != null)
                     {
