@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour
 {
     public static Pause Instance;
     public static bool isPaused = false;
-    BossIntroManager introManager; // <<< 선언만 하고 초기화는 안 함
+    private BossIntroManager introManager;
 
     [Header("사운드")] // 이거 인코딩 깨졌는데 '사운드' 일듯
     public AudioClip PauseSound;
@@ -31,9 +32,11 @@ public class Pause : MonoBehaviour
             Destroy(gameObject);
         }
 
-        introManager = FindObjectOfType<BossIntroManager>(); 
-        // 이제 Awake에서 호출되니까 제대로 찾아올 거다.
-        // 만약 BossIntroManager가 Pause 스크립트보다 나중에 활성화될 수도 있다면 Start()에서 초기화하는 게 더 안전할 수도 있다.
+   
+    }
+    private void Start()
+    {
+
     }
 
     void Update()
@@ -50,10 +53,30 @@ public class Pause : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.E))
                 NavigatePanel(1);  //메뉴 우측이동
         }
+
+        
     }
 
     public void TogglePause()
     {
+
+        //예외1: Title 등의 Scene에선 Pause불가
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (currentSceneName == "Title")
+        {
+            Debug.Log($"현재 씬({currentSceneName})에서는 일시정지 불가");
+            return;
+        }
+        //예외2: BossIntro중에는 Pause불가
+        if (introManager == null)
+            introManager = FindObjectOfType<BossIntroManager>();
+        if (introManager!=null && introManager.IsIntroPlaying == true)
+        {
+            Debug.Log("보스 인트로 재생 중 - 일시정지 불가");
+            return;
+        }
+
+
         isPaused = !isPaused;
 
         if (isPaused)
@@ -63,14 +86,11 @@ public class Pause : MonoBehaviour
             
             if (PauseMenuUI != null)
                 PauseMenuUI.SetActive(true);
-            
-            // , introManager가 null일 수도 있으니 null 체크 해라!
-            if (introManager != null) 
-            {
-                //introManager.StopIntro(); // 보스 인트로 관련 뭔가를 멈춰야 할 것 같으면 여기에 넣어라
-            }
-            
-            Sound.Instance.PlaySFX(PauseSound, 1f); // Sound.Instance도 null 체크 필요할 수도 있음
+
+           
+
+            if (Sound.Instance!=null)
+                Sound.Instance.PlaySFX(PauseSound, 1f); // Sound.Instance도 null 체크
 
 
             if (currentPanelIndex >= 0 && currentPanelIndex < menuPanels.Count)

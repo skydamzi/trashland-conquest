@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI; 
 
@@ -113,20 +113,7 @@ public class BossIntroManager : MonoBehaviour
 
         StartCoroutine(BossIntroSequence());
     }
-    void Update()
-    {
-        // 인트로 시퀀스가 진행 중일 때만 ESC 키 입력을 처리
-        if (IsIntroPlaying)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                // 인트로가 진행 중일 때 ESC가 눌리면 아무것도 하지 않고 무시한다.
-                Debug.Log("보스 인트로 시퀀스 중에는 ESC를 눌러도 효과가 없습니다.");
-                // 필요하다면 여기에 "인스턴스를 건너뛸 수 없습니다" 같은 텍스트 UI를 잠시 띄워줄 수도 있다.
-                return; // 중요한 건 여기서 바로 리턴해서 다른 로직이 실행되지 않게 하는 것!
-            }
-        }
-    }
+
     private IEnumerator BossIntroSequence()
     {
         // --- 1. 준비 단계: 플레이어와 보스의 스크립트만 비활성화 ---
