@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -14,6 +17,11 @@ public class PauseMenu : MonoBehaviour
     [Header("부가 패널 연결")]
     public GameObject confirmExitPanel;
     public GameObject fadePanel;
+
+    [Header("패널별 디폴트 버튼들 연결")]
+    public UnityEngine.UI.Button confirmExitButton;  //Yes 버튼
+
+
     private Dictionary<string, GameObject> panels = new Dictionary<string, GameObject>();
 
     void Start()
@@ -50,7 +58,8 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("타이틀로 나가기  버튼을 눌렀습니다.");
         confirmExitPanel.SetActive(true);
-        
+
+        EventSystem.current.SetSelectedGameObject(confirmExitButton.gameObject);
     }
 
     public void OnConfirmYes()

@@ -642,12 +642,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 4966403420052050890}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -775,11 +775,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 4334979996063346554}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -922,6 +922,7 @@ MonoBehaviour:
   settingsPanel: {fileID: 4911180455947706845}
   confirmExitPanel: {fileID: 372439579128147520}
   fadePanel: {fileID: 5664294938493985280}
+  confirmExitButton: {fileID: 0}
 --- !u!1 &3768908674794939389
 GameObject:
   m_ObjectHideFlags: 0
