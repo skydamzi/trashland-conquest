@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Trashland Conquest.sln"
+    "dotnet.defaultSolution": "Trashland Conquest.sln",
+    "editor.mouseWheelZoom": true
 }

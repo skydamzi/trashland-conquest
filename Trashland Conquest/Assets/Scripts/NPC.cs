@@ -14,19 +14,19 @@ public class NPC : Unit
 
     void Start()
     {
-        // ¸ñÇ¥ ¿ÀºêÁ§Æ®°¡ ÇÒ´çµÇÁö ¾Ê¾ÒÀ» °æ¿ì ¿À·ù ¸Þ½ÃÁö¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+        // ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         if (destinationTarget == null)
         {
-            Debug.LogError("¸ñÇ¥ ¿ÀºêÁ§Æ®°¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù! Inspector¿¡¼­ 'Destination' ¿ÀºêÁ§Æ®¸¦ ÇÒ´çÇØÁÖ¼¼¿ä.");
+            Debug.LogError("ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½! Inspectorï¿½ï¿½ï¿½ï¿½ 'Destination' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
         }
     }
 
     void Update()
     {
-        // ¸ñÇ¥ ¿ÀºêÁ§Æ®°¡ ÀÖ°í, ¾ÆÁ÷ µµÂøÇÏÁö ¾Ê¾ÒÀ» ¶§¸¸ ÀÌµ¿ÇÕ´Ï´Ù.
+        // ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö°ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Õ´Ï´ï¿½.
         if (destinationTarget != null && Vector3.Distance(transform.position, destinationTarget.position) > 0.1f)
         {
-            // Vector3.MoveTowards¸¦ »ç¿ëÇØ ¸ñÇ¥¸¦ ÇâÇØ ºÎµå·´°Ô ÀÌµ¿ÇÕ´Ï´Ù.
+            // Vector3.MoveTowardsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµå·´ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Õ´Ï´ï¿½.
             transform.position = Vector3.MoveTowards(
                 transform.position,
                 destinationTarget.position,
@@ -56,10 +56,10 @@ public class NPC : Unit
 
             if (damageToTake > 0)
             {
-                // µ¥¹ÌÁö Àû¿ë
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 TakeDamage(damageToTake);
 
-                // µ¥¹ÌÁö¸¦ ÀÔÈù ÈÄ ¹«Àû ¹× Äð´Ù¿î ÄÚ·çÆ¾ ½ÃÀÛ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ù¿ï¿½ ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½
                 StartCoroutine(DamageCooldownCoroutine());
             }
         }
@@ -67,7 +67,7 @@ public class NPC : Unit
 
     public void TakeDamage(float damage)
     {
-        // ±âÁ¸ ÄÚµå¿Í µ¿ÀÏ
+        if (isInvincible) return;
         float finalDamage = damage - armor;
         if (finalDamage < 0) finalDamage = 0;
 
@@ -83,7 +83,7 @@ public class NPC : Unit
         else
         {
             currentHP -= finalDamage;
-            Debug.Log("°ø°Ý¹ÞÀ½");
+            Debug.Log("ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½");
         }
 
         if (currentHP <= 0)
@@ -95,7 +95,7 @@ public class NPC : Unit
     IEnumerator DamageCooldownCoroutine()
     {
         canTakeDamage = false;
-        // isInvincible ÄÚ·çÆ¾°ú ÇÔ²² ½ÇÇà
+        // isInvincible ï¿½Ú·ï¿½Æ¾ï¿½ï¿½ ï¿½Ô²ï¿½ ï¿½ï¿½ï¿½ï¿½
         StartCoroutine(TriggerInvincibility());
         yield return new WaitForSeconds(damageCooldown);
         canTakeDamage = true;
@@ -136,11 +136,11 @@ public class NPC : Unit
 
     void Die()
     {
-        gameObject.SetActive(false); // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ® ºñÈ°¼ºÈ­
+        gameObject.SetActive(false); // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È°ï¿½ï¿½È­
 
         if (GameManager.instance != null)
         {
-            GameManager.instance.EndGame(GameManager.GameEndReason.LossByNpcDeath); // isWin = false (ÆÐ¹è)
+            GameManager.instance.EndGame(GameManager.GameEndReason.LossByNpcDeath); // isWin = false (ï¿½Ð¹ï¿½)
         }
     }
 }

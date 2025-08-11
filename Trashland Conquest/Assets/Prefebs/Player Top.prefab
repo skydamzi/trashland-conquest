@@ -427,12 +427,13 @@ MonoBehaviour:
   angleOffset: -90
   player_rb: {fileID: 4349643468673513431}
   neckTransform: {fileID: 1725736524308197542}
+  neckCoverTransform: {fileID: 7767974256442591950}
   neckCollider: {fileID: 6593871736516076350}
   isNeckAttacking: 0
   gloveTransform: {fileID: 9106991703588079926}
   gloveOriginalScale: {x: 1, y: 1, z: 1}
   isPunchFrame: 0
-  invincibleDuration: 0.5
+  invincibleDuration: 1
   traitSynergy: {fileID: 0}
   isFacingFront: 0
   shootSound: {fileID: 8300000, guid: 42e84e506ad36284eab81b32bfbf501a, type: 3}
@@ -440,13 +441,17 @@ MonoBehaviour:
   jump2ndSound: {fileID: 8300000, guid: 5c14c15463853ee40aeac198e97b1a4e, type: 3}
   glove_readySound: {fileID: 8300000, guid: 5491e7efa819fc14d86d91bbffc829db, type: 3}
   glove_punchSound: {fileID: 8300000, guid: 925b3574dfc99bd4cbfbd190e4382773, type: 3}
-  shootStaminaCost: 5
+  shootStaminaCost: 2.5
   punchStaminaCost: 15
   staminaRegenRate: 50
   staminaRegenDelay: 0.5
   tiltAngle: 15
   tiltSpeed: 30
   damageCooldown: 1
+  maxPunchChargeTime: 1
+  maxStaminaCost: 25
+  minStaminaCost: 0
+  finalPunchDamage: 0
 --- !u!50 &4349643468673513431
 Rigidbody2D:
   serializedVersion: 4

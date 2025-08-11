@@ -17,7 +17,7 @@ public class PlayerAttackHitbox : MonoBehaviour, IDamageDealer
 
     public float GetDamage()
     {
-        return player.GetMeleeDamage(); // 플레이어 스크립트에서 데미지 값을 가져옴
+        return player.finalPunchDamage; // 플레이어 스크립트에서 데미지 값을 가져옴
     }
 
     public GameObject GetOwner()
